@@ -9,7 +9,7 @@ $(".search-btn").click(function(){
 	}
 	$.ajax({
 			type:'POST',
-			url:'../anonymous/project?submitFlag=dynamic_query&fluzzyName=' + fluzzyName + '&limit='+limit+ '&offset=' +offset,
+			url:'../anonymous/topic?submitFlag=dynamic_query&fluzzyName=' + fluzzyName + '&limit='+limit+ '&offset=' +offset,
 			contentType:'application/json',
         	data:JSON.stringify(checked),	
 			dataType:'json',
