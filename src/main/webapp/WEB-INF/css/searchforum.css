@@ -56,3 +56,17 @@ input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
     color: #fff;
 }
+
+.type{
+    padding:0 1.5em;
+    margin-top: 0.5em;
+}
+
+.type label{
+    font-size: 1.4em;
+    margin-right: 1em;
+}
+
+.type label input{
+    margin-right: 3px;
+}
