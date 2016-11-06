@@ -1,0 +1,58 @@
+.search{
+	position: fixed;
+	top: 0;
+	background-color: #0091f0;
+	padding: 0.8em 1.5em;
+	border-bottom: 1px solid #eee;
+	z-index: 100;
+}
+
+.search-box input{
+	background-color: rgba(255,255,255,0.3);
+	border:1px solid #fff;
+	border-bottom-left-radius: 20px 20px;
+    border-top-left-radius:20px 20px;
+    line-height: 30px;
+    font-size: 1.6em;
+    color:#fff;
+    border-right: 0;
+    float: left;
+    padding-left: 0.5em;
+    width: 88%;
+}
+
+.search-box button{
+	background-color: rgba(255,255,255,0.3);
+	border:1px solid #fff;
+	border-left: 0;
+    border-bottom-right-radius: 20px 20px;
+    border-top-right-radius:20px 20px;
+    cursor: pointer;
+    float: left;
+    height:32px;
+    padding:0 0.4em;
+    width: 12%;
+}
+
+.search-box button img{
+	height: 25px;
+}
+
+/*设置placeholder的颜色*/
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #fff;  
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #fff;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #fff;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #fff;
+}

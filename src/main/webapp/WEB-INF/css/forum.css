@@ -1,0 +1,170 @@
+body{
+    background-color: #f1f1f1;
+    font-family: 微软雅黑;
+}
+.forum-writing{
+    width:100%;
+    background-color:#0091f0;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1;
+    padding: 0.3em 1.5em;
+    box-sizing:border-box;
+}
+.forum-writing a{
+    display: block;
+    float: right;
+    position: static;
+}
+ .forum-writing a i{
+    font-size: 1.4em;
+    color: #fff;
+}
+.net{
+    font-size: 1.6em;
+    color: #fff;
+    line-height: 2.5em;
+    width: 100%;
+}
+.net span{
+    float: left;
+}
+
+.container-box .forum-news:last-child{
+    margin-bottom: 0;
+}
+
+ .forum-writing .forum-search{
+    width:20%;
+    float:right;
+    padding:1em;
+}
+.forum-news{
+    border-bottom:1px solid #e5e5e7;
+    padding: 0.8em 0;
+    background-color: #fff;
+    margin-top: 0.5em;
+}
+.forum-box{
+    margin:0 1.5em;
+}
+/*box1*/
+.forum-box .box1{
+    display: block;
+}
+
+.forum-box .box1 .name{
+    font-size:1.7em;
+    font-weight:bold;
+    color:#000;
+    float: left;
+    margin-left: 0.4em;
+}
+.forum-box .news .time{
+    color:rgb(143,145,144);
+    font-size:1.2em;
+    float: left;
+}
+
+.forum-news:first-child{
+    margin-top: 0;
+}
+
+.forum-box .news p{
+    font-size: 1.2em;
+    color: #000;
+    line-height: 1.6em;
+}
+
+
+/*imgfloat*/
+.imgfloat span{
+    color:#8f9092;
+    font-size:1.2em;
+}
+.imgfloat span{
+    float: right;
+}
+.imgfloat span.comment{
+    margin-right: 1.5em;
+}
+.imgfloat img{
+    vertical-align:middle;
+    width: 1.6em;
+    margin-right: 0.2em;
+}
+
+/*box3*/
+.box3{
+    position:fixed;
+}
+.box3 li {
+    width: 7em;
+    text-align:center;
+} 
+.box3 li a{
+    display:block;
+    border-bottom:  0.1em solid #f1f4fb;
+    padding: 0.5em;
+}
+.box3 li a p{
+    color:rgb(143,145,144);
+    font-size:1.5em;
+    line-height:120%;
+}
+.box3 li a:hover{
+    background-color:#dceffe;
+}
+
+.box3 .toleft,.box3 ul{
+    float: left;
+}
+
+.box3 .toleft{
+    margin-top: 49px;
+}
+
+.box3 ul{
+    background:#fff;
+    box-shadow: 0.1em 0.1em 0.6em #666;
+}
+
+.box3 .btn{
+    opacity: 0.6;
+}
+
+.publish{
+    display: block;
+    position: fixed;
+    bottom:55px;
+    right: 1em;
+    width: 4.5em;
+    line-height: 4.5em;
+    background-color:#0091f0 ;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    height: 4.5em;
+}
+
+.publish i{
+    font-size: 3em;
+    color: #fff;
+    position: absolute;
+    top:50%;
+    margin-top: -15px;
+    margin-left: -13px;
+}
+
+.blank{
+    width: 100%;
+    height:5.4em;
+}
+
+.dask{
+    position: absolute;
+    background:transparent;
+    z-index: 3;
+    width: 100%;
+}

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.TopicDao">
+
+	<sql id="topicStateTableName">t_bbs_topic_state</sql>
+	<sql id="topicEntityTableName">t_bbs_topic</sql>
+	<sql id="TopicPageColumn"> topic_id, title, person_id, hits, reply_count,like_count, </sql>
+	<resultMap type="Person" id="PersonResult">
+		<id property="personId" column="person_id"/>
+		<result property="nickName" column="nick_name"/>
+		<result property="headUrl" column="head_url"/>
+	</resultMap>
+	
+<!-- *********************************************************************************************** -->
+	<resultMap type="Topic" id="topicMap">
+		<id property="topicId" column="topic_id"/>
+		<result property="classId" column="class_id"/>
+		<result property="title" column="title"/>
+		<result property="body" column="body"/>
+		<result property="hits" column="hits"/>
+		<result property="replyCount" column="reply_count"/>
+		<result property="likeCount" column="like_count"/>
+		<result property="updateTime" column="topic_update_time"/>
+		<result property="createTime" column="topic_create_time"/>
+		<association property="person" javaType="cn.tata.t2s.ssm.entity.Person" 
+		resultMap="PersonResult" column="topic_person_id"/>
+		<collection property="topicStateList" ofType="cn.tata.t2s.ssm.entity.State" 
+		column="s_topic_state_type_Id">
+		<id property="id" column="st_topic_state_type_Id"/>
+		<result property="stateName" column="state_name"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectTopicById" resultMap="topicMap">
+		SELECT 
+			T.topic_id,
+			T.class_id,
+			T.person_id as topic_person_id,
+			T.title,
+			T.body,
+			T.hits,
+			T.reply_count,
+			T.like_count,
+			T.update_time as topic_update_time,
+			T.create_time as topic_create_time,
+			P.person_id,
+			P.nick_name,
+			P.head_url,
+			S.topic_id as state_topic_id,
+			S.topic_state_type_Id as s_topic_state_type_Id,
+			ST.topic_state_type_Id as st_topic_state_type_Id,
+			ST.state_name
+		FROM
+		t_bbs_topic T
+		left outer join t_person P on T.topic_id = P.person_id
+		left outer join t_bbs_reply R on R.topic_id = T.topic_id
+		left outer join t_bbs_topic_state S on T.topic_id = S.topic_id
+		left outer join t_bbs_topic_state_type ST on S.topic_state_type_Id = ST.topic_state_type_Id
+		WHERE
+		T.topic_id=#{topicId}
+	</select>
+<!-- *********************************************************************************************** -->
+	<resultMap type="Topic" id="topicPageMap">
+		<id property="topicId" column="topic_id"/>
+		<result property="classId" column="class_id"/>
+		<result property="title" column="title"/>
+		<result property="body" column="body"/>
+		<result property="hits" column="hits"/>
+		<result property="replyCount" column="reply_count"/>
+		<result property="likeCount" column="like_count"/>
+		<result property="updateTime" column="update_time"/>
+		<result property="createTime" column="create_time"/>
+		<association property="person" javaType="cn.tata.t2s.ssm.entity.Person" 
+		resultMap="PersonResult" column="topic_person_id"/>
+		<collection property="topicStateList" ofType="cn.tata.t2s.ssm.entity.State" 
+		column="s_topic_state_type_Id">
+		<id property="id" column="st_topic_state_type_Id"/>
+		<result property="stateName" column="state_name"/>
+		</collection>
+	</resultMap>
+
+	<select id="selectAllTopic" resultMap="topicPageMap">
+		SELECT
+			T.topic_id,
+			T.class_id as topic_class_id,
+			T.person_id as topic_person_id,
+			T.title,
+			T.body,
+			T.hits,
+			T.reply_count,
+			T.like_count,
+			T.update_time as topic_update_time,
+			T.create_time as topic_create_time,
+			C.class_id,
+			C.class_name,
+			P.person_id,
+			P.nick_name,
+			P.head_url,
+			S.topic_id as state_topic_id,
+			S.topic_state_type_Id as s_topic_state_type_Id,
+			ST.topic_state_type_Id as st_topic_state_type_Id,
+			ST.state_name
+		FROM
+		<include refid="topicEntityTableName"/> T
+		left outer join t_bbs_class C on T.class_id = C.class_id
+		left outer join t_person P on T.person_id = P.person_id
+		left outer join t_bbs_topic_state S on T.topic_id = S.topic_id
+		left outer join t_bbs_topic_state_type ST on S.topic_state_type_Id = ST.topic_state_type_Id
+		WHERE
+		state_name NOT IN
+		('validating')
+		AND
+		class_name=#{className}
+		ORDER BY
+		topic_update_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="dynamicSelectTopic" resultMap="topicPageMap">
+		SELECT
+			T.topic_id,
+			T.class_id as topic_class_id,
+			T.person_id as topic_person_id,
+			T.title,
+			T.body,
+			T.hits,
+			T.reply_count,
+			T.like_count,
+			T.update_time as topic_update_time,
+			T.create_time as topic_create_time,
+			C.class_id,
+			C.class_name,
+			P.person_id,
+			P.nick_name,
+			P.head_url,
+			P.school,
+			P.academy,
+			S.topic_id as state_topic_id,
+			S.topic_state_type_Id as s_topic_state_type_Id,
+			S.update_time as state_update_time,
+			ST.topic_state_type_Id as st_topic_state_type_Id,
+			ST.state_name
+		FROM
+		<include refid="topicEntityTableName"/> T
+		left outer join t_bbs_class C on T.class_id = C.class_id
+		left outer join t_person P on T.person_id = P.person_id
+		left outer join t_bbs_topic_state S on T.topic_id = S.topic_id
+		left outer join t_bbs_topic_state_type ST on S.topic_state_type_Id = ST.topic_state_type_Id
+		<where>
+			state_name NOT IN ('validating') AND
+			class_name=#{className} AND
+			T.on_delete=0
+			<if test="school != null">
+				AND
+				P.school IN
+				<foreach collection="school" item="schoolName" open="("
+					close=") " separator=",">
+					#{schoolName}
+				</foreach>
+			</if>
+
+			<if test="academy != null">
+				AND
+				P.academy IN
+				<foreach collection="academy" item="academyName" open="("
+					close=") " separator=",">
+					#{academyName}
+				</foreach>
+			</if>
+
+			<if test="fluzzyName != null">
+				AND
+				T.title || T.body
+				LIKE
+				CONCAT('%',#{fluzzyName},'%')		
+			</if>			
+		</where>
+		ORDER BY
+		topic_update_time DESC,
+		state_update_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="selectTopicByPersonId" resultType="topic">
+		SELECT
+		<include refid="TopicPageColumn" />
+		FROM
+		<include refid="topicEntityTableName" />
+		WHERE
+		person_id=#{personId}
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="selectTopicCountTody" resultType="int">
+		SELECT COUNT(topic_id)
+		FROM t_bbs_topic
+		WHERE
+		person_id=#{personId}
+		AND
+		DATE_FORMAT(create_time,'%Y%m%d') = DATE_FORMAT(CURRENT_DATE(),'%Y%m%d')
+	</select>
+<!-- *********************************************************************************************** -->
+	<insert id="insertTopic" parameterType="Topic" 
+	keyProperty="topicId">
+		INSERT INTO
+		<include refid="topicEntityTableName" />
+		(class_id, title, body, person_id)
+		VALUES
+		(#{classId}, #{title}, #{body}, #{person.personId});
+	</insert>
+<!-- *********************************************************************************************** -->
+	<insert id="insertTopicStateById">
+		INSERT INTO
+		<include refid="topicStateTableName" />
+		(topic_id, topic_state_type_id)
+		VALUES
+		(#{topicId},
+		#{topicStateTypeId});
+	</insert>
+<!-- *********************************************************************************************** -->
+	<update id="updateToicById">
+		UPDATE
+		<include refid="topicEntityTableName" />
+		<set>
+			<if test="title != null">title=#{title},</if>
+			<if test="body != null">body=#{body},</if>
+			<if test="hits != null">hits=#{hits},</if>
+			<if test="replyCount != null">reply_count=#{replyCount},</if>
+			<if test="likeCount != null">like_count=#{likeCount}</if>
+		</set>
+		WHERE
+		topic_id=#{topicId};
+	</update>
+
+	<update id="updateTopicStateById">
+		UPDATE
+		<include refid="topicStateTableName" />
+		SET
+		topic_state_type_id=#{topicStateTypeId}
+		WHERE
+		topic_id=#{topicId};
+	</update>
+<!-- *********************************************************************************************** -->
+	<delete id="deleteTopicStateById">
+		DELETE FROM
+		<include refid="topicStateTableName" />
+		WHERE
+		topic_id=#{topicId};
+	</delete>
+
+	<delete id="deleteTopicById">
+		DELETE FROM
+		<include refid="topicEntityTableName" />
+		WHERE
+		topic_id=#{topicId};
+	</delete>
+<!-- *********************************************************************************************** -->
+	<update id="setOnDelete">
+		UPDATE 
+		t_bbs_topic
+		SET 
+		on_delete=1
+		WHERE
+		topic_id=#{topicId};
+		
+		UPDATE
+		t_bbs_topic_state
+		SET 
+		on_delete=1
+		WHERE
+		topic_id=#{topicId};
+	</update>
+</mapper>

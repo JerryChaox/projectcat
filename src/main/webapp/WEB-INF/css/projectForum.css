@@ -1,0 +1,24 @@
+.forum-box .box1 > img{
+    border-radius:50%;
+    text-align:center;
+    width: 3em;
+    float: left;
+    border:1px solid #eee;
+}
+
+.forum-box .box1 .name{
+	margin-top: 0.7em;
+}
+
+.forum-box .box1 .time{
+    font-size:1.2em;
+    float: right;
+    margin-top: 1.2em;
+    color: #999;
+}
+
+.forum-news .news p{
+    font-size: 1.4em;
+    line-height: 1.6em;
+    margin-top: 0.3em;
+}

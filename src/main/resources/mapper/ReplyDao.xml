@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.ReplyDao">
+
+
+	<sql id="replyEntityTableName">t_bbs_reply</sql>
+<!-- *********************************************************************************************** -->
+	<resultMap type="Reply" id="topicReplyResult">
+		<id property="replyId" column="reply_id"/>
+		<result property="replyBody" column="reply_body"/>
+		<result property="likeCount" column="like_count"/>
+		<result property="updateTime" column="reply_update_time"/>
+		<result property="createTime" column="reply_create_time"/>
+		<result property="onDelete" column="on_delete"/>
+		<association property="person" javaType="cn.tata.t2s.ssm.entity.Person" 
+		resultMap="PersonResult" column="reply_person_id"/>
+	</resultMap>
+	
+  	<resultMap type="Person" id="PersonResult">
+		<id property="personId" column="person_id"/>
+		<result property="nickName" column="nick_name"/>
+		<result property="headUrl" column="head_url"/>
+	</resultMap>
+
+	<select id="selectReplyByTopicId" resultMap="topicReplyResult">
+		SELECT
+		R.reply_id,
+		R.person_id as reply_person_id,
+		R.reply_body,
+		R.like_count,
+		R.update_time as reply_update_time,
+		R.create_time as reply_create_time,
+		R.on_delete as reply_on_delete,
+		P.person_id,
+		P.nick_name,
+		P.head_url
+		FROM
+		t_bbs_reply R
+		left outer join t_person P on R.person_id = P.person_id
+		WHERE
+		topic_id=#{topicId} AND
+		R.on_delete = 0
+		ORDER BY
+		reply_create_time ASC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="selectReplyByPersonId" resultType="Reply">
+		SELECT reply_id, topic_id, title, like_count, create_time, update_time, on_delete FROM
+		t_bbs_reply
+		WHERE
+		person_id=#{personId} AND
+		on_delete=0
+		ORDER BY
+		update_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<insert id="insertReply" parameterType="Reply" 
+	keyProperty="replyId">
+		INSERT INTO
+		t_bbs_reply
+		(topic_id, title, reply_body, person_id)
+		VALUES
+		(#{topicId}, #{title},
+		#{replyBody}, #{person.personId});
+	</insert>
+<!-- *********************************************************************************************** -->
+	<update id="updateReplyById">
+		UPDATE
+		t_bbs_reply
+		<set>
+			<if test="title != null">title=#{title},</if>
+			<if test="replyBody != null">reply_body=#{replyBody},</if>
+			<if test="likeCount != null">like_count=#{likeCount}</if>
+		</set>
+		WHERE
+		reply_id=#{replyId};
+	</update>
+<!-- *********************************************************************************************** -->
+	<delete id="deleteReplyById">
+		DELETE
+		FROM
+		t_bbs_reply
+		WHERE 
+		reply_id=#{replyId}
+	</delete>
+<!-- *********************************************************************************************** -->
+    <update id="setOnDelete">
+    	UPDATE
+    	t_bbs_reply
+    	SET
+    	on_delete=1
+    	WHERE
+    	reply_id=#{replyId}
+    </update>
+</mapper>

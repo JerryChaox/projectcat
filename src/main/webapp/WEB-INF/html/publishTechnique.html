@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>技术贴--发帖</title>
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/publishForum.css" rel="stylesheet">
+    <link href="../css/projectlist.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			技术贴--发帖
+		</p>
+	</div>
+	<div class="header-box">
+    </div>
+
+    <div class="content border-box container">
+        <form>
+            <p>题目</p>
+            <input class="title border-box" placeholder="请输入题目，不能超过20个字">
+            <p class="num"><span class="aa">0</span>/<span class="most">20</span></p>
+
+            <p>内容</p>
+            <textarea placeholder="请输入帖子内容" rows="25"></textarea>
+
+            <input id="change-bg" type="button" value="上传本地图片" onclick="localimg.click()">
+            <input type="file" capture="camera" accept="image/*" id="localimg" name="cameraInput">
+
+            <button class="publish">发帖</button>
+        </form>
+    </div>
+
+    <script src="../js/jq.js"></script>
+    <script src="../js/top.js"></script>
+    <script src="../js/publishTechnique.js"></script>
+</body>
+</html>

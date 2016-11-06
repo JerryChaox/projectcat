@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>个人信息</title>
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/information.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			个人信息
+		</p>
+	</div>
+	<div class="header-box">
+    </div>
+
+    <div id="information-box">
+    </div>
+    <script type="text/x-dot-template" id="information">
+		<div class="wechat border-box container">
+				<img src="{{=it.headUrl}}">
+				<div class="border-box">
+					<p>{{=it.nickname}}</p>
+					<p class="email">邮箱：{{=it.eMail}}</p>
+				</div>
+
+				<div class="clear">
+				</div>
+		</div>
+
+		<div class="content">
+
+			<table class="container border-box">
+				<tr>
+					<td>学校</td>
+					<td class="school">{{=it.school}}</td>
+				</tr>
+				<tr>
+					<td>专业</td>
+					<td class="profession">{{=it.profession}}</td>
+				</tr>
+				<tr>
+					<td>入学年份</td>
+					<td class="year">{{=it.grade}}</td>
+				</tr>
+			</table>
+
+			<table class="container border-box">
+				<tr>
+					<td>擅长领域</td>
+					<td class="skilled">{{=it.major}}</td>
+				</tr>
+
+				<tr>
+					<td>兴趣爱好</td>
+					<td class="interest">{{=it.interest}}</td>
+				</tr>
+			</table>
+
+			<p class="container border-box">
+				<span>简历</span>
+				<br />
+				<span class="resume">
+					{{=it.defaultResume}}
+				</span>
+			</p>
+			
+		</div>
+	</script>
+
+	<script src="../js/jq.js"></script>
+    <script src="../js/top.js"></script>
+    <script src="../js/doT.min.js"></script>
+
+    <script>
+    	$.ajax({
+    		type:'GET',
+    		url:'../normal/profile?submitFlag=query',
+    		dataType:'json',
+    		success:function(data){
+    			if(data!=null){
+    				var intertext=doT.template($("#information").text());
+    				$("#information-box").html(intertext(data));
+    			}else{
+    				alert("请先绑定信息！");
+    			}
+    		},
+    		error:function(jqXHR){
+    			alert("出现错误"+jqHXR.status);
+    		}
+    	})
+    </script>
+</body>
+</html>

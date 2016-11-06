@@ -1,0 +1,56 @@
+/*搜索结果*/
+.result{
+	display: block;
+	padding-top:0.8em;
+	padding-bottom: 0.8em;
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+
+.result .projectimg{
+	float: left;
+	width: 7em;
+}
+
+.result .details{
+	height: 84px;
+	overflow: hidden;
+	padding-left: 1em;
+}
+
+.result .details p{
+	font-size: 1.2em;
+	color: #666;
+	line-height: 1.5em;
+}
+
+.result .details .project{
+	font-size: 1.4em;
+	font-weight: bold;
+	line-height: 2em;
+	color: #000;
+}
+
+.result .details p span{
+	margin-left: 0.8em;
+}
+
+.result .details .detail{
+	position: absolute;
+	bottom: 0.8em;
+}
+
+.result .details .detail span:first-child,.result .details .detail span.first{
+	margin-left: 0;
+}
+
+.result .details .detail span i{
+	padding-right: 0.3em;
+}
+
+.result .tag{
+	position: absolute;
+	top:-0.2em;
+	right: 2em;
+	width: 4em;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+<title>绑定信息</title>
+<link href="../css/reset.css" rel="stylesheet">
+<link href="../css/nav.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<link href="../css/bindInformation.css" rel="stylesheet">
+<link href="../css/projectlist.css" rel="stylesheet">
+<meta
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+	name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i
+				class="icon-arrow-left"></i>返回</a> 绑定信息
+		</p>
+	</div>
+	<div class="header-box"></div>
+
+	<div class="bind border-box container">
+		<div class="attention border-box">
+			<p>注意：</p>
+			<p>1.您绑定的信息用于报名项目和发布项目，请认真填写</p>
+			<p>2.我们会保密您的个人信息，请放心填写</p>
+			<p>3.一旦填写，除简历外，其他个人信息不能再修改</p>
+		</div>
+
+		<form>
+			<div class="sbox">
+				<p>
+					<span>真实姓名</span> <input type="text" class="name">
+				</p>
+				<p class="interpret">
+					<span></span>
+				</p>
+			</div>
+
+			<div class="sbox">
+				<p>
+					<span>学校</span> <input type="text" class="school">
+				</p>
+				<p class="interpret">
+					<span></span>
+				</p>
+			</div>
+
+			<div class="sbox">
+				<p>
+					<span>专业</span> <input type="text" class="major">
+				</p>
+				<p class="interpret">
+					<span></span>
+				</p>
+			</div>
+
+			<div class="sbox">
+				<p>
+					<span>手机</span> <input type="text" class="tel">
+				</p>
+				<p class="interpret">
+					<span></span>
+				</p>
+			</div>
+
+			<div class="sbox">
+				<p>
+					<span>邮箱</span> <input type="text" class="mail">
+				</p>
+				<p class="interpret">
+					<span></span>
+				</p>
+			</div>
+
+			<div class="sbox">
+				<p>简历</p>
+				<textarea placeholder="请填写默认简历，比如阐述自己的特长优势等" rows="15"
+					class="resume"></textarea>
+				<div class="model">
+					<label class="aa"><input name="model" type="radio"
+						class="model1 model">简历模板1</label> <label class="aa"><input
+						name="model" type="radio" class="model2 model">简历模板2</label> <span
+						class="model1-box disnone"></span> <span
+						class="model2-box disnone"></span>
+
+					<div class="clear"></div>
+				</div>
+				<br />
+				<p class="interpret">
+					<span></span>
+				</p>
+			</div>
+
+			<button class="bind-btn">绑定信息</button>
+		</form>
+	</div>
+
+	<script src="../js/jq.js"></script>
+	<script src="../js/top.js"></script>
+	<script type="text/javascript" src="../js/bindInformation.js"></script>
+</body>
+</html>

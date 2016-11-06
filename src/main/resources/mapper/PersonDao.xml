@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.PersonDao">
+<!-- *********************************************************************************************** -->
+	<select id="selectpTypeById" resultType="String">
+		SELECT p_type FROM
+		t_person
+		WHERE
+		person_id=#{personId};
+	</select>
+<!-- *********************************************************************************************** -->
+	<!-- 根据类型识别应该返回的资料 -->
+	<select id="selectProfileById" resultMap="personMap">
+		SELECT
+		*
+		FROM
+		t_person
+		WHERE
+		person_id=#{personId};
+	</select>
+	
+	<resultMap type="Person" id="personMap">
+		<id property="personId" column="person_id" />
+		<result property="nickName" column="nick_name" />
+		<result property="name" column="name" />
+		<result property="phoneNumber" column="phone_number" />
+		<result property="school" column="school" />
+		<result property="academy" column="academy" />
+		<result property="headUrl" column="head_url" />		
+		<result property="major" column="major"/>
+		<result property="selfIntroduction" column="self_introduction"/>
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="onDelete" column="on_delete"/>
+		<discriminator javaType="string" column="p_type">
+			<case value="Student" resultType="student">
+				<result property="grade" column="grade" />
+				<result property="profession" column="profession"/>
+				<result property="defaultResume" column="default_resume"/>
+			</case>
+			<case value="Teacher" resultType="teacher">
+				
+			</case>
+		</discriminator>
+	</resultMap>
+<!-- *********************************************************************************************** -->	
+	<select id="selectFollowing" resultType="Person">
+		SELECT
+		F.id,
+		F.person_id as f_person_id,
+		F.followed_id,
+		P.person_id,
+		P.nick_name,
+		P.head_url,
+		P.school,
+		P.academy,
+		P.profession,
+		P.major,
+		P.self_introduction,
+		P.default_resume
+		FROM
+		t_follow F
+		left outer join t_person P ON F.followed_id=P.person_id
+		WHERE
+		F.person_id=#{personId} AND
+		F.on_delete=0
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<resultMap id="projectApplicationResult" type="ProjectApplication">
+		<id property="applicationId" column="application_id"/>
+		<result property="reason" column="reason"/>
+		<result property="targetStateName" column="target_state_name"/>
+		<result property="onAdmit" column="on_admit"/>
+		<association property="person" column="person_id" javaType="Person" select="selectProfileById"/>
+		<association property="project" column="project_id" javaType="Project" select="selectProjectByProjectId"/>
+	</resultMap>
+	
+	<select id="selectProjectApplication" resultMap="projectApplicationResult">
+		SELECT * FROM t_project_application ORDER BY update_time DESC
+	</select>
+	
+	<select id="selectProjectByProjectId" resultType="Project">
+		SELECT * FROM t_project WHERE project_id=#{projectId}
+	</select>
+<!-- *********************************************************************************************** -->
+	<insert id="insertFollow">
+		INSERT
+		t_follow
+		(person_id, followed_id)
+		VALUES
+		(#{personId}, #{followedId})
+	</insert>
+<!-- *********************************************************************************************** -->
+	<!-- 没有此记录时才插入,返回result为1;否则,返回0 -->
+	<insert id="insertVisitor">
+		INSERT INTO
+		t_person
+		(person_id, p_type)
+		SELECT
+		#{personId}, 'Person'
+		FROM 
+		DUAL
+		WHERE NOT EXISTS
+		(SELECT person_id 
+		FROM
+		t_person
+		WHERE
+		person_id=#{personId});
+	</insert>
+<!-- *********************************************************************************************** -->
+	<insert id="insertProjectApplication" parameterType="ProjectApplication"
+		keyProperty="applicationId">
+		INSERT INTO
+		t_project_application
+		(person_id, project_id, reason, target_state_name)
+		VALUES
+		(#{personId}, #{projectId}, #{reason}, #{targetStateName})
+	</insert>
+<!-- *********************************************************************************************** -->
+	<update id="setFollowOnDelete">
+		UPDATE
+		t_follow
+		SET
+		on_delete=1
+		WHERE
+		person_id=#{personId} AND
+		followed_id=#{followedId}
+	</update>
+<!-- *********************************************************************************************** -->	
+	<update id="saveProfile">
+		UPDATE 
+		t_person
+		<set>
+			person_id=#{personId},
+			<if test="name != null">name=#{name},</if>
+			<if test="nickName != null">nick_name=#{nickName},</if>
+			<if test="phoneNumber != null">phone_number=#{headUrl},</if>
+			<if test="mail != null">mail=#{mail},</if>
+			<if test="headUrl != null">head_url=#{headUrl},</if>
+			<if test="school != null">school=#{school},</if>
+			<if test="academy != null">academy=#{academy},</if>
+			<if test="grade != null and pType=='Student'">grade=#{grade},</if>
+			<if test="profession != null and pType=='Student'">profession=#{profession},</if>
+			<if test="defaultResume != null and pType=='Student'">default_resume=#{defaultResume},</if>
+			<if test="major != null">major=#{major},</if>
+			<if test="selfIntroduction != null">self_introduction=#{selfIntroduction},</if>
+			<if test="pType != null">p_type=#{pType}</if>
+		</set>
+		WHERE
+		person_id=#{personId};
+	</update>
+<!-- *********************************************************************************************** -->
+	<update id="setOnDelete">
+		UPDATE
+		t_person
+		SET
+		on_delete=1
+		WHERE
+		person_id=#{personId}
+	</update>
+<!-- *********************************************************************************************** -->
+	<update id="setApplicationOnAdmit">
+		UPDATE
+		t_project_application
+		SET
+		on_admit=1
+		WHERE
+		application_id=#{applicationId}
+	</update>
+</mapper>

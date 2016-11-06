@@ -1,0 +1,30 @@
+.news{
+	padding-top: 0.8em;
+}
+
+.news .title{
+	font-size: 1.8em;
+	line-height: 1.9em;
+}
+
+.news img{
+	width: 100%;
+	padding:0.5em 0;
+}
+
+.article p{
+	font-size: 1.4em;
+	line-height: 1.5em;
+	margin-bottom: 1em;
+}
+
+.article .breif{
+	color: #999;
+}
+
+.article .stitle{
+	color: #0091f0;
+	font-size: 1.6em;
+	font-weight: bold;
+	line-height: 1.8em;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>新闻</title>
+        <link href="../css/reset.css" rel="stylesheet">
+        <link href="../css/nav.css" rel="stylesheet">
+        <link href="../css/newsDetails.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			项目喵
+		</p>
+	</div>
+	<div class="header-box">
+    </div>
+
+    <div id="news-box">
+    </div>
+    <script type="text/x-dot-template" id="news">
+        <div class="news border-box container">
+        	<p class="title">{{=it.标题}}</p>
+
+        	<div class="article">
+        		<img src="{{=it.图片地址}}"/>
+
+        		<p class="breif">{{=it.简介}}</p>
+
+                {{ for(var x in it) { }}
+                    {{? it[x]}}
+            		<p class="stitle">{{=it[x].小标题}}</p>
+
+            		<p>{{=it[x].新闻内容}}</p>
+                    {{?}}
+                {{ } }}
+
+        	</div>
+        </div>
+    </script>
+
+    <script src="../js/jq.js"></script>
+    <script src="../js/top.js"></script>
+    <script src="../js/doT.min.js"></script>
+
+    <script>
+        $.ajax({
+            type:'GET',
+            url:'',
+            dataType:'json',
+            success: function(data){
+                if(data!=null){
+                    var tmpltxt=doT.template($("#news").text());
+                    $("#news-box").html(tmpltxt(data));
+                }else{
+                    alert("加载失败！")
+                }
+            },
+            error:function(jqHXR){
+                alert("出现错误"+jqHXR.status)
+            }          
+        })
+    </script>
+</body>
+</html>

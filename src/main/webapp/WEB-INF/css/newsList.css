@@ -1,0 +1,47 @@
+.news-box{
+	color: #000;
+	display: block;
+	width: 100%;
+	border-bottom: 1px solid #eee;
+	padding:1.2em 0;
+	position: relative;
+}
+
+.news-box img{
+	width: 124px;
+	float: left;
+}
+
+.news-box img +div{
+	
+	padding-left: 135px;
+}
+
+.news-box img +div .title{
+	font-size: 1.5em;
+	color: #000;
+	height:50px;
+	overflow: hidden;
+	line-height: 24px;
+}
+
+.news-box img +div p:last-child{
+	color: #bbb;
+	font-size: 1.3em;
+	position: absolute;
+	bottom:1em;
+}
+
+
+.news-box img +div p:last-child i{
+	margin-right: 0.3em;
+	margin-left: 0.8em;
+}
+
+.news-box img +div p:last-child i:first-child{
+	margin-left: 0;
+}
+
+.news-box:last-child{
+	border-bottom: 0;
+}

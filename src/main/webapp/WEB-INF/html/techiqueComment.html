@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>技术贴--回复</title>
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/techniqueDetail.css" rel="stylesheet">
+    <link href="../css/techiqueComment.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			技术贴--回复
+		</p>
+	</div>
+    <div class="header-box">
+    </div>
+
+    <div id="reply-box">
+    </div>
+    <script type="text/x-dot-template" id="reply">
+	    <div class="question main">
+	            <p class="ques container border-box">
+	                {{=it.题目}}
+	                <a class="collect" href="javascript:;"><i class="icon-star-empty"></i></a>
+	            </p>
+	            <div class="ques-box">
+	            </div>
+	    </div>
+
+    	<!-- 其他回答 -->
+    	<div class="others-box">
+        	{{ for(var x in it) { }}
+                {{? it[x]}}         
+                    <div class="others">
+                        <div class="container border-box">
+                            <div class="head">
+                                <a href="{{=it[x].头像连接}}"><img class="border-box" src="{{=it[x].头像地址}}"></a>
+                                <div class="border-box">
+                                    <p class="name">
+                                        <a href="{{=it[x].头像连接}}">hahah</a>
+                                        <a class="attention" href="javascript:;"><i class="icon-plus"></i>关注</a>
+                                    </p>
+                                </div>
+
+                                <div class="clear">
+                                </div>
+                            </div>
+
+                            <div class="detail border-box">
+                                <p class="time"><i class="icon-time"></i>{{=it[x].time}}</p>
+                                {{ for(var i in it) { }}
+                                    {{? it[i]}}
+                                        <!-- 把回复内容一段一段传出来 -->
+                                        <p>{{=it[i].回复内容}}</p>
+                                    {{?}}
+                                {{ } }}
+
+                                <p class="reply">
+                                    <a href="javascript:;" class="zan-btn"><i class="icon-heart-empty"></i><span>12</span></a>
+                                    <a href="javascript:;" class="comment"><i class="icon-comment-alt"></i>回复</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {{?}}
+            {{ } }}
+        </div>
+    </script>
+
+	<div class="blank">
+    </div>
+    <div class="comment-box border-box">
+        <form>
+            <div name="note" class="textarea border-box on" contenteditable="true"></div>
+            <input class="border-box publish-btn" disabled="disabled" type="button" value="发表">
+
+            <div class="clear">
+        </div>
+        </form>
+    </div>
+    
+    <script src="../js/jq.js"></script>
+    <script src="../js/doT.min.js"></script>
+    <script src="../js/forumcommon.js"></script>
+    <script src="../js/techniqueDetail.js"></script>
+    <script src="../js/techiqueComment.js"></script>
+    <script src="../js/top.js"></script>
+</body>
+</html>

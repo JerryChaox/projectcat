@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.ManagerDao">
+
+	<select id="selectAllManagement" resultType="String">
+		SELECT management_name FROM t_management
+	</select>
+	<!-- *********************************************************************************************** -->
+	<select id="selectUserRightInfo" resultMap="userRightInfoMap">
+		SELECT
+		M.management_name
+		FROM
+		t_user_right UR
+		left outer join t_group_right GR on UR.group_id=GR.group_id
+		left outer join t_management M on GR.management_id=M.management_id
+		WHERE
+		person_id=#{personId};
+	</select>
+
+	<resultMap
+		type="org.springframework.security.core.authority.SimpleGrantedAuthority"
+		id="userRightInfoMap">
+		<constructor>
+			<idArg column="management_name" javaType="String"/>
+		</constructor>
+	</resultMap>
+	<!-- *********************************************************************************************** -->
+	<insert id="insertUserRightById">
+		<foreach collection="rightList" item="right">
+			INSERT INTO t_user_right
+			(person_id, group_id, class_id)
+			VALUES(#{personId}, #{right.groupId}),
+			#{right.classId});
+		</foreach>
+	</insert>
+	<!-- *********************************************************************************************** -->
+	<update id="updateUserRightById">
+		<foreach collection="rightList" item="right">
+			UPDATE t_user_right
+			SET
+			group_id=#{right.groupId},
+			class_id=#{right.classId}
+			WHERE
+			person_id=#{personId};
+		</foreach>
+	</update>
+	<!-- *********************************************************************************************** -->
+	<delete id="deleteSingleUserRightById">
+		DELETE FROM
+		t_user_right
+		WHERE
+		person_id=#{personId}
+		AND
+		group_id=#{groupId}
+		AND
+		class_id=#{classId};
+	</delete>
+	<!-- *********************************************************************************************** -->
+</mapper>

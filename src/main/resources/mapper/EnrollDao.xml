@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.EnrollDao">
+	<!-- *********************************************************************************************** -->
+	<resultMap id="enrollResult" type="Enroll">
+		<id property="enrollId" column="enroll_id"/>
+		<result property="resume" column="resume"/>
+		<association property="person" javaType="Person" column="person_id" select="selectPerson"/>
+		<association property="project" javaType="Project" column="project_id" select="selectProject"/>
+		<association property="state" javaType="State" column="st_enroll_state_type_id" resultMap="stateResult"/>
+	</resultMap>
+	
+	<select id="selectEnrollByErnollId" resultMap="enrollResult">
+		SELECT
+		E.enroll_id,
+		E.resume,
+		E.person_id,
+		E.project_id,
+		S.enroll_id as s_enroll_id,
+		S.create_time as state_create_time,
+		S.update_time as state_update_time,
+		ST.enroll_state_type_id as st_enroll_state_type_id,
+		ST.state_name
+		FROM t_project_enroll E
+		left outer join t_project_enroll_state S on E.enroll_id =
+		S.enroll_id
+		left outer
+		join t_project_enroll_state_type ST on E.enroll_state_type_id =
+		ST.enroll_state_type_id
+		WHERE E.enroll_id=#{enrollId}
+	</select>
+
+	<select id="selectPerson" resultType="Person">
+		SELECT * FROM t_person WHERE person_id=#{personId}
+	</select>
+	
+	<select id="selectProject" resultType="Project">
+		SELECT * FROM t_project WHERE project_id=#{projectId}
+	</select>
+	
+	<select id="selectState" resultType="State">
+		SELECT
+		ST.enroll_state_type_id,
+		ST.state_name
+		FROM
+		t_project_enroll E
+		left outer
+		join t_project_enroll_state_type ST on E.enroll_state_type_id =
+		ST.enroll_state_type_id
+		WHERE
+		E.enroll_id=#{enrollId}
+	</select>
+
+	<!-- *********************************************************************************************** -->
+	<resultMap type="cn.tata.t2s.ssm.entity.State" id="stateResult">
+		<id property="id" column="st_enroll_state_type_id" />
+		<result property="stateName" column="state_name" />
+		<result property="createTime" column="state_create_time" />
+		<result property="updateTime" column="state_update_time" />
+	</resultMap>
+	<!-- *********************************************************************************************** -->
+	<resultMap type="Enroll" id="enrollResultProject">
+		<id property="enrollId" column="enroll_id" />
+		<result property="resume" column="resume" />
+		<result property="createTime" column="enroll_create_time" />
+		<result property="updateTime" column="enroll_update_time" />
+		<result property="onDelete" column="enroll_on_delete" />
+		<association property="project" javaType="Project"
+			column="enroll_project_id">
+			<id property="projectId" column="project_id" />
+			<result property="projectName" column="project_name" />
+			<result property="projectAbstract" column="project_abstract" />
+			<result property="figurePath" column="figure_path" />
+			<result property="area" column="area" />
+			<result property="school" column="school" />
+			<result property="academy" column="academy" />
+			<result property="background" column="background" />
+			<result property="major" column="major" />
+			<result property="maxEnrollCount" column="max_enroll_count" />
+			<result property="enrolledCount" column="enrolled_count" />
+			<result property="createTime" column="project_create_time" />
+			<result property="updateTime" column="project_update_time" />
+			<result property="onDelete" column="project_on_delete" />
+		</association>
+		<association property="state" javaType="cn.tata.t2s.ssm.entity.State"
+			column="s_enroll_state_type_id" resultMap="stateResult" />
+	</resultMap>
+
+	<select id="selectProjectEnrollInfoByPersonId" parameterType="String"
+		resultMap="enrollResultProject">
+		SELECT
+		E.enroll_id,
+		E.person_id as enroll_person_id,
+		E.project_id as enroll_project_id,
+		E.resume,
+		E.create_time as enroll_create_time,
+		E.update_time as enroll_update_time,
+		E.on_delete as enroll_on_delete,
+		P.project_id,
+		P.project_name,
+		P.project_abstract,
+		P.school,
+		P.academy,
+		P.figure_path,
+		P.academy,
+		P.school,
+		P.background,
+		P.major,
+		P.max_enroll_count,
+		P.enrolled_count,
+		P.create_time as project_create_time,
+		P.update_time as project_update_time,
+		P.on_delete as project_on_delete,
+		S.enroll_id as s_enroll_id,
+		S.enroll_state_type_id as s_enroll_state_type_id,
+		S.create_time as state_create_time,
+		S.update_time as state_update_time,
+		ST.enroll_state_type_id as st_enroll_state_type_id,
+		ST.state_name
+		FROM
+		t_project_enroll E
+		left outer join t_project P on E.project_id =
+		P.project_id
+		left outer join t_project_enroll_state S on E.enroll_id =
+		S.enroll_id
+		left outer join t_project_enroll_state_type ST on
+		S.enroll_state_type_id = ST.enroll_state_type_id
+		WHERE
+		E.person_id=#{personId} AND
+		E.on_delete = 0
+		ORDER BY
+		enroll_update_time
+		DESC
+		<if test="offset >= 0 and limit > 0">
+			limit
+			#{offset},#{limit}
+		</if>
+	</select>
+	<!-- *********************************************************************************************** -->
+	<resultMap type="Enroll" id="enrollResultPerson">
+		<id property="enrollId" column="enroll_id" />
+		<result property="resume" column="resume" />
+		<result property="createTime" column="enroll_create_time" />
+		<result property="updateTime" column="enroll_update_time" />
+		<result property="onDelete" column="enroll_on_delete" />
+		<association property="person" javaType="Person"
+			column="enroll_project_id">
+			<id property="personId" column="person_id" />
+			<result property="name" column="name" />
+			<result property="nickName" column="nick_name" />
+			<result property="phoneNumber" column="phone_number" />
+			<result property="academy" column="academy" />
+			<result property="studentNumber" column="student_number" />
+			<result property="grade" column="grade" />
+			<result property="profession" column="profession" />
+			<result property="major" column="major" />
+			<result property="onDelete" column="student_on_delete" />
+		</association>
+		<association property="state" javaType="cn.tata.t2s.ssm.entity.State"
+			column="s_enroll_state_type_id" resultMap="stateResult" />
+	</resultMap>
+
+	<select id="selectProjectEnrollInfoByProjectId" parameterType="int"
+		resultMap="enrollResultPerson">
+		SELECT
+		E.enroll_id,
+		E.person_id as enroll_person_id,
+		E.project_id as enroll_project_id,
+		E.resume,
+		E.create_time as enroll_create_time,
+		E.update_time as enroll_update_time,
+		E.on_delete as enroll_on_delete,
+		P.person_id,
+		P.name,
+		P.nick_name,
+		P.phone_number,
+		P.academy,
+		P.student_number,
+		P.grade,
+		P.profession,
+		P.major,
+		P.on_delete as student_on_delete,
+		S.enroll_id as s_enroll_id,
+		S.enroll_state_type_id as s_enroll_state_type_id,
+		S.create_time as state_create_time,
+		S.update_time as state_update_time,
+		ST.enroll_state_type_id as st_enroll_state_type_id,
+		ST.state_name
+		FROM
+		t_project_enroll E
+		left outer join t_person P on E.person_id =
+		P.person_id
+		left outer join t_project_enroll_state S on E.enroll_id =
+		S.enroll_id
+		left outer join t_project_enroll_state_type ST on
+		S.enroll_state_type_id = ST.enroll_state_type_id
+		WHERE
+		E.project_id=#{projectId} AND
+		E.on_delete = 0
+		ORDER BY
+		enroll_update_time DESC
+		<if test="offset >= 0 and limit > 0">
+			limit
+			#{offset},#{limit}
+		</if>
+	</select>
+	<!-- *********************************************************************************************** -->
+	<select id="selectEnrollCount" resultType="int">
+		SELECT
+		COUNT(project_id)
+		FROM t_project_enroll
+		WHERE
+		person_id=#{personId}
+	</select>
+	<!-- *********************************************************************************************** -->
+	<insert id="insertEnroll" parameterType="Enroll" keyProperty="enrollId">
+		INSERT INTO
+		t_project_enroll
+		(project_id, person_id, resume)
+		SELECT
+		#{project.projectId}, #{person.personId}, #{resume}
+		FROM DUAL
+		WHERE <!-- EXISTS 
+			(SELECT COUNT(project_id) FROM t_project P WHERE P.project_id = #{project.projectId} 
+			AND enrolled_count &lt; max_enroll_count) AND -->
+		NOT EXISTS
+		(SELECT enroll_id
+		FROM t_project_enroll E
+		WHERE
+		E.project_id=#{project.projectId}
+		AND
+		E.person_id=#{person.personId})
+	</insert>
+	<!-- *********************************************************************************************** -->
+	<insert id="insertEnrollState">
+		INSERT INTO
+		t_project_enroll_state
+		(enroll_id,
+		enroll_state_type_id)
+		SELECT #{enrollId}, (
+		SELECT
+		enroll_state_type_id
+		FROM t_project_enroll_state_type
+		WHERE state_name=#{stateName}
+		)
+		FROM DUAL
+	</insert>
+	<!-- *********************************************************************************************** -->
+	<update id="updateEnrolledCount">
+		update
+		t_project
+		SET
+		enrolled_count=enrolled_count+1
+		WHERE
+		project_id=#{projectId}
+	</update>
+	<!-- *********************************************************************************************** -->
+	<update id="updateEnrollState">
+		update
+		t_project_enroll_state
+		SET
+		enroll_state_type_id=(
+		SELECT
+		enroll_state_type_id
+		FROM t_project_enroll_state_type
+		WHERE state_name=#{stateName}
+		)
+		WHERE
+		enroll_id=(
+		SELECT enroll_id
+		FROM t_project_enroll
+		WHERE
+		project_id=#{projectId}
+		AND
+		person_id=#{personId}
+		)
+	</update>
+	<!-- *********************************************************************************************** -->
+	<select id="hasFullEnrolled" resultType="boolean">
+		SELECT COUNT(project_id)
+		FROM
+		t_project
+		WHERE
+		project_id=#{projectId}
+		AND
+		enrolled_count &gt;=
+		max_enroll_count
+	</select>
+	<!-- *********************************************************************************************** -->
+	<select id="isDead" resultType="boolean">
+		SELECT COUNT(project_id)
+		FROM
+		t_project
+		WHERE
+		project_id=#{projectId}
+		AND
+		DATE_FORMAT(deadline,'%Y%m%d') &lt;=
+		DATE_FORMAT(CURRENT_DATE(),'%Y%m%d')
+	</select>
+	<!-- *********************************************************************************************** -->
+	<select id="countPersonEnrollByState" resultType="int">
+		SELECT
+		COUNT(E.enroll_id) as enroll_id_count
+		FROM
+		t_project_enroll E
+		left outer
+		join t_project_enroll_state S on E.enroll_id = S.enroll_id
+		left outer
+		join t_project_enroll_state_type ST on S.enroll_state_type_id =
+		ST.enroll_state_type_id
+		WHERE
+		person_id=#{personId}
+		AND
+		state_name=#{stateName}
+	</select>
+	<!-- *********************************************************************************************** -->
+	<update id="setOnDelete">
+		UPDATE
+		t_project_enroll
+		SET
+		on_delete=1
+		WHERE
+		enroll_id=#{enrollId}
+	</update>
+</mapper>

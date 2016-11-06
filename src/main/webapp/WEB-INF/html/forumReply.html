@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>项目贴--评论/技术贴--评论</title>
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/forumdetails.css" rel="stylesheet">
+    <link href="../css/forumReply.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			回复
+		</p>
+	</div>
+	<div class="header-box">
+    </div>
+
+    <div id="reply-box">
+    </div>
+    <script type="text/x-dot-template" id="reply">
+        <div class="content main">
+            <div class="discuss container border-box">
+                <div href="#" class="box">
+                    <a href="{{=it.头像连接}}"><img src="../image/head.png" class="border-box"></a>
+
+                    <div class="comment border-box">
+                        <p class="name">
+                            {{=it.昵称}}
+
+                        </p>
+
+                        
+
+                        <p class="time">第{{=it.}}楼&nbsp;&nbsp;{{=it.时间}}</p>
+
+                        
+                    </div>
+
+                    <div class="clear">
+                    </div>
+
+                    <div class="forum">
+                        <p>{{=it.reply}}</p>
+
+                        <div class="discuss-box border-box">
+                            {{ for(var x in it) { }}
+                                {{? it[x]}}
+                                    {{?? (it[x].bz==it.楼主的id){ }}
+                                        <p class="discussList"><a class="people" href="#"><span class="name">{{=it.回复人}}</span><span class="host">楼主</span>：</a>{{=it.回复内容}}</p>
+                                    {{?? true}}
+                                        <p class="discussList"><a class="people" href="#"><span class="name">{{=it.回复人}}</span>：</a>{{=it.回复内容}}</p>
+                                    {{?}}
+                                {{?}}
+                            {{ } }}
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </script>
+
+    <div class="blank">
+    </div>
+    <div class="comment-box border-box">
+        <form>
+            <div name="note" class="textarea border-box on" contenteditable="true"></div>
+            <input class="border-box publish" type="button" value="发表">
+
+            <div class="clear">
+            </div>
+        </form>
+    </div>
+
+    <script src="../js/jq.js"></script>
+    <script src="../js/doT.min.js"></script>
+    <script src="../js/forumcommon.js"></script>
+    <script src="../js/top.js"></script>
+    <script src="../js/forumReply.js"></script>
+</body>
+</html>

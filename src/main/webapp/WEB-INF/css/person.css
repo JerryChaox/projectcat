@@ -1,0 +1,151 @@
+body{
+	background-color: #f1f1f1;
+}
+
+.head{
+	background-color: #fff;
+	margin-bottom: 1em;
+	padding-top: 0.6em;
+	padding-bottom: 0.6em;
+}
+
+.head div > a{
+	float: left;
+	width: 4.5em;
+	display: block;
+	margin-right: 1em;
+}
+
+.head div > a img{
+	width: 100%;
+	border:1px solid #eee;
+	border-radius: 50%;
+}
+
+.head div p{
+	font-size: 1.6em;
+	font-weight: bold;
+	color: #000;
+	margin-top: 0.1em;
+}
+
+.head div p a:first-child{
+	color: #000;
+}
+
+.head div .name{
+	position: relative;
+	padding-top: 0.5em;
+}
+
+.attention{
+	background-color: #0091f0;
+	color: #fff;
+	font-weight: normal;
+	border-radius: 5px;
+	padding:0.3em 0.5em;
+	font-size: 14px;
+	line-height: 18px;
+	display: inline-block;
+	position: absolute;
+	right: 0;
+}
+
+a.attention i{
+	margin-right: 0.2em;
+}
+
+.head div .grade{
+	color: #666;
+	font-weight: normal;
+	font-size: 1.2em;
+	padding-top: 0.4em;
+}
+
+.head div .grade img{
+	height:1em;
+	margin-right: 0.3em;
+}
+
+table{
+	background-color: #fff;
+	width: 100%;
+}
+
+table tr{
+	border-bottom: 1px solid #eee;
+	padding:0.5em 1.5em;
+	line-height: 1.6em;
+	font-size: 1.4em;
+	display: block;
+}
+
+table tr.honor td:last-child{
+	height:44px;
+	overflow: hidden;
+}
+
+table tr td{
+	vertical-align: top;
+}
+
+table tr td:first-child{
+	width: 5.2em;
+}
+
+table tr td:last-child{
+	color: #666;
+}
+
+.resume{
+	background-color: #fff;
+	padding-bottom: 0.6em;
+}
+
+.resume p:first-child{
+	padding: 0.5em 0;
+	text-indent: 0;
+}
+
+.resume p{
+	font-size: 1.4em;
+	line-height: 1.6em;
+	text-indent: 2em;
+}
+
+.dynamic{
+	background-color: #fff;
+	margin-top: 1em;
+}
+
+.dynamic a{
+	line-height: 1.8em;
+	font-size: 1.4em;
+	padding:0.5em 0;
+	border-bottom: 1px dashed #eee;
+	display: block;
+	color: #000;
+}
+
+.dynamic .forum{
+	margin: 0 0.3em;
+	color: #0091f0;
+}
+
+.dynamic a span:first-child{
+	font-weight: bold;
+	font-style: italic;
+	margin-right: 0.3em;
+}
+
+.dynamic a .time{
+	color: #999;
+	float: right;
+	margin-left: 0.8em;
+	line-height: 1.8em;
+	font-size: 1.2em;
+}
+
+.dynamic a .time i{
+	margin-right: 0.3em;
+}

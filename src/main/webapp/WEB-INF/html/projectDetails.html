@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <title>项目详情</title>
+        <link href="../css/reset.css" rel="stylesheet">
+        <link href="../css/nav.css" rel="stylesheet">
+        <link href="../css/projectDetails.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+    <div class="header border-box">
+
+        <p>
+            <a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+            项目详情
+        </p>
+    </div>
+    <div class="header-box">
+    </div>
+
+    <div id="testid"></div>
+    <script type="text/x-dot-template" id="useType0">
+		<div class="tag border-box container">
+			<span>{{=it.area}}</span>
+			<span>{{=it.school}}</span>
+			<span>{{=it.major}}</span>
+		</div>
+
+		<div class="project border-box container">
+
+			<p class="title"><span>{{=it.title}}</span></p>
+			<div>
+				<p class="head">项目介绍</p>
+				<p>{{=it.introduce}}</p>
+			</div>
+
+			<div>
+				<p class="head">负责人简介</p>
+				<p>{{=it.selfIntroduction}}</p>
+			</div>
+
+			<div class="student border-box">
+				<p class="head">学生要求</p>
+				<p>
+					招生人数：{{=it.num}}
+					<br />
+					学历：{{=it.background}}
+					<br />
+					专业：{{=it.num}}
+					<br />
+					要求：{{=it.requirement}}
+					<br />
+					报名时间：{{=it.startingTime}} -- {{=it.deadline}}
+				</p>
+
+			</div>
+			<p class="signed">已经有<span class="red">{{=it.enrolledCount}}</span>人报名</p>
+	</script>
+			<a href="javascript:;" class="sign-up">马上报名</a>
+		</div>
+		<div class="resume disnone">
+			<div class="resume-box border-box">
+				<p>使用默认简历？<a href="javascript:;" class="close"><img src="../image/close.png"></a ></p>
+				<textarea class="border-box resume-content" rows="20"></textarea>
+
+				<button>确认报名</button>
+			</div>
+		</div>
+
+
+	<div class="dask disnone">
+	</div>
+
+	<script src="../js/jq.js"></script>
+    <script src="../js/projectDetails.js"></script>
+    <script src="../js/top.js"></script>
+    <script src="../js/doT.min.js"></script>
+    <script src="../js/getUrlParameter.js"></script>
+	
+    <script type="text/javascript">
+	var url = location.search;
+	var projectId = getUrlParameter(url, 'projectId');
+    	$.ajax({
+    		type:'GET',
+    		url:'../anonymous/project?submitFlag=single_query&projectId=' + projectId,
+    		dataType:'json',
+    		success:function(data){
+    			if(data != null){
+    			var testjson={
+    				'area':data.area,
+    				'school':data.school,
+    				'major':data.major,
+    				'title':data.projectName,
+    				'introduce':data.projectAbstract,
+    				'selfIntroduction':data.person.selfIntroduction,
+    				'num':data.maxEnrollCount,
+    				'background':data.background,
+    				'major':data.major,
+    				'requirement':data.requirement,
+    				'enrolledCount':data.enrolledCount,
+    				'startingTime':data.startingTime,
+    				'deadline': data.deadline,
+    			}
+    			tmpltxt=doT.template(document.getElementById("useType0").innerHTML);//生成模板方法
+    			document.getElementById("testid").innerHTML=tmpltxt(testjson);//数据渲染
+    			}else{
+    				alert("data is null");
+    			}
+    		},
+    		error:function(jqHXR){
+    			alert("出现错误："+jqHXR.status);
+    		}
+    	})
+    </script>
+</body>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.StateDao">
+
+	<select id="selectStateNameById" resultType="String">
+		select 
+		state_name 
+		FROM
+		<if test="fromTable=='topic'">t_bbs_topic_state_type</if>
+		<if test="fromTable=='project'">t_project_state_type</if>
+		WHERE
+	    <if test="fromTable=='topic'">topic_state_type_id</if>
+		<if test="fromTable=='project'">project_state_type_id</if>
+		=#{id};
+	</select>
+	
+	<select id="selectIdByStateName" resultType="int">
+		select
+		<if test="fromTable=='topic'">topic_state_type_id</if>
+		<if test="fromTable=='project'">project_state_type_id</if>
+		FROM
+		<if test="fromTable=='topic'">t_bbs_topic_state_type</if>
+		<if test="fromTable=='project'">t_project_state_type</if>
+		WHERE
+		state_name=#{stateName};
+	</select>
+	
+</mapper>

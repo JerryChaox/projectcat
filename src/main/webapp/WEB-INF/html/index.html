@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>首页</title>
+    <meta charset="utf-8">
+  	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  	<meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="css/newsList.css" rel="stylesheet">
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/nav.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 轮播图 -->
+    <div class="kePublic advertise" id="slider">
+        <div class="slider">
+            <ul>
+                <li><a href="#" target="_blank"><img src="image/img_1.png" ></a></li>
+                <li><a href="#" target="_blank"><img src="image/img_1.png" ></a></li>
+                <li><a href="#" target="_blank"><img src="image/img_1.png" ></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 公告 -->
+    <div class="announce border-box">
+        <img src="image/logo.png" class="border-box"/>
+
+        <a href="#" id="callboard" class="border-box">
+            <ul> 
+                <li> 
+                    <p><img src="image/amplifier.png">项目1开始报名了项目1开始</p>
+                    <p><img src="image/amplifier.png">项目开始报名了</p>
+                </li> 
+
+                <li> 
+                    <p><img src="image/amplifier.png">项目2开始报名了</p>
+                    <p><img src="image/amplifier.png">项目开始报名了</p>
+                </li> 
+
+                <li> 
+                    <p><img src="image/amplifier.png">项目3开始报名了</p>
+                    <p><img src="image/amplifier.png">项目开始报名了</p>
+                </li> 
+
+                <li> 
+                    <p><img src="image/amplifier.png">项目4开始报名了</p>
+                    <p><img src="image/amplifier.png">项目开始报名了</p>
+                </li> 
+            </ul> 
+            
+        </a>
+
+        <div class="clear">
+        </div>
+    </div>
+
+    <!-- 新闻 -->
+    <div class="news container border-box">
+        <a href="#" class="news-box">
+            <img src="image/news/new.jpg">
+            <div class="border-box">
+                <p class="title">
+                    来赛项目成功上线
+                </p>
+                <p>
+                    <i class="icon-time"></i>12:23
+                </p>
+            </div>
+
+            <div class="clear">
+            </div>
+        </a>
+
+        <a href="#" class="news-box">
+            <img src="image/news/new.jpg">
+            <div class="border-box">
+                <p class="title">
+                    来赛项目成功上线
+                </p>
+                <p>
+                    <i class="icon-time"></i>12:23
+                </p>
+            </div>
+
+            <div class="clear">
+            </div>
+        </a>
+
+        <a href="#" class="news-box">
+            <img src="image/news/new.jpg">
+            <div class="border-box">
+                <p class="title">
+                    来赛项目成功上线来赛项目成功上线来赛项目成功上线
+                </p>
+                <p>
+                    <i class="icon-time"></i>12:23
+                </p>
+            </div>
+
+            <div class="clear">
+            </div>
+        </a>
+
+        <a href="#" class="news-box">
+            <img src="image/news/new.jpg">
+            <div class="border-box">
+                <p class="title">
+                    来赛项目成功上线
+                </p>
+                <p>
+                    <i class="icon-time"></i>12:23
+                </p>
+            </div>
+
+            <div class="clear">
+            </div>
+        </a>
+    </div>
+
+    <div class="top"></div>
+    <div class="footer">
+        <div class="nav">
+            <ul>
+                <li>
+                    <a href="index" class="active">
+                        <i class="icon-home icon-2x"></i>
+                        <p>首页</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="html/searchPro.html">
+                        <i class="icon-search icon-2x"></i>
+                        <p>项目</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="html/searchForum.html">
+                        <i class=" icon-comment-alt icon-2x" ></i>
+                        <p>论坛</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="html/bindInformation.html">
+                        <i class="icon-user icon-2x"></i>
+                        <p>个人</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/jq.js" type="text/javascript"></script>
+    <script src="js/index.js"></script>
+    <script src="js/yxMobileSlider.js"></script>
+    <script>
+        $(".slider").yxMobileSlider({width:document.getElementsByTagName('body')[0].offsetWidth,height:document.getElementById('slider').offsetHeight,during:3000})
+    </script>
+</body>
+</html>

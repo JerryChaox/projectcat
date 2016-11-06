@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>项目贴--回复</title>
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/forumdetails.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			项目贴--回复
+		</p>
+	</div>
+    <div class="header-box">
+    </div>
+
+	<div id="topic-data">
+    </div>
+    
+     <script type="text/x-dot-template" id="topic">
+        <div class="content">
+            <div class="publisher discuss container border-box">
+                <div class="box">
+                    <a href="person.html?othersId={{=it.person.personId}}"><img src="..{{=it.person.headUrl}}" class="border-box"></a>
+
+                    <div class="comment border-box">
+                        <p class="name">
+                            {{=it.person.nickName}}
+                            <span>楼主</span>
+                        </p>
+
+                        <p class="time">{{=it.updateTime}}</p>
+                    </div>
+
+                    <div class="clear">
+                    </div>
+
+                </div>
+                <p class="forum">{{=it.body}}</p>
+            </div>
+        </div>
+	</script>
+    <div class="blank">
+    </div>
+    <div class="comment-box border-box">
+        <form>
+            <div name="note" class="textarea border-box on" contenteditable="true"></div>
+            <input class="border-box publish" disabled="disabled" type="button" value="发表">
+
+            <span id="replyer"></span>
+
+            <div class="clear">
+        </div>
+        </form>
+    </div>
+
+    <script src="../js/jq.js"></script>
+    <script src="../js/doT.min.js"></script>
+    <script src="../js/forumdetails.js"></script>
+    <script src="../js/forumcommon.js"></script>
+    <script src="../js/loadMore.js"></script>
+    <script src="../js/getUrlParameter.js"></script>
+    <script src="../js/top.js"></script>
+</body>
+</html>

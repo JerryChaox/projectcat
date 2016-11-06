@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+           http://www.springframework.org/schema/security  
+           http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+	<http security="none" pattern="/js/**"/>
+	<http security="none" pattern="/css/**"/>
+	<http security="none" pattern="/image/**"/>
+	<http security="none" pattern="/font/**"/>
+	
+	<!-- use custom login -->
+	<http auto-config="false" 
+	access-decision-manager-ref="accessDecisionManager"
+	entry-point-ref="authenticationEntryPoint">
+		<csrf disabled="true"/>
+		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER" />
+	</http>
+
+	<!-- use method annotation -->
+	<global-method-security secured-annotations="enabled"
+		access-decision-manager-ref="accessDecisionManager"
+		authentication-manager-ref="authenticationManager" />
+	
+	<!-- define a accessDecisionMnager start -->
+	<!-- define a accessDecisionMnager and set the prefix to empty String -->
+	<beans:bean id="accessDecisionManager"
+		class="org.springframework.security.access.vote.AffirmativeBased">
+		<beans:constructor-arg name="decisionVoters">
+			<beans:list>
+				<beans:ref bean="roleVoter" />
+				<beans:ref bean="authenticatedVoter" />
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+		<beans:property name="rolePrefix" value=""/>
+	</beans:bean>
+
+	<beans:bean id="authenticatedVoter"
+		class="org.springframework.security.access.vote.AuthenticatedVoter" />
+	<!-- 验证配置 ， 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="customUserDetailsService"/>
+	</authentication-manager>
+	<!-- define a accessDecisionMnager end -->
+	
+	<!-- define a enrty point -->
+	<!-- the loginFormUrl seems do nothing -->
+	<beans:bean id="authenticationEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<beans:constructor-arg name="loginFormUrl"
+			value="/homepage" />
+	</beans:bean>
+
+	<!-- 
+		WhChat OpenId login. 
+		get the openId then pass it to the customUserDetailsService
+	-->
+	<beans:bean id="authenticationFilter"
+		class="cn.tata.t2s.ssm.service.security.WeChatOpenIdAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+	</beans:bean>
+</beans:beans> 
+

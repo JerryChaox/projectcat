@@ -1,0 +1,102 @@
+.slider{
+	overflow: hidden;
+	margin:0 1em;
+	padding: 1em 0;
+}
+
+.slider-box{
+	width: 300%;
+}
+
+.slider .btn{
+	padding:0.5em 0;
+	margin-bottom: 1.5em;
+}
+
+.slider .btn a{
+	float: left;
+	display: block;
+	padding:0.3em;
+	font-size: 1.5em;
+	color: #000;
+	margin-left: 0.4em;
+}
+
+.slider .btn a:first-child{
+	margin-left: 0;
+}
+
+.slider .btn a.active{
+	border-bottom: 2px solid #0091f0;
+}
+
+.slider .btn .inform{
+	position: relative;
+}
+
+.slider .btn .inform span{
+	position: absolute;
+	display: block;
+	background-color: red;
+	height:0.6em;
+	width: 0.6em;
+	border-radius: 50%;
+	font-weight: bold;
+	right:-0.3em;
+	top:-0.3em;
+}
+
+.slider-box .box{
+	width: 33.33%;
+	float: left;
+}
+
+.result .tag{
+	right:1em!important;
+}
+
+.box .no{
+	font-size: 1.6em;
+}
+
+.box .inform-box{
+	display: block;
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    border-bottom: 1px solid #eee;
+}
+
+.box .inform-box img{
+	float: left;
+	width: 5em;
+	border-radius: 50%;
+}
+
+.box .inform-box .details{
+	padding-left: 6em;
+}
+
+.box .inform-box .details .time{
+	font-size: 1.2em;
+}
+
+.box .inform-box .details p{
+	color: #000;
+	font-size: 1.4em;
+	line-height: 1.6em
+}
+
+.box .inform-box .details .name{
+	font-weight: bold;
+	line-height: 1.8em;
+}
+
+.box .inform-box .details p span{
+	color: #0091f0;
+	padding:0 0.3em;
+}
+
+.box .inform-box .details .time span{
+	padding-right: 0.5em;
+	color: #999;
+}

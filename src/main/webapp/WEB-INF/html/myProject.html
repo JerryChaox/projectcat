@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>我的项目</title>
+    <link href="../css/reset.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/myProject.css" rel="stylesheet">
+    <link href="../css/projectlist.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+</head>
+<body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			我的项目
+		</p>
+	</div>
+	<div class="header-box">
+    </div>
+
+    <div id="project-box">
+    </div>
+    <script type="text/x-dot-template" id="reply">
+        <div class="slider">        
+            <div class="btn">
+                    <a href="javascript:;" class="active item">我报名的项目</a>
+                    <a href="javascript:;" class="item">我发布的项目</a>
+                    <a href="javascript:;" class="item inform">
+                        项目通知
+                        <span class="disnone"></span>
+                    </a>
+
+                    <div class="clear">
+                    </div>
+            </div>
+            <div class="btn-box">
+            </div>
+
+            <div class="slider-box">   
+                <!-- 我报名的项目 -->
+                <div class="box signUp">
+                    {{ for(var x in it) { }}
+                        {{? it[x]}}
+                            {{? it.length==0}}
+                                <p class="no">您还没有已报名的项目，快去看看吧！！</p>
+                            {{?? true}}
+                                <a href="{{=it[x].项目详情连接}}" class="result">
+                                    <img src="{{=it[x].项目图片}}" class="projectimg">
+
+                                    <div class="details border-box">
+                                        <p class="project">{{=it[x].项目名称}}</p>
+                                        <p class="detail">
+                                            <span><i class=" icon-map-marker"></i>{{=it[x].地区}}</span>
+                                            <span><i class="icon-user"></i>{{=it[x].学历要求}}</span>
+                                            <span><i class=" icon-lightbulb"></i>{{=it[x].领域}}</span>
+                                            <br />
+                                            <span class="first"><i class=" icon-magic"></i>已有{{=it[x].报名人数}}人报名</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="clear">
+                                    </div>
+                                </a>
+                            {{?}}
+                        {{?}}
+                    {{ } }}
+                </div>
+
+                <!-- 我发布的项目 -->
+                <div class="box public">
+                    {{ for(var x in it) { }}
+                        {{? it[x]}}
+                            {{? it.length==0}}
+                                <p class="no">您还没有发布过的项目，快去发布吧！！</p>
+                            {{?? true}}
+                                <a href="{{=it[x].项目详情连接}}" class="result">
+                                    <img src="{{=it[x].项目图片}}" class="projectimg">
+
+                                    <div class="details border-box">
+                                        <p class="project">{{=it[x].项目名称}}</p>
+                                        <p class="detail">
+                                            <span><i class=" icon-map-marker"></i>{{=it[x].地区}}</span>
+                                            <span><i class="icon-user"></i>{{=it[x].学历要求}}</span>
+                                            <span><i class=" icon-lightbulb"></i>{{=it[x].领域}}</span>
+                                            <br />
+                                            <span class="first"><i class=" icon-magic"></i>已有{{=it[x].报名人数}}人报名</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="clear">
+                                    </div>
+                                </a>
+                            {{?}}
+                        {{?}}
+                    {{ } }}
+                </div>
+
+                <!-- 项目通知 -->
+                <div class="box projectInform">
+                    {{ for(var x in it) { }}
+                        {{? it[x]}}
+                            {{? it.length==0}}
+                                <p class="no">您还没有通知</p>
+                            {{?? true}}
+                                <a href="{{=it[x].跳转到applicationResume.html}}" class="inform-box">
+                                    <img src="{{=it[x].报名人的头像}}" class="projectimg">
+
+                                    <div class="details border-box">
+                                        <p class="name">{{=it[x].已报名的人的昵称}}</p>
+                                        <p>报名<span>{{=it[x].报名的项目}}</span>项目</p>
+                                        <p class="time">
+                                            <span>{{=it[x].时间}}</span>
+                                        </p>
+                                    </div>
+
+                                    <div class="clear">
+                                    </div>
+                                </a>
+                            {{?}}
+                        {{?}}
+                    {{ } }}
+                </div>
+
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script src="../js/jq.js"></script>
+    <script src="../js/myProject.js"></script>
+    <script src="../js/top.js"></script>
+</body>
+</html>

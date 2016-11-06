@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的收藏</title>
+<link href="../css/reset.css" rel="stylesheet">
+<link href="../css/nav.css" rel="stylesheet">
+<link href="../css/myCollection.css" rel="stylesheet">
+<link href="../css/newsList.css" rel="stylesheet">
+<link href="../css/font-awesome.min.css" rel="stylesheet">
+<meta
+	content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"
+	name="viewport">
+</head>
+<body>
+
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i
+				class="icon-arrow-left"></i>返回</a> <a href="javascript:;"
+				class="collect on">我的收藏<i class="icon-chevron-down"></i></span>
+		</p>
+
+		<ul class="collect-detail disnone">
+			<li class="border-box"><a href="javascript:;">新闻</a></li>
+			<li class="border-box active"><a href="jacascript:;">帖子</a></li>
+		</ul>
+	</div>
+	<div class="header-box"></div>
+	<div id="forum-data"></div>
+	<script type="text/x-dot-template" id="forum">
+        <p class="head forum"><span>帖子</span></p>
+        <div class="dynamic container border-box">
+            {{ for(var x in it) { }}
+                {{? it[x]}}
+                    <a href="../anonymous/topic?submitFlag=single_query&topicId={{=it[x].starObject.topicId}}">
+                        我收藏了
+                        <span>{{=it[x].starObject.person.nickName}}</span>
+                        发表的
+                        <span class="forum">{{=it[x].starObject.title}}</span>
+                        的帖子
+                        <span class="time"><i class="icon-time"></i>{{=it[x].createTime}}</span>
+
+                        <div class="clear">
+                        </div>
+                    </a>
+                {{?}}
+            {{ } }}
+        </div>
+	</script>
+	<div class="dask disnone"></div>
+
+	<script src="../js/jq.js"></script>
+	<script src="../js/myCollection.js"></script>
+	<script src="../js/loadMore.js"></script>
+	<script src="../js/top.js"></script>
+	<script src="../js/doT.min.js"></script>
+
+	<script>
+        $.ajax({
+            type:'GET',
+            url:'../normal/star/topic?submitFlag=query&offset=0&limit=6',
+            dataType:'json',
+            success: function(data){
+                if(data!=null){
+                    var tmpltxt=doT.template($("#forum").text());
+                    $("#forum-data").html(tmpltxt(data));
+                }else{
+                    $(".news").append("<p class='no-result'>你还没有收藏帖子，快去收藏吧^-^<p>");
+                }
+            },
+            error:function(jqHXR){
+                alert("出现错误"+jqHXR.status)
+            }          
+        })
+
+        function more(){
+        	var limit = 6;
+            $.ajax({
+                type:'GET',
+                url:'../normal/star/topic?submitFlag=query&offset=0&limit=' + limit,
+                dataType:'json',
+                success:function(data){
+                    if(data != null){
+                        for(var i=0;i<data.length;i++){
+                            $(".dynamic").append(
+                                    "<a href='../anonymous/topic?submitFlag=single_query&topicId=" + data[i].starObject.topicId + "'>" +
+                                        "我收藏了"+
+                                        "<span>" + data[i].starObject.person.nickName + "</span>"+
+                                        "发表的"+
+                                        "<span class='forum'>"+data[i].starObject.title+"</span>"+
+                                        "的帖子"+
+                                        "<span class='time'><i class='icon-time'></i>"+data[i].createTime+"</span>"+
+                                        "<div class='clear'>"+
+                                        "</div>"+
+                                    "</a>"
+                                )
+                        }
+                    }else{
+                        $(".dynamic").append("<p class='no-result'>没有更多内容了<p>");
+                    }
+                },
+                error:function(jqHXR){
+                    alert("出现错误"+jqHXR.status);
+                }
+            })
+        }
+    </script>
+</body>
+</html>

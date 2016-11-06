@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.ProjectDao">
+
+	<resultMap type="Project" id="projectResult">
+		<id property="projectId" column="project_id" />
+		<result property="projectName" column="project_name" />
+		<result property="projectAbstract" column="project_abstract" />
+		<result property="figurePath" column="figure_path" />
+		<result property="area" column="area" />
+		<result property="school" column="school" />
+		<result property="academy" column="academy" />
+		<result property="background" column="background" />
+		<result property="major" column="major" />
+		<result property="requirement" column="requirement" />
+		<result property="maxEnrollCount" column="max_enroll_count"/>
+		<result property="enrolledCount" column="enrolled_count"/>
+		<result property="startingTime" column="starting_time"/>
+		<result property="deadline" column="deadline"/>
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="onDelete" column="project_on_delete"/>
+		<association property="person" javaType="cn.tata.t2s.ssm.entity.Person"
+			column="project_person_id">
+			<id property="personId" column="person_id" />
+			<result property="nickName" column="nick_name" />
+			<result property="school" column="head_url" />
+			<result property="academy" column="head_url" />
+			<result property="profession" column="profession" />
+			<result property="major" column="major" />
+			<result property="selfIntroduction" column="self_introduction" />
+			<result property="defaultResume" column="default_resume" />
+		</association>
+		<association property="state" javaType="cn.tata.t2s.ssm.entity.State" 
+		column="s_project_state_type_id" resultMap="stateResult"/>
+	</resultMap>
+	
+	<resultMap type="cn.tata.t2s.ssm.entity.State" id="stateResult">
+		<id property="id" column="st_project_state_type_Id"/>
+		<result property="stateName" column="state_name"/>
+		<result property="updateTime" column="state_update_time"/>
+		<result property="onDelete" column="state_on_delete"/>
+	</resultMap>
+
+<!-- *********************************************************************************************** -->
+	<select id="selectProjectById" resultMap="projectResult">
+		SELECT
+		PR.project_id,
+		PR.project_name,
+		PR.project_abstract,
+		PR.figure_path,
+		PR.area,
+		PR.school,
+		PR.academy,
+		PR.background,
+		PR.major,
+		PR.requirement,
+		PR.max_enroll_count,
+		PR.enrolled_count,
+		PR.starting_time,
+		PR.deadline,
+		PR.create_time,
+		PR.update_time as project_update_time,
+		PR.on_delete as project_on_delete,
+		PR.person_id as project_person_id,
+		PE.person_id,
+		PE.nick_name,
+		PE.head_url,
+		PE.school,
+		PE.academy,
+		PE.profession,
+		PE.major,
+		PE.self_introduction,
+		PE.default_resume
+		FROM
+		t_project PR
+		left outer join t_person PE on PR.person_id = PE.person_id
+		WHERE
+		PR.project_id=#{projectId} AND 
+		PR.on_delete=0
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="selectAllProject" resultMap="projectResult">
+		SELECT
+		PR.project_id,
+		PR.project_name,
+		PR.project_abstract,
+		PR.background,
+		PR.major,
+		PR.requirement,
+		PR.max_enroll_count,
+		PR.enrolled_count,
+		PR.starting_time,
+		PR.deadline,
+		PR.create_time,
+		PR.update_time as project_update_time,
+		PR.on_delete as project_on_delete,
+		PR.person_id as project_person_id,
+		S.project_id as state_project_id,
+		S.project_state_type_id as s_project_state_type_id,
+		S.update_time as state_update_time,
+		ST.project_state_type_id as st_project_state_type_id,
+		ST.state_name,
+		PE.person_id,
+		PE.nick_name,
+		PE.head_url
+		FROM
+		t_project PR
+		left outer join t_person PE on PR.person_id = PE.person_id
+		left outer join t_project_state S on PR.project_id = S.project_id
+		left outer join t_project_state_type ST on S.project_state_type_id = ST.project_state_type_id
+		WHERE
+		state_name IN ('online', 'offline') AND
+		PR.on_delete=0
+		ORDER BY
+		state_name DESC,
+		state_update_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="dynamicSelectProject" resultMap="projectResult">
+		SELECT
+		PR.project_id,
+		PR.project_name,
+		PR.project_abstract,
+		PR.background,
+		PR.major,
+		PR.requirement,
+		PR.max_enroll_count,
+		PR.enrolled_count,
+		PR.starting_time,
+		PR.deadline,
+		PR.create_time,
+		PR.update_time,
+		PR.on_delete as project_on_delete,
+		PR.person_id as project_person_id,
+		S.project_id as state_project_id,
+		S.project_state_type_id as s_project_state_type_id,
+		S.update_time as state_update_time,
+		ST.project_state_type_id as st_project_state_type_id,
+		ST.state_name,
+		PE.person_id,
+		PE.nick_name,
+		PE.head_url
+		FROM
+		t_project PR
+		left outer join t_person PE on PR.person_id = PE.person_id
+		left outer join t_project_state S on PR.project_id = S.project_id
+		left outer join t_project_state_type ST on S.project_state_type_id = ST.project_state_type_id
+		<where>
+			state_name IN ('online', 'offline') AND
+			PR.on_delete=0
+			<if test="school != null">
+				AND
+				PR.school LIKE CONCAT('%',#{school},'%')
+			</if>
+
+			<if test="academy != null">
+				AND
+				PR.academy LIKE	CONCAT('%',#{academy},'%')
+			</if>
+
+			<if test="fluzzyName != null">
+				AND
+				project_name || project_abstract
+				LIKE
+				CONCAT('%',#{fluzzyName},'%')		
+			</if>
+		</where>
+		ORDER BY
+		state_name DESC,
+		state_update_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="selectSelfProject" resultType="project">
+		SELECT
+		*
+		FROM
+		t_project
+		WHERE
+		project_id IN (
+		SELECT project_id
+		FROM
+		t_project_state
+		WHERE
+		project_state_type_id=#{projectStateTypeId}
+		AND
+		project_id IN (
+		SELECT
+		project_id
+		FROM
+		t_project
+		WHERE
+		person_id=#{personId}
+		)
+		)
+		AND project_on_delete=0
+		ORDER BY
+		update_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="selectProjectStateById" resultMap="stateResult">
+		SELECT 
+		S.project_id,
+		S.project_state_type_id as s_project_state_type_id,
+		S.update_time as state_update_time,
+		S.on_delete as state_on_delete,
+		ST.project_state_type_id as st_project_state_type_id,
+		ST.state_name
+		FROM
+		t_project_state S
+		left outer join t_project_state_type ST on S.project_state_type_id = ST.project_state_type_id
+		WHERE
+		S.project_id=#{projectId}
+	</select>
+<!-- *********************************************************************************************** -->
+	<select id="countProjectByState" resultType="int">
+		SELECT 
+		COUNT(S.project_id)
+		FROM
+		t_project_state S
+		left outer join t_project_state_type ST on S.project_state_type_id = ST.project_state_type_id
+		WHERE
+		ST.state_name=#{stateName}
+		AND
+		S.project_id IN (
+		SELECT project_id 
+		FROM t_project
+		WHERE
+		person_id=#{personId})
+	</select>
+<!-- *********************************************************************************************** -->		
+	<insert id="insertProjectBasicInfo" parameterType="Project"
+		keyProperty="projectId">
+		INSERT INTO
+		t_project
+		(person_id,
+		project_name, school,
+		academy, background, major, requirement,
+		project_abstract, figure_path, max_enroll_count, starting_time, deadline)
+		VALUES
+		(#{person.personId},
+		#{projectName}, #{school}, #{academy},
+		#{background}, #{major}, #{requirement},
+		#{projectAbstract},#{maxEnrollCount}, 
+		#{figurePath}, #{startingTime}, #{deadline});
+	</insert>
+
+	<insert id="insertProjectState">
+		INSERT INTO
+		t_project_state
+		(project_id,
+		project_state_type_id)
+		VALUES
+		(#{projectId},
+		#{projectStateTypeId});
+	</insert>
+	<!-- *********************************************************************************************** -->
+	<update id="updateProjectBasicInfo">
+		UPDATE
+		t_project
+		<set>
+			<if test="projectName != null">project_name=#{projectName},</if>
+			<if test="school != null">school=#{school},</if>
+			<if test="academy != null">academy=#{academy},</if>
+			<if test="background != null">background=#{background},</if>
+			<if test="major != null">major=#{major},</if>
+			<if test="requirement != null">requirement=#{requirement},</if>
+			<if test="projectAbstract != null">project_abstract=#{projectAbstract},</if>
+			<if test="maxEnrollCount != null">max_enroll_count=#{maxEnrollCount},</if>
+			<if test="enrolledCount != null">enrolled_count=#{enrolledCount},</if>
+			<if test="figurePath != null">figure_path=#{figurePath},</if>
+			<if test="starting_time != null">starting_time=#{starting_time},</if>
+			<if test="deadline != null">deadline=#{deadline}</if>
+		</set>
+		WHERE
+		project_id=#{projectId};
+	</update>
+
+	<update id="updateProjectStateById">
+		UPDATE
+		t_project_state
+		SET
+		project_state_type_id=#{projectStateTypeId}
+		WHERE
+		project_id=#{projectId};
+	</update>
+	<!-- *********************************************************************************************** -->
+	<delete id="deleteProjectById">
+		DELETE FROM
+		t_project
+		WHERE
+		project_id=#{projectId};
+	</delete>
+
+	<delete id="deleteProjectStateById">
+		DELETE FROM
+		t_project_state
+		WHERE
+		project_id=#{projectId};
+	</delete>
+	<!-- *********************************************************************************************** -->
+	<update id="setOnDelete">
+		UPDATE 
+		t_project
+		SET 
+		on_delete=1
+		WHERE
+		project_id=#{projectId};
+		
+		UPDATE
+		t_project_state
+		SET 
+		on_delete=1
+		WHERE
+		project_id=#{projectId};
+	</update>
+</mapper>

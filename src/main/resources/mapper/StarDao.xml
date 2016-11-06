@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tata.t2s.ssm.dao.StarDao">
+
+	<resultMap type="Topic" id="topicMap">
+		<id property="topicId" column="topic_id" />
+		<result property="classId" column="class_id" />
+		<result property="title" column="title" />
+		<result property="body" column="body" />
+		<result property="hits" column="hits" />
+		<result property="replyCount" column="reply_count" />
+		<result property="likeCount" column="like_count" />
+		<result property="updateTime" column="topic_update_time" />
+		<result property="createTime" column="topic_create_time" />
+		<association property="person" javaType="cn.tata.t2s.ssm.entity.Person"
+			column="topic_person_id">
+			<id property="personId" column="personId" />
+			<result property="nickName" column="nick_name" />
+			<result property="headUrl" column="head_url" />
+		</association>
+		<collection property="topicStateList" ofType="cn.tata.t2s.ssm.entity.State"
+			column="s_topic_state_type_Id">
+			<id property="id" column="st_topic_state_type_Id" />
+			<result property="stateName" column="state_name" />
+		</collection>
+	</resultMap>
+
+	<resultMap type="Star" id="starResult">
+		<constructor>
+			<idArg column="star_id" javaType="_long" />
+			<arg column="object_id" javaType="_int" />
+			<arg column="star_class" javaType="String" />
+		</constructor>
+		<result property="updateTime" column="star_update_time" />
+		<result property="createTime" column="star_create_time" />
+		<result property="onDelete" column="on_delete" />
+		<association property="person" javaType="person" column="person_id"
+			select="selectPerson" />
+		<association property="starObject" javaType="Topic"
+			column="object_id" resultMap="topicMap" />
+	</resultMap>
+
+	<select id="selectPerson" resultType="Person">
+		SELECT * FROM t_person
+		WHERE person_id=#{personId}
+	</select>
+
+
+	<select id="selectTopicStar" resultMap="starResult">
+		SELECT
+		TS.star_id,
+		TS.person_id as star_person_id,
+		TS.object_id,
+		TS.star_class,
+		TS.create_time as star_create_time,
+		TS.update_time as
+		star_update_time,
+		T.topic_id,
+		T.class_id,
+		T.person_id as topic_person_id,
+		T.title,
+		T.body,
+		T.hits,
+		T.reply_count,
+		T.like_count,
+		T.update_time as
+		topic_update_time,
+		T.create_time as topic_create_time,
+		P.person_id,
+		P.nick_name,
+		P.head_url,
+		S.topic_id as state_topic_id,
+		S.topic_state_type_Id as
+		s_topic_state_type_Id,
+		ST.topic_state_type_Id
+		as st_topic_state_type_Id,
+		ST.state_name,
+		TS.on_delete
+		FROM
+		t_bbs_topic_star TS
+		left outer join
+		t_bbs_topic T on
+		T.topic_id=TS.object_id
+		left outer join t_person P on T.topic_id =
+		P.person_id
+		left outer join t_bbs_reply R on R.topic_id = T.topic_id
+		left outer join t_bbs_topic_state S on T.topic_id = S.topic_id
+		left
+		outer join t_bbs_topic_state_type ST on S.topic_state_type_Id =
+		ST.topic_state_type_Id
+		WHERE
+		TS.person_id=#{personId} AND
+		TS.on_delete=0
+		ORDER BY
+		star_create_time DESC
+		<if test="offset >= 0 and limit > 0">
+		limit
+		#{offset},#{limit}
+		</if>
+	</select>
+
+	<insert id="insertStarItem">
+		INSERT INTO
+		<choose>
+			<when test="starClass == 'project'">
+				t_project_star
+			</when>
+			<when test="starClass == 'topic'">
+				t_bbs_topic_star
+			</when>
+			<otherwise>
+				DUAL
+			</otherwise>
+		</choose>
+		(person_id, object_id)
+		VALUES
+		(#{personId},
+		#{objectId});
+	</insert>
+
+	<update id="setOnDelete">
+		UPDATE
+		<choose>
+			<when test="starClass == 'project'">
+				t_project_star
+			</when>
+			<when test="starClass == 'topic'">
+				t_bbs_topic_star
+			</when>
+			<otherwise>
+				DUAL
+			</otherwise>
+		</choose>
+		SET
+		on_delete=1
+		WHERE
+		star_id=#{starId}
+	</update>
+
+</mapper>
