@@ -150,6 +150,7 @@
 		left outer join t_bbs_topic_state S on T.topic_id = S.topic_id
 		left outer join t_bbs_topic_state_type ST on S.topic_state_type_Id = ST.topic_state_type_Id
 		<where>
+			(
 			state_name NOT IN ('validating') AND
 			class_name=#{className} AND
 			T.on_delete=0
@@ -170,12 +171,14 @@
 					#{academyName}
 				</foreach>
 			</if>
-
+			)
 			<if test="fluzzyName != null">
 				AND
+				(
 				T.title || T.body
 				LIKE
-				CONCAT('%',#{fluzzyName},'%')		
+				CONCAT('%',#{fluzzyName},'%')
+				)	
 			</if>			
 		</where>
 		ORDER BY

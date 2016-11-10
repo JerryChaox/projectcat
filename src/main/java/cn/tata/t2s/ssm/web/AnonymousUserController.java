@@ -119,12 +119,15 @@ public class AnonymousUserController extends BaseController{
 	public List<Topic> dynamicGetTopicList( 
 			@ModelAttribute("personId") String personId,
 			@PathVariable("className") String className,
-			@RequestParam("school[]") String[] school,
-			@RequestParam("academy[]") String[] academy,
+//			@RequestParam("school[]") String[] school,
+//			@RequestParam("academy[]") String[] academy,
 			@RequestParam("fluzzyName") String fluzzyName,
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
-		List<Topic> topicList = topicService.dynamicGetTopicList(className, school, academy, fluzzyName, offset, limit);
+		if(LOG.isDebugEnabled()) {
+			System.out.print("request for the topic which className = " + className);
+		}
+		List<Topic> topicList = topicService.dynamicGetTopicList(className, null, null, fluzzyName, offset, limit);
 		LOG.info("invoke----------/dynamicGetTopicList" + "by " + personId);
 		return topicList;
 

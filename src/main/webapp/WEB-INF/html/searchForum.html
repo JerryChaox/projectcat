@@ -3,25 +3,41 @@
 <head>
         <meta charset="utf-8">
         <title>帖子搜索</title>
-        <link href="css/reset.css" rel="stylesheet">
-        <link href="css/nav.css" rel="stylesheet">
-        <link href="css/searchforum.css" rel="stylesheet">
-        <link href="css/projectlist.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/reset.css" rel="stylesheet">
+        <link href="../css/nav.css" rel="stylesheet">
+        <link href="../css/searchforum.css" rel="stylesheet">
+        <link href="../css/forum.css" rel="stylesheet">
+        <link href="../css/techniqueForum.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
         <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
 </head>
 <body>
 	<!-- 搜索框 -->
 	<div class="search container border-box">
 		<div class="search-box">
-			<form>
-				<input class="border-box" type="text" placeholder="输入帖子名称">
-				<button class="border-box"><img src="../image/search.png"></button>
+			
+				<input class="border-box clas" type="text" placeholder="输入帖子名称">
+				<button class="border-box search-btn"><img src="../image/search.png"></button>
 
 				<div class="clear">
 				</div>
-			</form>
+			
 		</div>
 	</div>
+	<div style="height:55px">
+	</div>
+
+	<div class="type border-box">
+		<label><input type="radio" name="forum" class="project" checked="true" value="project_module"><span>项目交流贴</span></label>
+		<label><input type="radio" name="forum" class="tech" value="tech_module"><span>技术交流贴</span></label>
+	</div>
+	<span class="disnone type-con"></span>
+
+	<div class="container-box">
+	</div>
+
+	<script src="../js/jq.js"></script>
+    <script src="../js/searchForum.js"></script>
+<!--     <script src="../js/loadMore.js"></script> -->
 </body>
 </html>
