@@ -160,14 +160,15 @@ $(function(){
 				type:'POST',
 				dataType:'json',
 				contentType:'application/json',
-				url:'../anonymous/profile?submitFlag=update',
+				url: getRuquestUrl('anonymous', 'profile', 'update'),
 				data:JSON.stringify(person),
 				success:function(data){
-					if(data!=null){
-						window.location.href='../index'
-					}else{
-						alert("信息绑定失败");
-					}
+//					if(data != null){
+//						window.location.href='../index'
+//					}else{
+//						alert("信息绑定失败");
+//					}
+					alert(data.update_type_name);
 				},
 				error:function(jqHXR){
 					alert("信息绑定失败");

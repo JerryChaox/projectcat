@@ -1,7 +1,7 @@
 $(function(){
 	$(".publish").click(function(e){
 		var topic= {
-				classId:'1',
+				className:'project_module',
 				body:$("textarea").val()
 		}
 		if($("textarea").val()==""){

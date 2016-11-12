@@ -25,7 +25,7 @@ public class BbsManager {
 	
 	@Around("checkIsAvailableBeforePublishTopic(topic)")
 	public void before(ProceedingJoinPoint joinPoint, Topic topic) throws Throwable {
-		if(topicDao.selectTopicCountTody(topic.getPerson().getPersonId()) >= DAY_MAX_TOPIC_NUM) {
+		if(topicDao.selectTopicCountToday(topic.getPerson().getPersonId()) >= DAY_MAX_TOPIC_NUM) {
 			//一天发了超过10个帖子抛出业务异常
 			
 		} else {

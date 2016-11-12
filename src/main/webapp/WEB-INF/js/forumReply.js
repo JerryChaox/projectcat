@@ -24,8 +24,8 @@ $(function(){
     		type:'POST',
     		dataType:'json',
     		data:{
-    			reply:$(".textarea").text();
-    		}
+    			reply:$(".textarea").text()
+    		},
     		success:function(){
     			if(data!=null){
 	    			if(data.本人id==data.楼主id){

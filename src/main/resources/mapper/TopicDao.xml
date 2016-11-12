@@ -14,7 +14,7 @@
 <!-- *********************************************************************************************** -->
 	<resultMap type="Topic" id="topicMap">
 		<id property="topicId" column="topic_id"/>
-		<result property="classId" column="class_id"/>
+		<result property="className" column="class_name"/>
 		<result property="title" column="title"/>
 		<result property="body" column="body"/>
 		<result property="hits" column="hits"/>
@@ -62,14 +62,14 @@
 <!-- *********************************************************************************************** -->
 	<resultMap type="Topic" id="topicPageMap">
 		<id property="topicId" column="topic_id"/>
-		<result property="classId" column="class_id"/>
+		<result property="className" column="class_name"/>
 		<result property="title" column="title"/>
 		<result property="body" column="body"/>
 		<result property="hits" column="hits"/>
 		<result property="replyCount" column="reply_count"/>
 		<result property="likeCount" column="like_count"/>
-		<result property="updateTime" column="update_time"/>
-		<result property="createTime" column="create_time"/>
+		<result property="updateTime" column="topic_update_time"/>
+		<result property="createTime" column="topic_create_time"/>
 		<association property="person" javaType="cn.tata.t2s.ssm.entity.Person" 
 		resultMap="PersonResult" column="topic_person_id"/>
 		<collection property="topicStateList" ofType="cn.tata.t2s.ssm.entity.State" 
@@ -173,11 +173,10 @@
 			</if>
 			)
 			<if test="fluzzyName != null">
-				AND
-				(
-				T.title || T.body
-				LIKE
-				CONCAT('%',#{fluzzyName},'%')
+				AND (
+				T.title  LIKE CONCAT('%' ,'#{fluzzyName}', '%') 
+				OR
+				T.body LIKE CONCAT('%' ,'#{fluzzyName}', '%')
 				)	
 			</if>			
 		</where>
@@ -199,7 +198,7 @@
 		person_id=#{personId}
 	</select>
 <!-- *********************************************************************************************** -->
-	<select id="selectTopicCountTody" resultType="int">
+	<select id="selectTopicCountToday" resultType="int">
 		SELECT COUNT(topic_id)
 		FROM t_bbs_topic
 		WHERE
@@ -208,13 +207,18 @@
 		DATE_FORMAT(create_time,'%Y%m%d') = DATE_FORMAT(CURRENT_DATE(),'%Y%m%d')
 	</select>
 <!-- *********************************************************************************************** -->
+	<!-- if the className does not exist and the result would be zero -->
 	<insert id="insertTopic" parameterType="Topic" 
 	keyProperty="topicId">
 		INSERT INTO
 		<include refid="topicEntityTableName" />
 		(class_id, title, body, person_id)
-		VALUES
-		(#{classId}, #{title}, #{body}, #{person.personId});
+		SELECT
+		class_id, #{title}, #{body}, #{person.personId}
+		FROM
+		t_bbs_class
+		WHERE
+		class_name=#{className}
 	</insert>
 <!-- *********************************************************************************************** -->
 	<insert id="insertTopicStateById">

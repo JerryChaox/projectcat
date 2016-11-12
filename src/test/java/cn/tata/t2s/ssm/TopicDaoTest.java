@@ -61,7 +61,7 @@ public class TopicDaoTest {
 		Person person = new Person();
 		person.setPersonId("2");
 		Topic topic = new Topic();
-		topic.setClassId(1);
+		topic.setClassName("1");
 		topic.setTitle("456465");
 		topic.setBody("123123");
 		System.out.println(topicDao.insertTopic(topic) + "------------");

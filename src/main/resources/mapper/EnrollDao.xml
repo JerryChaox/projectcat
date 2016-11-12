@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.tata.t2s.ssm.dao.EnrollDao">
 	<!-- *********************************************************************************************** -->
-	<resultMap id="enrollResult" type="Enroll">
+	<resultMap id="enrollResult" type="cn.tata.t2s.ssm.entity.Enroll">
 		<id property="enrollId" column="enroll_id"/>
 		<result property="resume" column="resume"/>
 		<association property="person" javaType="Person" column="person_id" select="selectPerson"/>

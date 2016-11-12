@@ -25,7 +25,7 @@ $(function(){
 			var topic={
 				title:$(".title").val(),
 				body:$("textarea").val(),
-				classId:'2'
+				className:'tech_module'
 			}
 			$.ajax({
 				type:'POST',

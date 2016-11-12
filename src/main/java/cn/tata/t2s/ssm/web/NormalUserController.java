@@ -106,10 +106,13 @@ public class NormalUserController extends BaseController{
 		Person person = new Person();
 		person.setPersonId(personId);
 		topic.setPerson(person);
+		
 		if(LOG.isDebugEnabled()) {
 			System.out.println(topic);
 		}
+		
 		normalUserService.createTopic(topic);
+		
 		LOG.info("invoke----------/createTopic " + "by " + personId);
 		ModelAndView mv = new ModelAndView("create_success");
 		mv.addObject("create_type_name", "topic");

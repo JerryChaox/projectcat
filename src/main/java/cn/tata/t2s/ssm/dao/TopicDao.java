@@ -47,7 +47,7 @@ public interface TopicDao {
 			@Param("offset") int offset, @Param("limit") int limit);
 	
 	
-	public int selectTopicCountTody(String personId);
+	public int selectTopicCountToday(String personId);
 	
 	/**
 	 * 添加帖子

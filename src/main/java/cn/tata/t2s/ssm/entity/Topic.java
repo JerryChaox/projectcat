@@ -10,7 +10,8 @@ import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
 public class Topic {
 	private int topicId;
-	private int classId;
+	//private int classId;
+	private String className;
 	private String title;
 	private String body;
 	private Person person;
@@ -42,13 +43,21 @@ public class Topic {
 		this.topicId = topicId;
 	}
 
-	public int getClassId() {
-		return classId;
+	public String getClassName() {
+		return className;
 	}
 
-	public void setClassId(int classId) {
-		this.classId = classId;
+	public void setClassName(String className) {
+		this.className = className;
 	}
+
+//	public int getClassId() {
+//		return classId;
+//	}
+//
+//	public void setClassId(int classId) {
+//		this.classId = classId;
+//	}
 
 	public String getTitle() {
 		return title;
@@ -150,8 +159,8 @@ public class Topic {
 	@Override
 	public String toString() {
 		return String.format(
-				"Topic  [\n\ttopicId=%s;\n\tclassId=%s;\n\ttitle=%s;\n\tbody=%s;\n\tperson=%s;\n\thits=%s;\n\treplyCount=%s;\n\tlikeCount=%s;\n\treplyBy=%s;\n\treplyList=%s;\n\ttopicStateList=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
-				topicId, classId, title, body, person, hits, replyCount, likeCount, replyBy, replyList, topicStateList,
+				"Topic  [\n\ttopicId=%s;\n\tclassName=%s;\n\ttitle=%s;\n\tbody=%s;\n\tperson=%s;\n\thits=%s;\n\treplyCount=%s;\n\tlikeCount=%s;\n\treplyBy=%s;\n\treplyList=%s;\n\ttopicStateList=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
+				topicId, className, title, body, person, hits, replyCount, likeCount, replyBy, replyList, topicStateList,
 				createTime, updateTime, onDelete);
 	}
 

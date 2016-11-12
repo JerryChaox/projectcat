@@ -1,8 +1,9 @@
 var offset = 0;
 $(".search-btn").click(function(){
-	$(".main-content").find(".result").remove();
+	$(".main-content").find(".forum-news").remove();
 	$(".main-content").find(".no-result").remove();
 	var fluzzyName=$(this).parents(".search-box").find(".clas").val();
+	offset = 0;
 	var limit=9;
 	var className = $('input:radio:checked').val();//获取搜索的是什么类型的帖子
 	$.ajax({
@@ -16,9 +17,8 @@ $(".search-btn").click(function(){
 					if($(".project").attr("checked")){
 						
 						offset = offset + limit;
-						
 						for(var i=0;i < data.length;i++){
-							$(".container-box").append(
+							$(".main-content").append(
 								'<div class="forum-news">'+
 			                        '<div class="forum-box"'+
 			                            '<a href="'+data[i].person.headUrl+'" class="box1">'+
@@ -48,10 +48,9 @@ $(".search-btn").click(function(){
 					}else{
 						
 						offset = offset + limit;
-						
 						// 如果是技术交流贴
 						for(var i=0;i<data.length;i++){
-							$(".container-box").append(
+							$(".main-content").append(
 								'<div class="forum-news">'+
 							        '<div class="forum-box">'+
 							            '<a href="'+data[i].person.headUrl+'" class="box1">'+
@@ -65,7 +64,7 @@ $(".search-btn").click(function(){
 							            '</a>'+
 							            '<a href="../anonymous/topic?submitFlag=single_query&topicId='+data[i].topicId+'" class="news">'+
 							                '<p>'+data[i].title+'</p>'+
-							                '<p>'+ data[i].body.subString(0,50)+'</p>'+
+							                '<p>'+ data[i].body+'</p>'+
 							                '<div class="imgfloat">'+
 							                    '<span class="time">'+data[i].createTime+'</span>'+
 							                    '<span>'+
@@ -85,12 +84,11 @@ $(".search-btn").click(function(){
 						}
 					}
 				}else{
-					$(".container-box").append("<p class='no-result'>没有搜索到相关项目<p>")
+					$(".main-content").append("<p class='no-result'>没有搜索到相关项目<p>")
 				}
-				//$(".type-con").text($("input:radio:checked").attr("class"));
+				$(".type-con").text($("input:radio:checked").attr("class"));
 			},
 			error:function(jqXHR){
-				alert('1');
 				alert("系统错误："+jqXHR.status);
 			}
 	})
@@ -112,7 +110,7 @@ function more(topicId){
             	if($(".type-con").text()=='project'){
             		offset = offset + 1;
             		for(var i=0;i<data.length;i++){
-						$(".container-box").append(
+						$(".main-content").append(
 							'<div class="forum-news">'+
 			                    '<div class="forum-box"'+
 			                        '<a href="'+data[i].person.headUrl+'" class="box1">'+
@@ -143,7 +141,7 @@ function more(topicId){
             		offset = offset + 1;
             		// 如果是技术交流贴
 					for(var i=0;i<data.length;i++){
-						$(".container-box").append(
+						$(".main-content").append(
 							'<div class="forum-news">'+
 							    '<div class="forum-box">'+
 							        '<a href="'+data[i].person.headUrl+'" class="box1">'+
