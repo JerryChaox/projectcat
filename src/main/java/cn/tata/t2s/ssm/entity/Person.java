@@ -47,6 +47,10 @@ public class Person {
 	public Person() {
 
 	}
+	
+	public Person(String personId) {
+		this.personId = personId;
+	}
 
 	public String getPersonId() {
 		return personId;

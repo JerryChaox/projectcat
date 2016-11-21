@@ -40,7 +40,7 @@ String.prototype.appendIndex = function(index){
 }  
 
 //get any url
-function getRuquestUrl(mappingType, resourceIndex, operationType,name, value) {
+function getRequestUrl(mappingType, resourceIndex, operationType,name, value) {
 	var url = eval(mappingType + 'Mapping')
 	.appendIndex(resourceIndex)
 	.appendParam('submitFlag', operationType);

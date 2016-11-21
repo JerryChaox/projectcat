@@ -13,6 +13,7 @@ import cn.tata.t2s.ssm.dao.EnrollDao;
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.dao.ProjectDao;
 import cn.tata.t2s.ssm.entity.Enroll;
+import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.Project;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 import cn.tata.t2s.ssm.enums.ResultEnum;
@@ -55,6 +56,13 @@ public class TeacherServiceImpl implements TeacherService {
 	public void createProject(Project project) {
 		String personId = project.getPerson().getPersonId();
 		Assert.notNull(personId, "personId is required");
+		
+		Person person = personDao.selectProfileById(personId);
+		
+		if(project.getManagerIntro() == null) {
+			project.setManagerIntro(person.getDefaultResume());
+		}
+		
 		int first_result = projectDao.insertProjectBasicInfo(project);
 
 		if (first_result <= 0) {

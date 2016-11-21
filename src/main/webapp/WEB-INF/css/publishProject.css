@@ -109,15 +109,14 @@ select option{
 }
 
 .inter{
-	height:1.8em;
-	line-height: 1.8em;
+	height:1.3em;
 	color: #999;
 	font-size: 1.2em;
 	opacity: 0;
 }
 
-.red{
-	color:red;
+.word{
+	color: #0091f0;
 }
 
 .paa{

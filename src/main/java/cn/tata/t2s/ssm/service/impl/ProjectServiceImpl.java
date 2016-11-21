@@ -27,9 +27,17 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	public Project getProjectByProjectId(int projectId) {
 		Project project = projectDao.selectProjectById(projectId);
+		
+		//insert the managerIntro if it is null
+		if(project.getManagerIntro() == null) {
+			project.setManagerIntro(project.getPerson().getSelfIntroduction());
+		}
+		
+		
 		if(LOG.isDebugEnabled()) {
 			System.out.println(project);
 		}
+		
 		return project;
 	}
 	

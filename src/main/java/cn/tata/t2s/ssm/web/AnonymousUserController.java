@@ -130,7 +130,6 @@ public class AnonymousUserController extends BaseController{
 		List<Topic> topicList = topicService.dynamicGetTopicList(className, null, null, fluzzyName, offset, limit);
 		LOG.info("invoke----------/dynamicGetTopicList" + "by " + personId);
 		return topicList;
-
 	}
 	
 	@PostMapping(value = "/profile",

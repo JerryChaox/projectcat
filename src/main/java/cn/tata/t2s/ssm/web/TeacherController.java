@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.tata.t2s.ssm.entity.Enroll;
+import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.Project;
 import cn.tata.t2s.ssm.service.TeacherService;
 
@@ -86,7 +87,13 @@ public class TeacherController extends BaseController{
     		consumes = "application/json;charset=UTF-8")
 	public ModelAndView createProject(
     		@RequestBody Project project, 
-    		BindingResult result) {
+    		//BindingResult result),
+    		@ModelAttribute("personId") String personId) {
+    		
+		if(LOG.isDebugEnabled()) {
+			System.out.println(project);
+		}
+		project.setPerson(new Person(personId));
 		
 		teacherService.createProject(project);
 		

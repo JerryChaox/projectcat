@@ -13,6 +13,7 @@
 		<result property="background" column="background" />
 		<result property="major" column="major" />
 		<result property="requirement" column="requirement" />
+		<result property="managerIntro" column="manager_intro" />
 		<result property="maxEnrollCount" column="max_enroll_count"/>
 		<result property="enrolledCount" column="enrolled_count"/>
 		<result property="startingTime" column="starting_time"/>
@@ -55,6 +56,7 @@
 		PR.background,
 		PR.major,
 		PR.requirement,
+		PR,manager_intro,
 		PR.max_enroll_count,
 		PR.enrolled_count,
 		PR.starting_time,
@@ -247,14 +249,14 @@
 		t_project
 		(person_id,
 		project_name, school,
-		academy, background, major, requirement,
+		academy, background, major, requirement, manager_intro,
 		project_abstract, figure_path, max_enroll_count, starting_time, deadline)
 		VALUES
 		(#{person.personId},
 		#{projectName}, #{school}, #{academy},
-		#{background}, #{major}, #{requirement},
+		#{background}, #{major}, #{requirement}, #{managerIntro},
 		#{projectAbstract},#{maxEnrollCount}, 
-		#{figurePath}, #{startingTime}, #{deadline});
+		#{figurePath}, #{startingTime}, #{deadline})
 	</insert>
 
 	<insert id="insertProjectState">
@@ -277,6 +279,7 @@
 			<if test="background != null">background=#{background},</if>
 			<if test="major != null">major=#{major},</if>
 			<if test="requirement != null">requirement=#{requirement},</if>
+			<if test="managerIntro != null">manager_intro=#{managerIntro}</if>
 			<if test="projectAbstract != null">project_abstract=#{projectAbstract},</if>
 			<if test="maxEnrollCount != null">max_enroll_count=#{maxEnrollCount},</if>
 			<if test="enrolledCount != null">enrolled_count=#{enrolledCount},</if>

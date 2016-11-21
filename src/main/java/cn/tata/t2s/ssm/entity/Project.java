@@ -25,6 +25,7 @@ public class Project {
 	private String background;
 	private String major;
 	private String requirement;
+	private String managerIntro;
 	private State state;
 	private int maxEnrollCount;
 	private int enrolledCount;
@@ -162,6 +163,14 @@ public class Project {
 		this.requirement = requirement;
 	}
 
+	public String getManagerIntro() {
+		return managerIntro;
+	}
+
+	public void setManagerIntro(String managerIntro) {
+		this.managerIntro = managerIntro;
+	}
+
 	public State getState() {
 		return state;
 	}
@@ -229,10 +238,10 @@ public class Project {
 	@Override
 	public String toString() {
 		return String.format(
-				"Project  [\n\tprojectId=%s;\n\tperson=%s;\n\tpersonList=%s;\n\tenrollList=%s;\n\tprojectName=%s;\n\tprojectAbstract=%s;\n\tfigurePath=%s;\n\tarea=%s;\n\tschool=%s;\n\tacademy=%s;\n\tbackground=%s;\n\tmajor=%s;\n\trequirement=%s;\n\tstate=%s;\n\tmaxEnrollCount=%s;\n\tenrolledCount=%s;\n\tstartingTime=%s;\n\tdeadline=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
+				"Project  [\n\tprojectId=%s;\n\tperson=%s;\n\tpersonList=%s;\n\tenrollList=%s;\n\tprojectName=%s;\n\tprojectAbstract=%s;\n\tfigurePath=%s;\n\tarea=%s;\n\tschool=%s;\n\tacademy=%s;\n\tbackground=%s;\n\tmajor=%s;\n\trequirement=%s;\n\tmanagerIntro=%s;\n\tstate=%s;\n\tmaxEnrollCount=%s;\n\tenrolledCount=%s;\n\tstartingTime=%s;\n\tdeadline=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
 				projectId, person, personList, enrollList, projectName, projectAbstract, Arrays.toString(figurePath),
-				area, school, academy, background, major, requirement, state, maxEnrollCount, enrolledCount,
-				startingTime, deadline, createTime, updateTime, onDelete);
+				area, school, academy, background, major, requirement, managerIntro, state, maxEnrollCount,
+				enrolledCount, startingTime, deadline, createTime, updateTime, onDelete);
 	}
 
 	@Override
