@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import cn.tata.t2s.ssm.dto.BaseResult;
 import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.Project;
 import cn.tata.t2s.ssm.entity.Reply;
@@ -134,17 +134,20 @@ public class AnonymousUserController extends BaseController{
 	
 	@PostMapping(value = "/profile",
 			params = "submitFlag=update",
-			consumes = "application/json;charset=UTF-8") 
-	public ModelAndView bindingProfile(
+			consumes = "application/json;charset=UTF-8",
+			produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public BaseResult<Person>  bindingProfile(
 			@RequestBody Person person, 
 			@ModelAttribute("personId") String personId) {
 		person.setPersonId(personId);
 		anonymousUserService.bindingProfile(person);
 		LOG.info("invoke----------/updateProfile" + 
     			"by " + personId);
-		ModelAndView mv = new ModelAndView("update_success");
-    	mv.addObject("update_type_name", "profile");
-		return mv;
+		//ModelAndView mv = new ModelAndView("update_success");
+    	//mv.addObject("update_type_name", "profile");
+		BaseResult<Person> result = new BaseResult<Person>(true, person);
+		return result;
 		
 	}
 	
@@ -152,7 +155,7 @@ public class AnonymousUserController extends BaseController{
 			params = "submitFlag=query",
 			produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public List<Reply> getTopicReplyList(
+	public BaseResult<List<Reply>> getTopicReplyList(
 			@PathVariable int topicId,
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit,
@@ -161,7 +164,8 @@ public class AnonymousUserController extends BaseController{
 		List<Reply> replyList = topicService.getTopicReplyList(topicId, offset, limit);
 		LOG.info("invoke----------/getTopicReplyList" + 
     			"by " + personId);
-		return replyList;
+		BaseResult<List<Reply>> result = new BaseResult<List<Reply>>(true, replyList);
+		return result;
 		
 	}
 }

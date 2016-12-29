@@ -121,8 +121,11 @@ public class NormalUserController extends BaseController{
 	}
 
 	@PostMapping(value = "/reply", params = "submitFlag=create", consumes = "application/json;charset=UTF-8")
-	public ModelAndView createReply(@RequestBody Reply reply, BindingResult result,
+	public ModelAndView createReply(@RequestBody Reply reply,
 			@ModelAttribute("personId") String personId) {
+		
+		reply.setPerson(new Person(personId));
+		
 		normalUserService.createReply(reply);
 		LOG.info("invoke----------/createReply" + "by" + personId);
 		ModelAndView mv = new ModelAndView("create_success");

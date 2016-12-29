@@ -160,18 +160,17 @@ $(function(){
 				type:'POST',
 				dataType:'json',
 				contentType:'application/json',
-				url: getRuquestUrl('anonymous', 'profile', 'update'),
+				url: getRequestUrl('anonymous', 'profile', 'update', null, null),
+				async:false,
 				data:JSON.stringify(person),
 				success:function(data){
-//					if(data != null){
-//						window.location.href='../index'
-//					}else{
-//						alert("信息绑定失败");
-//					}
-					alert(data.update_type_name);
+					if(data.success) {
+						window.location.href='#';
+					}
 				},
-				error:function(jqHXR){
-					alert("信息绑定失败");
+				error:function(textStatus, errorThrown){
+					alert("系统ajax交互错误: " + textStatus);
+					window.location.href='#'
 				}
 			});
 		}
