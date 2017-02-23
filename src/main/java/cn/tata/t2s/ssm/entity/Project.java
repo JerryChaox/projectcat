@@ -1,24 +1,34 @@
 package cn.tata.t2s.ssm.entity;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
+@Entity
 public class Project {
-	private int projectId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long projectId;
+	@ManyToOne
 	private Person person;
-	private List<Person> personList;
-	private List<Enroll> enrollList;
 	private String projectName;
 	private String projectAbstract;
-	private String[] figurePath;
 	private String area;
 	private String school;
 	private String academy;
@@ -26,35 +36,48 @@ public class Project {
 	private String major;
 	private String requirement;
 	private String managerIntro;
-	private State state;
 	private int maxEnrollCount;
 	private int enrolledCount;
+	
+	@OneToOne
+	private State state;
+	
+	@ElementCollection(fetch = FetchType.LAZY, targetClass = String.class)
+	@CollectionTable
+	private List<String> figurePath;
+	
+	// @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	// private List<Person> personList;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<Enroll> enrollList;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date startingTime;
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date deadline;
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date createTime;
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date updateTime;
-	
+
 	private boolean onDelete;
-	
-	public Project() {}
-	
-	public Project(int projectId) {
+
+	public Project() {
+	}
+
+	public Project(long projectId) {
 		this.projectId = projectId;
 	}
-	
-	
-	public int getProjectId() {
+
+	public long getProjectId() {
 		return projectId;
 	}
 
@@ -70,13 +93,13 @@ public class Project {
 		this.person = person;
 	}
 
-	public List<Person> getPersonList() {
-		return personList;
-	}
-
-	public void setPersonList(List<Person> personList) {
-		this.personList = personList;
-	}
+	// public List<Person> getPersonList() {
+	// return personList;
+	// }
+	//
+	// public void setPersonList(List<Person> personList) {
+	// this.personList = personList;
+	// }
 
 	public List<Enroll> getEnrollList() {
 		return enrollList;
@@ -100,19 +123,6 @@ public class Project {
 
 	public void setProjectAbstract(String projectAbstract) {
 		this.projectAbstract = projectAbstract;
-	}
-
-	public String getFigurePath() {
-		String figurePath = StringUtils.join(this.figurePath, ',');
-		return figurePath;
-	}
-
-	public void setFigurePath(String figurePath) {
-		if(figurePath == null) {
-			this.figurePath = null;
-		} else {
-			this.figurePath = StringUtils.split(figurePath, ',');
-		}	
 	}
 
 	public String getArea() {
@@ -195,6 +205,14 @@ public class Project {
 		this.enrolledCount = enrolledCount;
 	}
 
+	public List<String> getFigurePath() {
+		return figurePath;
+	}
+
+	public void setFigurePath(List<String> figurePath) {
+		this.figurePath = figurePath;
+	}
+
 	public Date getStartingTime() {
 		return startingTime;
 	}
@@ -237,21 +255,33 @@ public class Project {
 
 	@Override
 	public String toString() {
-		return String.format(
-				"Project  [\n\tprojectId=%s;\n\tperson=%s;\n\tpersonList=%s;\n\tenrollList=%s;\n\tprojectName=%s;\n\tprojectAbstract=%s;\n\tfigurePath=%s;\n\tarea=%s;\n\tschool=%s;\n\tacademy=%s;\n\tbackground=%s;\n\tmajor=%s;\n\trequirement=%s;\n\tmanagerIntro=%s;\n\tstate=%s;\n\tmaxEnrollCount=%s;\n\tenrolledCount=%s;\n\tstartingTime=%s;\n\tdeadline=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
-				projectId, person, personList, enrollList, projectName, projectAbstract, Arrays.toString(figurePath),
-				area, school, academy, background, major, requirement, managerIntro, state, maxEnrollCount,
-				enrolledCount, startingTime, deadline, createTime, updateTime, onDelete);
+		return "Project [projectId=" + projectId + ", person=" + person + ", projectName=" + projectName
+				+ ", projectAbstract=" + projectAbstract + ", area=" + area + ", school=" + school + ", academy="
+				+ academy + ", background=" + background + ", major=" + major + ", requirement=" + requirement
+				+ ", managerIntro=" + managerIntro + ", state=" + state + ", maxEnrollCount=" + maxEnrollCount
+				+ ", enrolledCount=" + enrolledCount + ", figurePath=" + figurePath + ", enrollList=" + enrollList
+				+ ", startingTime=" + startingTime + ", deadline=" + deadline + ", createTime=" + createTime
+				+ ", updateTime=" + updateTime + ", onDelete=" + onDelete + "]";
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + projectId;
+		result = prime * result + (int) (projectId ^ (projectId >>> 32));
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -264,6 +294,6 @@ public class Project {
 		if (projectId != other.projectId)
 			return false;
 		return true;
-	}	
+	}
 
 }

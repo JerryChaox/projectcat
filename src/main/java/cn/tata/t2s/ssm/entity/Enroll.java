@@ -2,16 +2,29 @@ package cn.tata.t2s.ssm.entity;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
- 
-public class Enroll{
-	private int enrollId;
+
+@Entity
+public class Enroll {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long enrollId;
+	@ManyToOne
 	private Person person;
+	@ManyToOne
 	private Project project;
 	private String resume;
+	@OneToOne
 	private State state;
 
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
@@ -23,12 +36,12 @@ public class Enroll{
 	private Date updateTime;
 
 	private boolean onDelete;
-	
-	public int getEnrollId() {
+
+	public long getEnrollId() {
 		return enrollId;
 	}
 
-	public void setEnrollId(int enrollId) {
+	public void setEnrollId(long enrollId) {
 		this.enrollId = enrollId;
 	}
 
@@ -95,10 +108,35 @@ public class Enroll{
 				enrollId, person, project, resume, state, createTime, updateTime, onDelete);
 	}
 
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (enrollId ^ (enrollId >>> 32));
+		return result;
+	}
 
-	
-
-	
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Enroll other = (Enroll) obj;
+		if (enrollId != other.enrollId)
+			return false;
+		return true;
+	}
 }

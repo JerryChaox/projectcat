@@ -70,7 +70,7 @@ public class TeacherServiceImpl implements TeacherService {
 			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
 		}
 
-		int projectId = project.getProjectId();
+		long projectId = project.getProjectId();
 		Integer projectStateTypeId = managerService.getStateTypeIdByStateName("validating", "project");
 		Assert.notNull(projectStateTypeId, "cannot find id for validating");
 		int second_result = projectDao.insertProjectState(projectId, projectStateTypeId);
@@ -96,7 +96,7 @@ public class TeacherServiceImpl implements TeacherService {
 			throw new BizException(ResultEnum.PROJECT_UPDATE_ERROR.getMsg());
 		}
 
-		Integer projectId = project.getProjectId();
+		Long projectId = project.getProjectId();
 		Assert.notNull(projectId, "projectId is required");
 		int result = projectDao.updateProjectBasicInfo(project);
 		if (result <= 0) {

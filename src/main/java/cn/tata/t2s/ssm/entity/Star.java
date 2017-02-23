@@ -2,15 +2,38 @@ package cn.tata.t2s.ssm.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Any;
+import org.hibernate.annotations.AnyMetaDef;
+import org.hibernate.annotations.MetaValue;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
+@Entity
 public class Star<T> {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long starId;
+	@ManyToOne
 	private Person person;
+
+	@Any(metaColumn = @Column(name = "starObjectClass"))
+	@AnyMetaDef(idType = "long", metaType = "string", metaValues = {
+			@MetaValue(targetEntity = Project.class, value = "Project"),
+			@MetaValue(targetEntity = Topic.class, value = "Topic") })
+	@JoinColumn(name = "starObjectId")
 	private T starObject;
+
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date createTime;
@@ -89,7 +112,4 @@ public class Star<T> {
 				starId, person, starObject, createTime, updateTime, onDelete);
 	}
 
-	
-
-	
 }

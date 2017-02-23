@@ -39,7 +39,7 @@ public class StudentServiceImpl implements StudentService {
 	public void enrollProject(Enroll enroll) {
 		int result = enrolldao.insertEnroll(enroll);
 		String personId = enroll.getPerson().getPersonId();
-		int projectId = enroll.getProject().getProjectId();
+		long projectId = enroll.getProject().getProjectId();
 		if (result <= 0) {
 			// 报名失败 有可能已经报名
 			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());

@@ -3,24 +3,42 @@ package cn.tata.t2s.ssm.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
+@Entity
 public class Topic {
-	private int topicId;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long topicId;
 	//private int classId;
 	private String className;
 	private String title;
 	private String body;
-	private Person person;
 	private long hits;
 	private long replyCount;
 	private long likeCount;
 	private String replyBy;
+	
+	@ManyToOne
+	private Person person;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Reply> replyList;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<State> topicStateList;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date createTime;
@@ -35,11 +53,11 @@ public class Topic {
 		this.topicId = topicId;
 	}
 	
-	public int getTopicId() {
+	public long getTopicId() {
 		return topicId;
 	}
 
-	public void setTopicId(int topicId) {
+	public void setTopicId(long topicId) {
 		this.topicId = topicId;
 	}
 
@@ -164,14 +182,20 @@ public class Topic {
 				createTime, updateTime, onDelete);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + topicId;
+		result = prime * result + (int) (topicId ^ (topicId >>> 32));
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -185,5 +209,4 @@ public class Topic {
 			return false;
 		return true;
 	}
-
 }

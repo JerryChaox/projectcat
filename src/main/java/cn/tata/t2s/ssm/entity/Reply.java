@@ -2,18 +2,30 @@ package cn.tata.t2s.ssm.entity;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
+@Entity
 public class Reply {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long replyId;
-	private int topicId;
+	@ManyToOne
+	private Topic topic;
 	private String title;
 	private String replyBody;
 	private long likeCount;
+	@ManyToOne
 	private Person person;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date createTime;
@@ -30,12 +42,12 @@ public class Reply {
 		this.replyId = replyId;
 	}
 
-	public int getTopicId() {
-		return topicId;
+	public Topic getTopic() {
+		return topic;
 	}
 
-	public void setTopicId(int topicId) {
-		this.topicId = topicId;
+	public void setTopic(Topic topic) {
+		this.topic = topic;
 	}
 
 	public String getTitle() {
@@ -93,14 +105,17 @@ public class Reply {
 	public void setOnDelete(boolean onDelete) {
 		this.onDelete = onDelete;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return String.format(
-				"Reply  [\n\treplyId=%s;\n\ttopicId=%s;\n\ttitle=%s;\n\treplyBody=%s;\n\tlikeCount=%s;\n\tperson=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
-				replyId, topicId, title, replyBody, likeCount, person, createTime, updateTime, onDelete);
+		return "Reply [replyId=" + replyId + ", topic=" + topic + ", title=" + title + ", replyBody=" + replyBody
+				+ ", likeCount=" + likeCount + ", person=" + person + ", createTime=" + createTime + ", updateTime="
+				+ updateTime + ", onDelete=" + onDelete + "]";
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

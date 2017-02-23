@@ -89,7 +89,7 @@ public interface ProjectDao {
 	 * @param projectId 项目唯一标识
 	 * @param projectStateTypeId 状态类型标识
 	 */
-	public int insertProjectState(@Param("projectId") int projectId, @Param("projectStateTypeId") int projectStateTypeId);
+	public int insertProjectState(@Param("projectId") long projectId, @Param("projectStateTypeId") int projectStateTypeId);
 	
 	/**
 	 * 修改项目资料
@@ -107,11 +107,11 @@ public interface ProjectDao {
 		
 	/**
 	 * 改变项目状态
-	 * @param projectId 项目唯一标识
+	 * @param l 项目唯一标识
 	 * @param projectStateTypeId 状态类型标识
 	 * @return 执行结果
 	 */
-	public int updateProjectStateById(@Param("projectId") int projectId, @Param("projectStateTypeId") int projectStateTypeId);
+	public int updateProjectStateById(@Param("projectId") long l, @Param("projectStateTypeId") int projectStateTypeId);
 	
 	/**
 	 * 逻辑删除项目当前状态信息

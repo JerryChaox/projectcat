@@ -1,17 +1,28 @@
 package cn.tata.t2s.ssm.entity;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
+@Entity
 public class Person {
+	@Id
 	protected String personId;
 	protected String name;
 	protected String nickName;
@@ -20,19 +31,37 @@ public class Person {
 	protected String school;
 	protected String academy;
 	protected String headUrl;
-	protected String[] major;
 	protected String selfIntroduction;
 	protected String defaultResume;
 	protected String grade;
 	protected String profession;
 	protected String pType;
+	@ElementCollection(fetch = FetchType.LAZY, 
+			targetClass = String.class) 
+	@CollectionTable 
+	protected List<String> major;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Project> projectList;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Enroll> enrollList;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Topic> topicList;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Reply> replyList;
+	
+	@OneToMany(targetEntity=Project.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Star<Project>> projectStarList;
+	
+	@OneToMany(targetEntity=Topic.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Star<Topic>> topicStarList;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Person> followList;
+	
 	protected boolean onDelete;
 	// 这里展示了jackson封装好的以及自定义的对时间格式的转换方式
 	// 后续对于一些复杂的转换可以自定义转换方式
@@ -47,7 +76,7 @@ public class Person {
 	public Person() {
 
 	}
-	
+
 	public Person(String personId) {
 		this.personId = personId;
 	}
@@ -116,20 +145,6 @@ public class Person {
 		this.headUrl = headUrl;
 	}
 
-	public String getMajor() {
-		String major = StringUtils.join(this.major, ',');
-		return major;
-	}
-
-	public void setMajor(String major) {
-		if(major == null) {
-			this.major = null;
-		} else {
-			this.major = StringUtils.split(major, ',');
-		}
-		
-	}
-	
 	public String getGrade() {
 		return grade;
 	}
@@ -168,6 +183,14 @@ public class Person {
 
 	public void setpType(String pType) {
 		this.pType = pType;
+	}
+
+	public List<String> getMajor() {
+		return major;
+	}
+
+	public void setMajor(List<String> major) {
+		this.major = major;
 	}
 
 	public Date getCreateTime() {
@@ -252,11 +275,14 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return String.format(
-				"Person  [\n\tpersonId=%s;\n\tname=%s;\n\tnickName=%s;\n\tphoneNumber=%s;\n\tmail=%s;\n\tschool=%s;\n\tacademy=%s;\n\theadUrl=%s;\n\tmajor=%s;\n\tselfIntroduction=%s;\n\tdefaultResume=%s;\n\tgrade=%s;\n\tprofession=%s;\n\tpType=%s;\n\tprojectList=%s;\n\tenrollList=%s;\n\ttopicList=%s;\n\treplyList=%s;\n\tprojectStarList=%s;\n\ttopicStarList=%s;\n\tfollowList=%s;\n\tonDelete=%s;\n\tcreateTime=%s;\n\tupdateTime=%s\n]",
-				personId, name, nickName, phoneNumber, mail, school, academy, headUrl, Arrays.toString(major),
-				selfIntroduction, defaultResume, grade, profession, pType, projectList, enrollList, topicList,
-				replyList, projectStarList, topicStarList, followList, onDelete, createTime, updateTime);
+		return "Person [personId=" + personId + ", name=" + name + ", nickName=" + nickName + ", phoneNumber="
+				+ phoneNumber + ", mail=" + mail + ", school=" + school + ", academy=" + academy + ", headUrl="
+				+ headUrl + ", selfIntroduction=" + selfIntroduction + ", defaultResume=" + defaultResume + ", grade="
+				+ grade + ", profession=" + profession + ", pType=" + pType + ", major=" + major + ", projectList="
+				+ projectList + ", enrollList=" + enrollList + ", topicList=" + topicList + ", replyList=" + replyList
+				+ ", projectStarList=" + projectStarList + ", topicStarList=" + topicStarList + ", followList="
+				+ followList + ", onDelete=" + onDelete + ", createTime=" + createTime + ", updateTime=" + updateTime
+				+ "]";
 	}
 
 	@Override
