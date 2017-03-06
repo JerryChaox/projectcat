@@ -8,12 +8,10 @@ import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
-
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -273,16 +271,16 @@ public class Person {
 		this.onDelete = onDelete;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "Person [personId=" + personId + ", name=" + name + ", nickName=" + nickName + ", phoneNumber="
-				+ phoneNumber + ", mail=" + mail + ", school=" + school + ", academy=" + academy + ", headUrl="
-				+ headUrl + ", selfIntroduction=" + selfIntroduction + ", defaultResume=" + defaultResume + ", grade="
-				+ grade + ", profession=" + profession + ", pType=" + pType + ", major=" + major + ", projectList="
-				+ projectList + ", enrollList=" + enrollList + ", topicList=" + topicList + ", replyList=" + replyList
-				+ ", projectStarList=" + projectStarList + ", topicStarList=" + topicStarList + ", followList="
-				+ followList + ", onDelete=" + onDelete + ", createTime=" + createTime + ", updateTime=" + updateTime
-				+ "]";
+		return String.format(
+				"Person [personId=%s, name=%s, nickName=%s, phoneNumber=%s, mail=%s, school=%s, academy=%s, headUrl=%s, selfIntroduction=%s, defaultResume=%s, grade=%s, profession=%s, pType=%s, major=%s, projectList=%s, enrollList=%s, topicList=%s, replyList=%s, projectStarList=%s, topicStarList=%s, followList=%s, onDelete=%s, createTime=%s, updateTime=%s]",
+				personId, name, nickName, phoneNumber, mail, school, academy, headUrl, selfIntroduction, defaultResume,
+				grade, profession, pType, major, projectList, enrollList, topicList, replyList, projectStarList,
+				topicStarList, followList, onDelete, createTime, updateTime);
 	}
 
 	@Override

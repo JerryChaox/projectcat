@@ -8,7 +8,7 @@
 
 
 	<!--配置整合hibernate过程 -->
-	<context:component-scan base-package="cn.tata.t2s.ssm.dao" />
+	<context:component-scan base-package="cn.tata.t2s.ssm.dao.impl" />
 	<!--1、配置数据库相关参数 -->
 	<context:property-placeholder location="classpath:jdbc.properties"
 		ignore-unresolvable="true" />
@@ -50,7 +50,7 @@
 	<bean id="AcmeCorpPhysicalNamingStrategy" class="cn.tata.t2s.ssm.util.AcmeCorpPhysicalNamingStrategy" />
 
 	<!-- 配置hibernate EntityManagerFactory -->
-	<bean id="EntityManagerFactory"
+	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<!-- 数据库源 -->
 		<property name="dataSource" ref="dataSource" />
@@ -63,7 +63,7 @@
 			<props>
 				<prop key="hibernate.physical_naming_strategy">cn.tata.t2s.ssm.util.AcmeCorpPhysicalNamingStrategy</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hiberante.format_sql">true</prop>
 			</props>
@@ -76,4 +76,13 @@
 		<property name="generateDdl" value="true" />
 		<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
 	</bean>
+	
+	<!--配置事务管理器-->
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    	<property name="entityManagerFactory" ref="entityManagerFactory"/>
+    	<property name="persistenceUnitName" value="t2sPersistanceUnit" />
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    
 </beans>

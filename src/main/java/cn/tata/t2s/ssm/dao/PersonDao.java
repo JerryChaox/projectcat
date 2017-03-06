@@ -20,7 +20,7 @@ public interface PersonDao {
 	public String selectpTypeById(String personId);
 
 	/**
-	 * 根据id查询个人资料
+	 * select the personal profile by personId
 	 * 
 	 * @param 用户唯一id
 	 * @return 资料所需字段信息
@@ -45,7 +45,12 @@ public interface PersonDao {
 			@Param("offset") int offset,
 			@Param("limit") int limit);
 	
-	
+	/**
+	 * 
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
 	public List<ProjectApplication> selectProjectApplication(int offset, int limit);
 	
 	/**

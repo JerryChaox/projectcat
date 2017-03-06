@@ -1,25 +1,34 @@
 package cn.tata.t2s.ssm;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.hibernate.Session;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.entity.Person;
-import cn.tata.t2s.ssm.entity.Student;
-import cn.tata.t2s.ssm.entity.Teacher;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring/spring-dao.xml")
+@ContextConfiguration({"classpath:spring/spring-dao.xml"})
+@Transactional(transactionManager = "txManager")
 public class PersonDaoTest {
+	@PersistenceContext
+	private EntityManager em;
 	@Autowired
 	private PersonDao personDao;
-	
+	@Before
+	public void init() {
+		Session session = em.unwrap(org.hibernate.Session.class);
+	}
+
 	
 	@Test
 	public void selectpTypeById() {
@@ -33,8 +42,6 @@ public class PersonDaoTest {
 		//Student student = (Student)personDao.selectProfileById("2");
 		//Teacher teacher = (Teacher)personDao.selectProfileById("3");
 		System.out.println(person);
-		System.out.println(personDao.selectProfileById("2").getClass().getName());
-		System.out.println(personDao.selectProfileById("3").getClass().getName());
 	}
 	
 	@Test
@@ -52,26 +59,6 @@ public class PersonDaoTest {
 	
 	@Test
 	public void saveProfile() {
-//		Map<String, Object> paramMap = new HashMap<String, Object>();
-//		paramMap.put("nickName", "tata");
-//		paramMap.put("personId", "4");
-//		paramMap.put("phoneNumber", "18588557892");
-//		//paramMap.put("pType", "s");
-//		paramMap.put("pType", "t");
-//		paramMap.put("school", "GDUT");
-//		paramMap.put("academy", "cn");
-//		//paramMap.put("grade", "2015");
-//		paramMap.put("major", "计算机, 数学");\
-		Student person = new Student();
-		person.setPersonId("1");
-		person.setNickName("goooboy");
-		System.out.println(personDao.saveProfile(person));
-		System.out.println(personDao.selectProfileById("1"));
-//		Teacher person = new Teacher();
-//		person.setPersonId("4");
-//		person.setNickName("oop");
-//		person.setpType("Student");
-//		System.out.println(personDao.saveProfile(person));
 	}
 
 }
