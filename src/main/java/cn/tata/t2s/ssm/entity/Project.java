@@ -39,15 +39,15 @@ public class Project {
 	private int maxEnrollCount;
 	private int enrolledCount;
 	
-	@OneToOne
-	private State state;
-	
 	@ElementCollection(fetch = FetchType.LAZY, targetClass = String.class)
 	@CollectionTable
 	private List<String> figurePath;
 	
-	// @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	// private List<Person> personList;
+	@OneToOne
+	private State state;
+	
+	@OneToOne
+	private ProjectApplication projectApplication;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Enroll> enrollList;
@@ -81,7 +81,7 @@ public class Project {
 		return projectId;
 	}
 
-	public void setProjectId(int projectId) {
+	public void setProjectId(long projectId) {
 		this.projectId = projectId;
 	}
 
@@ -189,6 +189,20 @@ public class Project {
 		this.state = state;
 	}
 
+	/**
+	 * @return the projectApplication
+	 */
+	public ProjectApplication getProjectApplication() {
+		return projectApplication;
+	}
+
+	/**
+	 * @param projectApplication the projectApplication to set
+	 */
+	public void setProjectApplication(ProjectApplication projectApplication) {
+		this.projectApplication = projectApplication;
+	}
+
 	public int getMaxEnrollCount() {
 		return maxEnrollCount;
 	}
@@ -253,15 +267,19 @@ public class Project {
 		this.onDelete = onDelete;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Project [projectId=" + projectId + ", person=" + person + ", projectName=" + projectName
 				+ ", projectAbstract=" + projectAbstract + ", area=" + area + ", school=" + school + ", academy="
 				+ academy + ", background=" + background + ", major=" + major + ", requirement=" + requirement
-				+ ", managerIntro=" + managerIntro + ", state=" + state + ", maxEnrollCount=" + maxEnrollCount
-				+ ", enrolledCount=" + enrolledCount + ", figurePath=" + figurePath + ", enrollList=" + enrollList
-				+ ", startingTime=" + startingTime + ", deadline=" + deadline + ", createTime=" + createTime
-				+ ", updateTime=" + updateTime + ", onDelete=" + onDelete + "]";
+				+ ", managerIntro=" + managerIntro + ", maxEnrollCount=" + maxEnrollCount + ", enrolledCount="
+				+ enrolledCount + ", figurePath=" + figurePath + ", state=" + state + ", projectApplication="
+				+ projectApplication + ", enrollList=" + enrollList + ", startingTime=" + startingTime + ", deadline="
+				+ deadline + ", createTime=" + createTime + ", updateTime=" + updateTime + ", onDelete=" + onDelete
+				+ "]";
 	}
 
 	/*

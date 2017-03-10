@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +31,6 @@ import cn.tata.t2s.ssm.service.AnonymousUserService;
 import cn.tata.t2s.ssm.util.HttpDeal;
 
 @Controller
-@SessionAttributes("personId")
 public class BaseController {
 	private final static String appid = "wx55588b5b1cf20a27";
 	private final static String appsecret = "be6cd508ae4bbf0767d9fc25ced38fb0";
@@ -87,17 +88,5 @@ public class BaseController {
 		throw new BizException(ResultEnum.INNER_ERROR.getMsg());
 	}
 	
-	@GetMapping(value = "/index")
-	public ModelAndView backToIndex() {
-		
-		ModelAndView mv = new ModelAndView("index");
-		return mv;
-	}
 	
-	@GetMapping(value = "/")
-	public ModelAndView index() {
-//		System.out.println(request.getSession().getAttribute("personId"));
-		ModelAndView mv = new ModelAndView("index");
-		return mv;
-	}
 }

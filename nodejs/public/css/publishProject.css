@@ -1,0 +1,124 @@
+.publish{
+	padding:0.6em 1.5em;
+}
+
+.publish .item{
+	font-size: 1.6em;
+	font-weight: bold;
+	line-height: 1.8em;
+}
+
+.publish .item + textarea,.publish .item + input{
+	width: 100%;
+	margin-top: 0.5em;
+}
+
+textarea,input{
+	font-size: 14px;
+	color: #000;
+	padding:0.3em;
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+
+input{
+	border: 0;
+	border-bottom: 1px solid #999;
+}
+
+textarea{
+	resize:none;
+	line-height: 1.5em;
+	width: 100%;
+	border-radius: 5px;
+}
+
+.request{
+    margin-top: 0.3em;
+}
+
+input:focus{
+	border-bottom: 1px solid #0091f0;
+}
+
+textarea:focus{
+	border:1px solid #0091f0;
+}
+
+.publish div p{
+	width: 100%;
+	font-size: 1.4em;
+}
+
+.publish div p:first-child{
+	margin-top: 0.5em;
+}
+
+.publish .haha p span{
+	display: inline-block;
+	width: 20%;
+}
+
+.publish div p input{
+	width: 78%;
+	margin-bottom: 0.5em;
+}
+
+.publish form > p{
+	font-size: 1.4em;
+	margin-bottom: 0.3em;
+}
+
+.publish button{
+	background-color: #0091f0;
+    color: #fff;
+    padding: 0.5em 1em;
+    font-size: 1.6em;
+    margin: 1.3em auto;
+    border: 0;
+    display: block;
+    border-radius: 8px;
+}
+
+.publish .time{
+	margin-top: 1.5em;
+}
+
+.publish [type="button"] {
+    color: #0091f0;
+    border: 2px solid #0091f0;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 1.4em;
+    background-color: #fff;
+    margin-top: 0.5em;
+}
+
+.publish [type="file"] {
+    display: none;
+    margin-top: 0.5em;
+}
+
+.publish [type="date"]{
+	margin-bottom: 0.5em!important;
+}
+
+select option{
+	font-size: 1.4em;
+}
+
+.inter{
+	height:1.3em;
+	color: #999;
+	font-size: 1.2em;
+	opacity: 0;
+}
+
+.word{
+	color: #0091f0;
+}
+
+.paa{
+	padding-left:20%;
+}

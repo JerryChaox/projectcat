@@ -1,31 +1,34 @@
 package cn.tata.t2s.ssm.service.security;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.TextEscapeUtils;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
+import cn.tata.t2s.ssm.cache.RedisCache;
+import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.Project;
 import cn.tata.t2s.ssm.entity.WeChatOAuth2Token;
 import cn.tata.t2s.ssm.enums.ResultEnum;
 import cn.tata.t2s.ssm.exception.BizException;
@@ -40,6 +43,9 @@ import cn.tata.t2s.ssm.util.HttpDeal;
  * 
  */
 public class WeChatOpenIdAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+	@Autowired
+	private RedisCache cache;
+	
 	// ~ Static fields/initializers
 	// =====================================================================================
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -72,7 +78,7 @@ public class WeChatOpenIdAuthenticationFilter extends AbstractAuthenticationProc
 			throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
 		}
 		if(LOG.isDebugEnabled()) {
-			String personId = "1";
+			String personId = "1";			
 			HttpSession session = request.getSession();
 			session.setAttribute("personId", personId);
 			

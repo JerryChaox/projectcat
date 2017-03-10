@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -38,6 +39,9 @@ public class Person {
 			targetClass = String.class) 
 	@CollectionTable 
 	protected List<String> major;
+
+	@OneToOne
+	protected ProjectApplication projectApplication;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Project> projectList;
@@ -191,6 +195,20 @@ public class Person {
 		this.major = major;
 	}
 
+	/**
+	 * @return the projectApplication
+	 */
+	public ProjectApplication getProjectApplication() {
+		return projectApplication;
+	}
+
+	/**
+	 * @param projectApplication the projectApplication to set
+	 */
+	public void setProjectApplication(ProjectApplication projectApplication) {
+		this.projectApplication = projectApplication;
+	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -276,11 +294,14 @@ public class Person {
 	 */
 	@Override
 	public String toString() {
-		return String.format(
-				"Person [personId=%s, name=%s, nickName=%s, phoneNumber=%s, mail=%s, school=%s, academy=%s, headUrl=%s, selfIntroduction=%s, defaultResume=%s, grade=%s, profession=%s, pType=%s, major=%s, projectList=%s, enrollList=%s, topicList=%s, replyList=%s, projectStarList=%s, topicStarList=%s, followList=%s, onDelete=%s, createTime=%s, updateTime=%s]",
-				personId, name, nickName, phoneNumber, mail, school, academy, headUrl, selfIntroduction, defaultResume,
-				grade, profession, pType, major, projectList, enrollList, topicList, replyList, projectStarList,
-				topicStarList, followList, onDelete, createTime, updateTime);
+		return "Person [personId=" + personId + ", name=" + name + ", nickName=" + nickName + ", phoneNumber="
+				+ phoneNumber + ", mail=" + mail + ", school=" + school + ", academy=" + academy + ", headUrl="
+				+ headUrl + ", selfIntroduction=" + selfIntroduction + ", defaultResume=" + defaultResume + ", grade="
+				+ grade + ", profession=" + profession + ", pType=" + pType + ", major=" + major
+				+ ", projectApplication=" + projectApplication + ", projectList=" + projectList + ", enrollList="
+				+ enrollList + ", topicList=" + topicList + ", replyList=" + replyList + ", projectStarList="
+				+ projectStarList + ", topicStarList=" + topicStarList + ", followList=" + followList + ", onDelete="
+				+ onDelete + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
 	}
 
 	@Override

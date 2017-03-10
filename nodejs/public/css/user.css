@@ -1,0 +1,116 @@
+body{
+     background-color:#f1f1f1;  
+}
+.headed{
+    background-color:rgb(0,145,240);
+}
+.headed ul{
+    padding:4em 2em;
+}
+.headed ul li{
+    width:33.3%;
+    text-align: center;
+    float: left;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+}
+.headed ul li a{
+    color:#fff;
+    display:block;
+}
+.headed ul li a i{
+   font-size: 3em;
+}
+.headed ul li a span{
+    font-size: 1.4em;
+    line-height: 150%;
+    font-family:'Microsoft Yahei';
+    display: block;
+    width: 100%;
+}
+.headed ul li a:hover{
+    filter:alpha(opacity=70); 
+    -moz-opacity:0.7; 
+    opacity:0.7; 
+}
+.borderLR{
+    border-right: 1px solid rgb(144,180,203);
+    border-left: 1px solid rgb(144,180,203);
+}
+/*个人信息*/
+.portrait {
+    text-align:center;
+    padding-bottom:1em;
+    margin-top: -3em;
+ }
+.portrait img{
+    width:  8em;
+    border-radius: 50%;
+    border:1px solid #ddd;
+}
+ .portrait p {
+    font-size: 1.6em;
+    line-height: 140%;
+}
+
+.my-dynamic{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-bottom: 0.3em;
+}
+
+.dynamic .box{
+    padding:1em 1.5em;
+    border-bottom: 1px solid #ddd;
+    display: block;
+}
+
+.dynamic .box > img{
+    float: left;
+    width: 4em;
+    border:1px solid #eee;
+}
+
+.dynamic .box .detail{
+    float: left;
+    padding-left: 0.8em;
+    padding-top: 0.2em;
+    color: #000;
+}
+.dynamic .box .detail p{
+    font-size: 1.4em;
+    line-height: 1.62em;
+}
+.dynamic .box .detail .name{
+    color: #33475f;
+}
+.dynamic .box .detail .time{
+    color: #999;
+    font-size: 12px;
+}
+
+.dynamic .dynamic-detail{
+    float: right;
+    width: 5.2em;
+}
+
+.dynamic .detail p i{
+    color: #33475f;
+    font-size: 1.2em;
+}
+
+.dynamic .dynamic-detail img{
+    width: 100%;
+}
+
+.dynamic .dynamic-detail span{
+    display: block;
+    color: #000;
+    background-color: #999;
+    line-height: 1.4em;
+    padding:0.2em;
+    overflow: hidden;
+    width: 5.2em;
+    height: 5.2em;
+}

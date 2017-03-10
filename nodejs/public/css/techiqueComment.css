@@ -1,0 +1,13 @@
+.detail .reply a.comment{
+	margin-left: 0;
+}
+
+.detail p.reply{
+	padding-bottom: 0
+}
+
+.detail p em{
+	font-weight: normal;
+	font-style: italic;
+	color: #0091f0;
+}

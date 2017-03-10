@@ -41,7 +41,7 @@ public class AnonymousUserController extends BaseController{
     		produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Project getProjectByProjectId(
-    		@ModelAttribute("personId") String personId, 
+    		@PathVariable("personId") String personId, 
     		@RequestParam("projectId") int projectId) {
 		
 		Project project = projectService.getProjectByProjectId(projectId);
@@ -58,7 +58,7 @@ public class AnonymousUserController extends BaseController{
 			produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Topic getTopicByTopicId(
-			@ModelAttribute("personId") String personId, 
+			@PathVariable("personId") String personId, 
 			@RequestParam("topicId") int topicId) {
 		
 		Topic topic = topicService.getTopicByTopicId(topicId);
@@ -73,7 +73,7 @@ public class AnonymousUserController extends BaseController{
 	@GetMapping(value = "/project", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<Project> getAllProjectList(
-			@ModelAttribute("personId") String personId,
+			@PathVariable("personId") String personId,
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
 		List<Project> projectList = projectService.getAllProjectList(offset, limit);
@@ -85,7 +85,7 @@ public class AnonymousUserController extends BaseController{
 	@GetMapping(value = "/topic/{className}", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<Topic> getAllTopicList(
-			@ModelAttribute("personId") String personId,
+			@PathVariable("personId") String personId,
 			@PathVariable("className") String className,
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
@@ -105,7 +105,7 @@ public class AnonymousUserController extends BaseController{
 	@GetMapping(value = "/project", params = "submitFlag=dynamic_query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<Project> dynamicGetProjectList( 
-			@ModelAttribute("personId") String personId,
+			@PathVariable("personId") String personId,
 			@RequestParam("fluzzyName") String fluzzyName,
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
@@ -117,7 +117,7 @@ public class AnonymousUserController extends BaseController{
 	@GetMapping(value = "/topic/{className}", params = "submitFlag=dynamic_query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<Topic> dynamicGetTopicList( 
-			@ModelAttribute("personId") String personId,
+			@PathVariable("personId") String personId,
 			@PathVariable("className") String className,
 //			@RequestParam("school[]") String[] school,
 //			@RequestParam("academy[]") String[] academy,
@@ -139,7 +139,7 @@ public class AnonymousUserController extends BaseController{
 	@ResponseBody
 	public BaseResult<Person>  bindingProfile(
 			@RequestBody Person person, 
-			@ModelAttribute("personId") String personId) {
+			@PathVariable("personId") String personId) {
 		person.setPersonId(personId);
 		anonymousUserService.bindingProfile(person);
 		LOG.info("invoke----------/updateProfile" + 
@@ -159,7 +159,7 @@ public class AnonymousUserController extends BaseController{
 			@PathVariable int topicId,
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit,
-			@ModelAttribute("personId") String personId) {
+			@PathVariable("personId") String personId) {
 		
 		List<Reply> replyList = topicService.getTopicReplyList(topicId, offset, limit);
 		LOG.info("invoke----------/getTopicReplyList" + 

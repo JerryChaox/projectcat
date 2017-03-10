@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+ <head>
+    <meta charset="utf-8">
+    <title>个人详情</title>
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/nav.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/forumdetails.css" rel="stylesheet">
+    <link href="css/person.css" rel="stylesheet">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    {{{block ("head")}}}
+ </head>
+ <body>
+	<div class="header border-box">
+		<p>
+			<a href="javascript:;" onclick="javascript:history.back(-1);"><i class="icon-arrow-left"></i>返回</a>
+			个人详情
+		</p>
+	</div>
+	<div class="header-box">
+    </div>
+
+    <div id="person-data">
+    </div>
+        <div class="head container border-box">
+            <div>
+                <a href="#"><img class="border-box" src="image/{{headUrl}}"></a>
+        
+                    <p class="name">
+                        <a href="#">{{nickName}}</a>
+                        <a class="attention" href="#"><i class="icon-plus"></i>关注</a>
+                    </p>
+                    <p class="grade"><img src="../image/grade.png">{{grade}}</p>    
+
+                <div class="clear">
+                </div>
+            </div>
+
+            <div class="clear">
+            </div>
+        </div>
+
+        <!-- 他的基本信息 -->
+        <div>
+            <table>
+                <tr class="border-box honor">
+                    <td>头衔</td>
+                    <td>{{nickName}}</td>
+                </tr>
+
+                <tr class="border-box">
+                    <td>擅长领域</td>
+                    <td>{{major}}</td>
+                </tr>
+
+                <tr class="border-box">
+                    <td>学校</td>
+                    <td>{{school}}</td>
+                </tr>
+
+                <tr class="border-box">
+                    <td>学院</td>
+                    <td>{{academy}}</td>
+                </tr>
+            </table>
+        </div>
+    
+    
+
+    <script src="js/jq.js"></script>
+    <script src="js/top.js"></script>
+    <script src="js/doT.min.js"></script>
+    {{{block ("body")}}}
+ </body>
+</html>

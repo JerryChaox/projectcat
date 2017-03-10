@@ -1,0 +1,230 @@
+.discuss{
+	padding:1em 1.5em;
+	border-bottom: 1px solid #eee;
+	background-color: #fcfcfc;
+}
+
+div.publisher{
+	background-color: #fff;
+}
+
+.box img{
+	width: 12%;
+	border:1px solid #eee;
+	float: left;
+	border-radius: 3px;
+}
+
+.box .comment{
+	float: left;
+	width: 88%;
+	padding-left: 1em;
+	position: relative;
+}
+
+.box .comment .name{
+	font-size: 1.4em;
+	color: #333;
+	padding-bottom: 0.3em;
+	padding-top: 0.1em;
+	position: relative;
+}
+
+.box .comment .name span{
+	color: #fff;
+	background-color: #0091f0;
+	padding:0 0.3em;
+	margin-left: 0.5em;
+	font-size: 10px;
+	border-radius: 3px;
+	line-height: 1.4em;
+}
+
+.box .comment .name .reply{
+	position: absolute;
+	right: 0;
+	top: -0.4em;
+}
+
+.box .comment .reply-box{
+	position: absolute;
+	background-color: #0091f0;
+	padding:0.4em 0.6em;
+	border-radius: 3px;
+	right: 1.8em;
+	top: -0.8em;
+}
+
+.box .comment .reply-box a{
+	float: left;
+	color: #fff;
+	font-size: 1.2em;
+	padding:0.3em 1em;
+	background-color: #24a7fd;
+}
+
+.box .comment .reply-box a:first-child{
+	margin-right: 0.5em;
+}
+
+.box .comment .reply-box a i{
+	margin-right: 0.8em;
+}
+
+.box .comment .name .reply img{
+	width: 1.6em;
+	border:0;
+}
+
+.box .comment .time{
+	color: #999;
+	font-size: 1.2em;
+	line-height: 1.4em;
+}
+
+.publisher p.forum{
+	color: #000;
+	padding-top: 0.4em;
+	margin-left: 0;
+	padding-left: 0;
+	line-height: 1.8em;
+	font-size: 1.6em;
+	margin-left: 0;
+	padding-left: 0;
+	padding-top: 0.3em;
+}
+
+.discuss .forum{
+	margin-left: 12%;
+	padding-left: 1em;
+	padding-top: 0.3em;
+}
+
+.discuss .forum p{
+	line-height: 1.6em;
+	font-size: 1.4em;
+}
+
+/*回复*/
+.forum .discuss-box{
+	border-top: 1px dashed #eee;
+	padding:0.3em;
+	margin-top: 1em;
+}
+
+.forum .discuss-box p{
+	color: #333;
+	font-size: 1.4em;
+	line-height: 1.8em;
+}
+
+.forum .discuss-box .zan{
+	padding-bottom: 5px;
+	font-size: 14px;
+	padding-top: 0.3em;
+}
+
+.forum .discuss-box .zan span{
+	color: #216db5;
+}
+
+.forum .discuss-box .zan a{
+	color: #216db5;
+	font-size: 14px;
+}
+
+.forum .discuss-box p .people{
+	color: #216db5;
+}
+
+.forum .discuss-box p.more a{
+	color: #216db5;
+}
+
+.forum .discuss-box p.more a i{
+	margin-left: 0.3em;
+}
+
+.forum .discuss-box p .people .host{
+	color: #fff;
+	font-size: 1.2em;
+	background-color: #0091f0;
+    padding: 0 0.3em;
+    margin:0 0.3em;
+    font-size: 10px;
+    border-radius: 3px;
+    line-height: 1.4em;
+}
+
+.blank{
+	width: 100%;
+}
+
+.comment-box{
+	padding:0.8em;
+	background-color: rgba(241,241,241,.8);
+	position: fixed;
+	bottom:0;
+	width: 100%;
+}
+
+.comment-box form{
+	position: relative;
+}
+
+.comment-box form a{
+	float: left;
+	display: inline-block;
+	width: 28px;
+	line-height: 28px;
+	border-radius: 50%;
+	border:1px solid #ddd;
+	text-align: center;
+	background-color: #fff;
+	color: #0091f0;
+	position: absolute;
+	top:0;
+	margin-top: 0px;
+	font-size: 14px;
+} 
+
+.comment-box .textarea{
+	width: 80%;
+	float: left;
+	padding:0.3em 0.3em;
+	color: #999;
+	font-size: 1.4em;
+	line-height: 16px;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	text-align:left; 
+	background:#fff;
+	outline: 0; 
+	word-wrap: break-word;
+	overflow-x: hidden;
+	overflow-y: visible;
+	max-height: 75px;
+	display: block;
+	margin-top: 2px;
+}
+
+.comment-box [type="button"]{
+	width: 15%;
+	float: right;
+	color: #999;
+	border:1px solid #ddd;
+	border-radius: 3px;
+	background-color: #fff;
+	line-height: 26px;
+	position: absolute;
+	top: 50%;
+	margin-top: -13px;
+	right:0;
+	font-size: 1.4em;
+}
+
+.comment-box input.active{
+	background-color: #0091f0;
+	border: 1px solid #0091f0;
+	color: #fff;
+}

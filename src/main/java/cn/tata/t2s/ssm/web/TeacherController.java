@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +34,7 @@ public class TeacherController extends BaseController{
     		produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public List<Project> getSelfProjectList(
-    		@ModelAttribute("personId") String personId, 
+    		@RequestParam("personId") String personId, 
     		@RequestParam("stateName") String stateName, 
     		@RequestParam("offset") int offset,
     		@RequestParam("limit") int limit) {
@@ -52,7 +51,7 @@ public class TeacherController extends BaseController{
     		produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public List<Enroll> getProjectEnrollInfo(
-    		@ModelAttribute("personId") String personId, 
+    		@RequestParam("personId") String personId, 
     		@PathVariable int projectId, 
     		@RequestParam("offset") int offset,
     		@RequestParam("limit") int limit) {
@@ -70,7 +69,7 @@ public class TeacherController extends BaseController{
     		produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public Enroll getEnrollInfo(
-    		@ModelAttribute("personId") String personId, 
+    		@RequestParam("personId") String personId, 
     		@PathVariable("proejectId") int projectId, 
     		@PathVariable("enrollId") long enrollId) {
 		
@@ -88,7 +87,7 @@ public class TeacherController extends BaseController{
 	public ModelAndView createProject(
     		@RequestBody Project project, 
     		//BindingResult result),
-    		@ModelAttribute("personId") String personId) {
+    		@RequestParam("personId") String personId) {
     		
 		if(LOG.isDebugEnabled()) {
 			System.out.println(project);
@@ -133,7 +132,7 @@ public class TeacherController extends BaseController{
 	 @PostMapping(value = "/project/{projectId}/state", 
 	    		params = "submitFlag=update")
 	 public ModelAndView saveProjectState(
-			 @ModelAttribute("personId") String personId,
+			 @RequestParam("personId") String personId,
 			 @RequestParam("stateName") String sateName, 
 	    	 @PathVariable int projectId) {
 		 
@@ -150,7 +149,7 @@ public class TeacherController extends BaseController{
 	 @PostMapping(value = "/project/{projectId}/enroll", 
 	    		params = "submitFlag=update")
 	 public ModelAndView admitStudentEnroll(
-			 @ModelAttribute("personId") String personId,
+			 @RequestParam("personId") String personId,
 			 @PathVariable("projectId") int projectId,
 			 @RequestParam("enrolledPersonId") String enrolledPersonId) {
 		teacherService.admitStudentEnroll(personId, enrolledPersonId,projectId);
@@ -166,7 +165,7 @@ public class TeacherController extends BaseController{
 	 @PostMapping(value = "/project/{projectId}", 
 	    		params = "submitFlag=delete")
 	 public ModelAndView dropProject(
-			 @ModelAttribute("personId") String personId, 
+			 @RequestParam("personId") String personId, 
 	    	 @PathVariable int projectId) {
 		 
 		teacherService.dropProject(projectId, personId);

@@ -2,15 +2,25 @@ package cn.tata.t2s.ssm.entity;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
+@Entity
 public class ProjectApplication {
-
-	private int applicationId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long applicationId;
+	@OneToOne
 	private Person person;
+	@OneToOne
 	private Project project;
 	private String reason;
 	private String targetStateName;
@@ -24,11 +34,11 @@ public class ProjectApplication {
 	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date updateTime;
 
-	public int getApplicationId() {
+	public long getApplicationId() {
 		return applicationId;
 	}
 
-	public void setApplicationId(int applicationId) {
+	public void setApplicationId(long applicationId) {
 		this.applicationId = applicationId;
 	}
 

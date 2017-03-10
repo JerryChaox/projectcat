@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +34,7 @@ public class NormalUserController extends BaseController{
 	@ResponseBody
 	public <T extends Person> T getOtherProfile(
 			@RequestParam("othersId") String othersId,
-			@ModelAttribute("personId") String personId) {
+			@RequestParam("personId") String personId) {
 		T person = normalUserService.getOthersProfile(othersId);
 		LOG.info("invoke----------/getOtherProfile id= " + othersId + " by " + personId);
 		return person;
@@ -43,7 +42,7 @@ public class NormalUserController extends BaseController{
 	
 	@GetMapping(value = "/profile", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public <T extends Person> T getSelfProfile(@ModelAttribute("personId") String personId) {
+	public <T extends Person> T getSelfProfile(@RequestParam("personId") String personId) {
 		T person = normalUserService.getSelfProfile(personId);
 		LOG.info("invoke----------/getSelfProfile " + "by " + personId);
 		return person;
@@ -51,7 +50,7 @@ public class NormalUserController extends BaseController{
 
 	@GetMapping(value = "/topic", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public List<Topic> getSelfTopicList(@ModelAttribute("personId") String personId, @RequestParam("offset") int offset,
+	public List<Topic> getSelfTopicList(@RequestParam("personId") String personId, @RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
 		List<Topic> topicList = normalUserService.getSelfTopicList(personId, offset, limit);
 		LOG.info("invoke----------/getSelfTopicList" + "by" + personId);
@@ -61,7 +60,7 @@ public class NormalUserController extends BaseController{
 
 	@GetMapping(value = "/reply", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public List<Reply> getSelfReplyList(@ModelAttribute("personId") String personId, @RequestParam("offset") int offset,
+	public List<Reply> getSelfReplyList(@RequestParam("personId") String personId, @RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
 		List<Reply> replyList = normalUserService.getSelfReplyList(personId, offset, limit);
 		LOG.info("invoke----------/getSelfReplyList" + "by" + personId);
@@ -72,7 +71,7 @@ public class NormalUserController extends BaseController{
 	@GetMapping(value = "/star/topic", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public <T> List<Star<Topic>> getTopicStarList(
-			@ModelAttribute("personId") String personId, 
+			@RequestParam("personId") String personId, 
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
 		List<Star<Topic>> topicStarList = normalUserService.getTopicStarList(personId, offset, limit);
@@ -83,7 +82,7 @@ public class NormalUserController extends BaseController{
 	@GetMapping(value = "/star/news", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public <T> List<Star<Topic>> getNewsStarList(
-			@ModelAttribute("personId") String personId, 
+			@RequestParam("personId") String personId, 
 			@RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
 		List<Star<Topic>> topicStarList = normalUserService.getTopicStarList(personId, offset, limit);
@@ -93,7 +92,7 @@ public class NormalUserController extends BaseController{
 	
 	@GetMapping(value = "/follow", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public List<Person> getFollowingList(@ModelAttribute("personId") String personId, @RequestParam("offset") int offset,
+	public List<Person> getFollowingList(@RequestParam("personId") String personId, @RequestParam("offset") int offset,
 			@RequestParam("limit") int limit) {
 		List<Person> followingList = normalUserService.getFollowingList(personId, offset, limit);
 		LOG.info("invoke----------/getFollowingList" + "by" + personId);
@@ -102,7 +101,7 @@ public class NormalUserController extends BaseController{
 
 	@PostMapping(value = "/topic", params = "submitFlag=create", consumes = "application/json;charset=UTF-8")
 	public ModelAndView createTopic(@RequestBody Topic topic,
-			@ModelAttribute("personId") String personId) {
+			@RequestParam("personId") String personId) {
 		Person person = new Person();
 		person.setPersonId(personId);
 		topic.setPerson(person);
@@ -122,7 +121,7 @@ public class NormalUserController extends BaseController{
 
 	@PostMapping(value = "/reply", params = "submitFlag=create", consumes = "application/json;charset=UTF-8")
 	public ModelAndView createReply(@RequestBody Reply reply,
-			@ModelAttribute("personId") String personId) {
+			@RequestParam("personId") String personId) {
 		
 		reply.setPerson(new Person(personId));
 		
@@ -135,7 +134,7 @@ public class NormalUserController extends BaseController{
 	
 	@PostMapping(value="/star", params = "submitFlag=create")
 	public ModelAndView createStar(
-			@ModelAttribute("personId") String personId, 
+			@RequestParam("personId") String personId, 
 			@RequestParam("objectId") int objectId, 
 			@RequestParam("starClass") String starClass) {
 		normalUserService.star(personId, objectId, starClass);
@@ -147,7 +146,7 @@ public class NormalUserController extends BaseController{
 	
 	@PostMapping(value="/follow", params = "submitFlag=create")
 	public ModelAndView createfollow(
-			@ModelAttribute("personId") String personId, 
+			@RequestParam("personId") String personId, 
 			@RequestParam("followedId") String followedId) {
 		normalUserService.follow(followedId, personId);
 		LOG.info("invoke----------/createfollow" + "by" + personId);
@@ -158,7 +157,7 @@ public class NormalUserController extends BaseController{
 
 	@PostMapping(value = "/topic", params = "submitFlag=update", consumes = "application/json;charset=UTF-8")
 	public ModelAndView saveTopic(@RequestBody Topic topic, BindingResult result,
-			@ModelAttribute("personId") String personId) {
+			@RequestParam("personId") String personId) {
 		normalUserService.saveTopic(topic);
 		LOG.info("invoke----------/updateTopic" + "by" + personId);
 		ModelAndView mv = new ModelAndView("update_success");
@@ -169,7 +168,7 @@ public class NormalUserController extends BaseController{
 
 	@PostMapping(value = "/reply", params = "submitFlag=update", consumes = "application/json;charset=UTF-8")
 	public ModelAndView saveReply(@RequestBody Reply reply, BindingResult result,
-			@ModelAttribute("personId") String personId) {
+			@RequestParam("personId") String personId) {
 		normalUserService.saveReply(reply);
 		LOG.info("invoke----------/updateReply" + "by" + personId);
 		ModelAndView mv = new ModelAndView("update_success");
@@ -178,7 +177,7 @@ public class NormalUserController extends BaseController{
 	}
 
 	@PostMapping(value = "/topic", params = "submitFlag=delete")
-	public ModelAndView dropTopic(@RequestParam("topicId") int topicId, @ModelAttribute("personId") String personId) {
+	public ModelAndView dropTopic(@RequestParam("topicId") int topicId, @RequestParam("personId") String personId) {
 		normalUserService.dropTopic(topicId, personId);
 		LOG.info("invoke----------/dropTopic" + "by" + personId);
 		ModelAndView mv = new ModelAndView("delete_success");
@@ -188,7 +187,7 @@ public class NormalUserController extends BaseController{
 	}
 
 	@PostMapping(value = "/reply", params = "submitFlag=delete")
-	public ModelAndView dropReply(@RequestParam("topicId") long replyId, @ModelAttribute("personId") String personId) {
+	public ModelAndView dropReply(@RequestParam("topicId") long replyId, @RequestParam("personId") String personId) {
 		normalUserService.dropReply(replyId, personId);
 		LOG.info("invoke----------/dropReply" + "by" + personId);
 		ModelAndView mv = new ModelAndView("delete_success");
@@ -198,7 +197,7 @@ public class NormalUserController extends BaseController{
 	
 	@PostMapping(value="/star", params = "submitFlag=delete")
 	public ModelAndView unStar(
-			@ModelAttribute("personId") String personId, 
+			@RequestParam("personId") String personId, 
 			@RequestParam("starId") long starId,
 			@RequestParam("starClass") String starClass) {
 		normalUserService.unStar(starId, personId, starClass);
@@ -209,7 +208,7 @@ public class NormalUserController extends BaseController{
 	}
 	
 	@PostMapping(value="/follow", params = "submitFlag=delete")
-	public ModelAndView unfollow(@RequestParam("followedId") String followedId, @ModelAttribute("personId") String personId) {
+	public ModelAndView unfollow(@RequestParam("followedId") String followedId, @RequestParam("personId") String personId) {
 		normalUserService.follow(followedId, personId);
 		LOG.info("invoke----------/unfollow" + "by" + personId);
 		ModelAndView mv = new ModelAndView("delete_success");

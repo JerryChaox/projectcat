@@ -1,0 +1,22 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "connect-redis": "^3.2.0",
+    "express": "^4.15.2",
+    "express-http-proxy": "^0.11.0",
+    "express-session": "^1.15.1",
+    "modelproxy": "^0.4.3",
+    "modelproxy-promise": "^1.0.3",
+    "superagent": "^3.5.0",
+    "xtemplate": "^4.6.0",
+    "xtpl": "^3.3.0"
+  }
+}

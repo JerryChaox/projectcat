@@ -1,0 +1,26 @@
+div.discuss{
+	border-bottom: 0;
+	background-color: #fff;
+}
+
+.host{
+	color: #fff;
+    font-size: 1.2em;
+    background-color: #0091f0;
+    padding: 0 0.3em;
+    margin: 0 0.3em;
+    font-size: 10px;
+    border-radius: 3px;
+    line-height: 1.4em;
+}
+
+.discuss .forum {
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 1em;
+}
+
+.comment-box .textarea{
+    width: 73%!important;
+    float: right!important;
+}

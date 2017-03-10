@@ -1,0 +1,61 @@
+body{
+	background-color: #f1f1f1;
+	font-family: 微软雅黑;
+}
+
+a{
+	text-decoration: none;
+}
+
+.bg img.bgimg{
+	position:absolute;
+	width:100%;
+	top:0;
+	left:0;
+	z-index:-1;
+}
+
+.current{
+	background-color: #0092ed!important;
+}
+
+.slider img{
+	width:9em;
+}	
+
+.announce{
+	padding:1em 1.5em!important;
+	background-color: #fff;
+	margin-bottom: 0.5em;
+}
+
+.announce > img{
+	float: left;
+	width: 6em;
+	padding-right: 1em;
+	border-right: 1px solid #eee;
+}
+
+.announce #callboard{
+	width: 74.5%;
+	float: left;
+	padding-left: 1em;
+	padding-top: 0.5em;
+}
+
+.announce #callboard img{
+	margin-right: 0.3em;
+}
+
+/*公告栏滚动CSS*/ 
+#callboard { 
+	height:4em; 
+	line-height:2em; 
+	overflow:hidden; 
+	font-size:1.4em;
+	color: #000;
+}  
+
+.news{
+	background-color: #fff;
+}

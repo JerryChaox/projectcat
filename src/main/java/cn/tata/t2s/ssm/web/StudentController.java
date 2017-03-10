@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +32,7 @@ public class StudentController extends BaseController{
     		produces = "application/json;charset=UTF-8")
     @ResponseBody
 	public List<Enroll> getSelfEnrollInfo(
-			@ModelAttribute("personId") String personId, 
+			@RequestParam("personId") String personId, 
 			@RequestParam("offset") int offset,
     		@RequestParam("limit") int limit) {
 		List<Enroll> enrollList = studentService.getProjectEnrollInfo(personId, offset, limit);
