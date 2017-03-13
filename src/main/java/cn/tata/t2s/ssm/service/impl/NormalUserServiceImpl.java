@@ -37,13 +37,13 @@ public class NormalUserServiceImpl implements NormalUserService {
 
 	@Override
 	public <T extends Person> T getOthersProfile(String personId) {
-		T person = personDao.selectProfileById(personId);
+		T person = personDao.selectPerson(personId);
 		return person;
 	}
 	
 	@Override
 	public <T extends Person> T getSelfProfile(String personId) {
-		T person = personDao.selectProfileById(personId);
+		T person = personDao.selectPerson(personId);
 		return person;
 	}
 
@@ -85,7 +85,8 @@ public class NormalUserServiceImpl implements NormalUserService {
 
 	@Override
 	public List<Person> getFollowingList(String personId, int offset, int limit) {
-		return personDao.selectFollowing(personId, offset, limit);
+		return null;
+//		return personDao.selectFollowing(personId, offset, limit);
 	}
 
 	@Override

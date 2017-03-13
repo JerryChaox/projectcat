@@ -9,25 +9,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.Person_;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
 @Transactional(transactionManager = "txManager")
+@Rollback(false)
 public class PersonDaoTest {
 	@PersistenceContext
 	private EntityManager em;
 	@Autowired
 	private PersonDao personDao;
-	@Before
-	public void init() {
-		Session session = em.unwrap(org.hibernate.Session.class);
-	}
 
 	
 	@Test
@@ -38,10 +37,14 @@ public class PersonDaoTest {
 	
 	@Test
 	public void selectProfileById() {
-		Person person = personDao.selectProfileById("1");
-		//Student student = (Student)personDao.selectProfileById("2");
-		//Teacher teacher = (Teacher)personDao.selectProfileById("3");
-		System.out.println(person);
+		Person person = personDao.selectPerson("1");
+		System.out.println(person.getNickName());
+	}
+	
+	@Test
+	public void selectPerson() {
+		Person person = personDao.selectPerson("1", Person_.followList, Person_.projectList);
+		System.out.println(person.getProjectList().getClass().getName());
 	}
 	
 	@Test
@@ -50,9 +53,19 @@ public class PersonDaoTest {
 	}
 	
 	@Test
+	public void insertFollow() {
+		personDao.insertFollow("1", "20170312");
+	}
+	
+	@Test
+	public void removeFollow() {
+		personDao.setFollowOnDelete("1", "20170312");
+	}
+	
+	@Test
 	public void insertVistor() {
 		System.out.println("--------------------");
-		int result = personDao.insertVisitor("sadad54561");
+		int result = personDao.insertVisitor("20170312");
 		System.out.println(result);
 		System.out.println("--------------------");
 	}

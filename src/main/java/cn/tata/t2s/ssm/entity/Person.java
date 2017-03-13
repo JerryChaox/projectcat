@@ -2,6 +2,7 @@ package cn.tata.t2s.ssm.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -9,10 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.NamedAttributeNode;
-import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -34,17 +32,15 @@ public class Person {
 	protected String defaultResume;
 	protected String grade;
 	protected String profession;
-	protected String pType;
+	
+	protected String pType = this.getClass().getSimpleName();
 	@ElementCollection(fetch = FetchType.LAZY, 
 			targetClass = String.class) 
 	@CollectionTable 
 	protected List<String> major;
 
-	@OneToOne
-	protected ProjectApplication projectApplication;
-	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Project> projectList;
+	protected Set<Project> projectList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Enroll> enrollList;
@@ -62,11 +58,10 @@ public class Person {
 	protected List<Star<Topic>> topicStarList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Person> followList;
+	protected Set<Person> followList;
 	
-	protected boolean onDelete;
-	// 这里展示了jackson封装好的以及自定义的对时间格式的转换方式
-	// 后续对于一些复杂的转换可以自定义转换方式
+	protected boolean onDelete = false;
+	
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
 	protected Date createTime;
@@ -195,20 +190,6 @@ public class Person {
 		this.major = major;
 	}
 
-	/**
-	 * @return the projectApplication
-	 */
-	public ProjectApplication getProjectApplication() {
-		return projectApplication;
-	}
-
-	/**
-	 * @param projectApplication the projectApplication to set
-	 */
-	public void setProjectApplication(ProjectApplication projectApplication) {
-		this.projectApplication = projectApplication;
-	}
-
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -217,11 +198,11 @@ public class Person {
 		this.createTime = createTime;
 	}
 
-	public List<Project> getProjectList() {
+	public Set<Project> getProjectList() {
 		return projectList;
 	}
 
-	public void setProjectList(List<Project> projectList) {
+	public void setProjectList(Set<Project> projectList) {
 		this.projectList = projectList;
 	}
 
@@ -265,11 +246,11 @@ public class Person {
 		this.topicStarList = topicStarList;
 	}
 
-	public List<Person> getFollowList() {
+	public Set<Person> getFollowList() {
 		return followList;
 	}
 
-	public void setFollowList(List<Person> followList) {
+	public void setFollowList(Set<Person> followList) {
 		this.followList = followList;
 	}
 
@@ -294,14 +275,15 @@ public class Person {
 	 */
 	@Override
 	public String toString() {
-		return "Person [personId=" + personId + ", name=" + name + ", nickName=" + nickName + ", phoneNumber="
-				+ phoneNumber + ", mail=" + mail + ", school=" + school + ", academy=" + academy + ", headUrl="
-				+ headUrl + ", selfIntroduction=" + selfIntroduction + ", defaultResume=" + defaultResume + ", grade="
-				+ grade + ", profession=" + profession + ", pType=" + pType + ", major=" + major
-				+ ", projectApplication=" + projectApplication + ", projectList=" + projectList + ", enrollList="
-				+ enrollList + ", topicList=" + topicList + ", replyList=" + replyList + ", projectStarList="
-				+ projectStarList + ", topicStarList=" + topicStarList + ", followList=" + followList + ", onDelete="
-				+ onDelete + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+		return "Person [\n\tpersonId=" + personId + ", \n\tname=" + name + ", \n\tnickName=" + nickName
+				+ ", \n\tphoneNumber=" + phoneNumber + ", \n\tmail=" + mail + ", \n\tschool=" + school
+				+ ", \n\tacademy=" + academy + ", \n\theadUrl=" + headUrl + ", \n\tselfIntroduction=" + selfIntroduction
+				+ ", \n\tdefaultResume=" + defaultResume + ", \n\tgrade=" + grade + ", \n\tprofession=" + profession
+				+ ", \n\tpType=" + pType + ", \n\tmajor=" + major + ", \n\tprojectList=" + projectList
+				+ ", \n\tenrollList=" + enrollList + ", \n\ttopicList=" + topicList + ", \n\treplyList=" + replyList
+				+ ", \n\tprojectStarList=" + projectStarList + ", \n\ttopicStarList=" + topicStarList
+				+ ", \n\tfollowList=" + followList + ", \n\tonDelete=" + onDelete + ", \n\tcreateTime=" + createTime
+				+ ", \n\tupdateTime=" + updateTime + "\n]";
 	}
 
 	@Override

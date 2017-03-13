@@ -1,12 +1,13 @@
 package cn.tata.t2s.ssm.dao;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+
+import javax.persistence.metamodel.Attribute;
 
 import org.apache.ibatis.annotations.Param;
 
 import cn.tata.t2s.ssm.entity.Person;
-import cn.tata.t2s.ssm.entity.Project;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
 public interface PersonDao {
@@ -25,7 +26,7 @@ public interface PersonDao {
 	 * @param 用户唯一id
 	 * @return 资料所需字段信息
 	 */
-	public <T extends Person> T selectProfileById(String personId);
+	public <T extends Person> T selectPerson(String personId);
 
 //	/**
 //	 * 根据id查询已报名项目
@@ -35,12 +36,14 @@ public interface PersonDao {
 //	 */
 //	public List<Project> selectEnrollProjectId(String personId);
 	
+	public <T extends Person> T selectPerson(String personId, Attribute<T, ?>... attribute);
+	
 	/**
 	 * 
 	 * @param personId
 	 * @return
 	 */
-	public List<Person> selectFollowing(
+	public Set<Person> selectFollowing(
 			@Param("personId") String personId,
 			@Param("offset") int offset,
 			@Param("limit") int limit);

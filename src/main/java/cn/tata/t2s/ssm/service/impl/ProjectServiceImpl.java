@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
 			String personId,
 			String fluzzyName, int offset,
 			int limit) {
-		Person person = personDao.selectProfileById(personId);
+		Person person = personDao.selectPerson(personId);
 		return projectDao.dynamicSelectProject(person.getSchool(), person.getAcademy(), fluzzyName, offset, limit);
 	}
 }

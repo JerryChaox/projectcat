@@ -2,6 +2,7 @@ package cn.tata.t2s.ssm.dao.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -9,9 +10,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.entity.Person;
@@ -19,7 +20,6 @@ import cn.tata.t2s.ssm.entity.Person_;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
 @Repository
-@Transactional
 public class PersonDaoImpl implements PersonDao{
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -27,8 +27,8 @@ public class PersonDaoImpl implements PersonDao{
 	public void init() {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Person> criteria = builder.createQuery( Person.class );
-		Root<Person> root = criteria.from( Person.class );
-		criteria.where( builder.equal( root.get( Person_.name ), "John Doe" ) );
+		Root<Person> personRoot = criteria.from( Person.class );
+		criteria.where( builder.equal( personRoot.get( Person_.name ), "John Doe" ) );
 	}
 	
 	@Override
@@ -37,13 +37,28 @@ public class PersonDaoImpl implements PersonDao{
 	}
 
 	@Override
-	public <T extends Person> T selectProfileById(String personId) {
+	public <T extends Person> T selectPerson(String personId) {
 		T person =  (T) entityManager.find(Person.class,"1");
 		return person;
 	}
 
 	@Override
-	public List<Person> selectFollowing(String personId, int offset, int limit) {
+	public <T extends Person> T selectPerson(String personId, Attribute<T, ?>... attribute) {
+		EntityGraph<T> graph = (EntityGraph<T>) entityManager.createEntityGraph(Person.class);
+		graph.addAttributeNodes(attribute);
+
+		T person = (T) entityManager.find(
+				Person.class,
+				personId,
+			    Collections.singletonMap("javax.persistence.fetchgraph",graph)
+			);
+		
+		return person;
+	}
+	
+	
+	@Override
+	public Set<Person> selectFollowing(String personId, int offset, int limit) {
 		EntityGraph<Person> graph = entityManager.createEntityGraph(Person.class);
 		graph.addAttributeNodes(Person_.followList);
 		
@@ -58,20 +73,23 @@ public class PersonDaoImpl implements PersonDao{
 
 	@Override
 	public List<ProjectApplication> selectProjectApplication(int offset, int limit) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public int insertVisitor(String personId) {
-		// TODO Auto-generated method stub
-		return 0;
+		entityManager.persist(new Person(personId));
+		return 1;
 	}
 
 	@Override
 	public int insertFollow(String personId, String followedId) {
-		// TODO Auto-generated method stub
-		return 0;
+		Person person = entityManager.find(Person.class, personId);
+		Person following = entityManager.find(Person.class, followedId);
+		person.getFollowList().add(following);
+		//entityManager.merge(person);
+		return 1;
 	}
 
 	@Override
@@ -82,8 +100,9 @@ public class PersonDaoImpl implements PersonDao{
 
 	@Override
 	public int setFollowOnDelete(String personId, String followedId) {
-		// TODO Auto-generated method stub
-		return 0;
+		Person person = entityManager.find(Person.class, personId);
+		person.getFollowList().remove(new Person(followedId));
+		return 1;
 	}
 
 	@Override
@@ -94,8 +113,8 @@ public class PersonDaoImpl implements PersonDao{
 
 	@Override
 	public <T extends Person> int saveProfile(T person) {
-		// TODO Auto-generated method stub
-		return 0;
+		entityManager.merge(person);
+		return 1;
 	}
 
 	@Override
@@ -103,5 +122,7 @@ public class PersonDaoImpl implements PersonDao{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 
 }

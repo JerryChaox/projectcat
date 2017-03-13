@@ -57,7 +57,7 @@ public class TeacherServiceImpl implements TeacherService {
 		String personId = project.getPerson().getPersonId();
 		Assert.notNull(personId, "personId is required");
 		
-		Person person = personDao.selectProfileById(personId);
+		Person person = personDao.selectPerson(personId);
 		
 		if(project.getManagerIntro() == null) {
 			project.setManagerIntro(person.getDefaultResume());
