@@ -35,7 +35,7 @@ public class NormalUserController extends BaseController{
 	public <T extends Person> T getOtherProfile(
 			@RequestParam("othersId") String othersId,
 			@RequestParam("personId") String personId) {
-		T person = normalUserService.getOthersProfile(othersId);
+		T person = (T) normalUserService.getPerson(othersId);
 		LOG.info("invoke----------/getOtherProfile id= " + othersId + " by " + personId);
 		return person;
 	}

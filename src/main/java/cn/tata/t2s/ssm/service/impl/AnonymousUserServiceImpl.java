@@ -29,7 +29,7 @@ public class AnonymousUserServiceImpl implements AnonymousUserService{
 	@Override
 	public  void bindingProfile(Person person) {
 		String personId = person.getPersonId();
-		int result = personDao.saveProfile(person);
+		int result = personDao.savePerson(person);
 		if(result <= 0) {
 			//更新个人资料失败
 			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());

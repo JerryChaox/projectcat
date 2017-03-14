@@ -47,14 +47,14 @@ public class ReplyDaoTest {
 //		paramMap.put("title", "title2");
 //		paramMap.put("replyBody", "great score");
 //		paramMap.put("personId", "2");
-		Person person = new Person();
-		person.setPersonId("2");
-		Reply reply = new Reply();
-		reply.setTopicId(3);
-		reply.setTitle("123123");
-		reply.setPerson(person);
-		System.out.println(replyDao.insertReply(reply));
-		System.out.println(reply.getReplyId());
+//		Person person = new Person();
+//		person.setPersonId("2");
+//		Reply reply = new Reply();
+//		reply.setTopicId(3);
+//		reply.setTitle("123123");
+//		reply.setPerson(person);
+//		System.out.println(replyDao.insertReply(reply));
+//		System.out.println(reply.getReplyId());
 		
 	}
 	

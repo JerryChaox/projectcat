@@ -43,13 +43,8 @@ public class PersonDaoTest {
 	
 	@Test
 	public void selectPerson() {
-		Person person = personDao.selectPerson("1", Person_.followList, Person_.projectList);
-		System.out.println(person.getProjectList().getClass().getName());
-	}
-	
-	@Test
-	public void selectFollowing(){
-		System.out.println(personDao.selectFollowing("1",1,1));
+		Person person = personDao.select("1", Person.class, Person_.projectList);
+		System.out.println(person.getFollowList().size());
 	}
 	
 	@Test

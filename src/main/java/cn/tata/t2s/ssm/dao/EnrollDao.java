@@ -34,7 +34,7 @@ public interface EnrollDao {
 	public int insertEnroll(Enroll enroll);
 	
 	public int insertEnrollState(
-			@Param("enrollId") int enrollId,
+			@Param("enrollId") long l,
 			@Param("stateName") String stateName);
 	
 	public int updateEnrolledCount(int projectId);

@@ -9,7 +9,7 @@ import cn.tata.t2s.ssm.entity.Topic;
 
 public interface NormalUserService {
 
-	public <T extends Person> T getOthersProfile(String personId);
+	public Person getPerson(String personId);
 	
 	// 绑定了身份的用户
 	public <T extends Person> T getSelfProfile(String personId);

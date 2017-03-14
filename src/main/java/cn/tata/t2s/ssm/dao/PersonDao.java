@@ -1,7 +1,6 @@
 package cn.tata.t2s.ssm.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.metamodel.Attribute;
 
@@ -10,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
-public interface PersonDao {
+public interface PersonDao extends BaseDao{
 
 	/**
 	 * 通过id查询所属类别(用户,老师用户,学生用户)
@@ -26,7 +25,7 @@ public interface PersonDao {
 	 * @param 用户唯一id
 	 * @return 资料所需字段信息
 	 */
-	public <T extends Person> T selectPerson(String personId);
+	public Person selectPerson(String personId);
 
 //	/**
 //	 * 根据id查询已报名项目
@@ -36,17 +35,14 @@ public interface PersonDao {
 //	 */
 //	public List<Project> selectEnrollProjectId(String personId);
 	
-	public <T extends Person> T selectPerson(String personId, Attribute<T, ?>... attribute);
-	
 	/**
-	 * 
+	 * use entityGraph that is statisfied with any fetch strategy
+	 * @param <T>
 	 * @param personId
+	 * @param attribute
 	 * @return
 	 */
-	public Set<Person> selectFollowing(
-			@Param("personId") String personId,
-			@Param("offset") int offset,
-			@Param("limit") int limit);
+	public Person selectPerson(String personId,Attribute<Person, ?>... attribute);
 	
 	/**
 	 * 
@@ -61,7 +57,7 @@ public interface PersonDao {
 	 * @param personId
 	 * @return
 	 */
-	public int insertVisitor(@Param("personId") String personId);
+	public int insertVisitor(Person person);
 	
 	/**
 	 * 
@@ -105,7 +101,7 @@ public interface PersonDao {
 	 * 绑定和更新个人资料
 	 * 
 	 */
-	public <T extends Person> int saveProfile(T person);
+	public Person savePerson(Person person);
 	
 	/**
 	 * 业务删除person

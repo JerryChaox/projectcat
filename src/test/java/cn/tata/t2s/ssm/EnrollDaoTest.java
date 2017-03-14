@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cn.tata.t2s.ssm.dao.EnrollDao;
 import cn.tata.t2s.ssm.entity.Enroll;
 import cn.tata.t2s.ssm.entity.Project;
-import cn.tata.t2s.ssm.entity.Student;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring/spring-dao.xml")
@@ -49,15 +48,15 @@ public class EnrollDaoTest {
 	
 	@Test
 	public void insertEnroll() {
-		Enroll enroll = new Enroll();
-		Student person = new Student();
-		Project project = new Project();
-		project.setProjectId(1);
-		person.setPersonId("4");
-		enroll.setPerson(person);
-		enroll.setProject(project);
-		System.out.println(enrollDao.insertEnroll(enroll));
-		System.out.println(enrollDao.insertEnrollState(enroll.getEnrollId(), "admitted"));
+//		Enroll enroll = new Enroll();
+//		Student person = new Student();
+//		Project project = new Project();
+//		project.setProjectId(1);
+//		person.setPersonId("4");
+//		enroll.setPerson(person);
+//		enroll.setProject(project);
+//		System.out.println(enrollDao.insertEnroll(enroll));
+//		System.out.println(enrollDao.insertEnrollState(enroll.getEnrollId(), "admitted"));
 	}
 	
 	@Test

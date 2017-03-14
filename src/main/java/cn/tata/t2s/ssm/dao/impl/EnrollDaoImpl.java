@@ -55,7 +55,7 @@ public class EnrollDaoImpl implements EnrollDao {
 	}
 
 	@Override
-	public int insertEnrollState(int enrollId, String stateName) {
+	public int insertEnrollState(long enrollId, String stateName) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

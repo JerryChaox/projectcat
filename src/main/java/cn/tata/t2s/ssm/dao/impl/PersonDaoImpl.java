@@ -20,9 +20,7 @@ import cn.tata.t2s.ssm.entity.Person_;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
 @Repository
-public class PersonDaoImpl implements PersonDao{
-	@PersistenceContext
-	private EntityManager entityManager;
+public class PersonDaoImpl extends BaseDaoImpl implements PersonDao{
 	
 	public void init() {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -37,39 +35,16 @@ public class PersonDaoImpl implements PersonDao{
 	}
 
 	@Override
-	public <T extends Person> T selectPerson(String personId) {
-		T person =  (T) entityManager.find(Person.class,"1");
+	public Person selectPerson(String personId) {
+		Person person =  this.select(Person.class, personId);
 		return person;
 	}
 
 	@Override
-	public <T extends Person> T selectPerson(String personId, Attribute<T, ?>... attribute) {
-		EntityGraph<T> graph = (EntityGraph<T>) entityManager.createEntityGraph(Person.class);
-		graph.addAttributeNodes(attribute);
-
-		T person = (T) entityManager.find(
-				Person.class,
-				personId,
-			    Collections.singletonMap("javax.persistence.fetchgraph",graph)
-			);
-		
-		return person;
+	public Person selectPerson(String personId, Attribute<Person, ?>... attribute) {
+		return this.select(personId, Person.class, attribute);
 	}
-	
-	
-	@Override
-	public Set<Person> selectFollowing(String personId, int offset, int limit) {
-		EntityGraph<Person> graph = entityManager.createEntityGraph(Person.class);
-		graph.addAttributeNodes(Person_.followList);
-		
-		Person person = entityManager.find(
-				Person.class,
-				personId,
-			    Collections.singletonMap("javax.persistence.fetchgraph",graph)
-			);
-		System.out.println(person);
-		return person.getFollowList();
-	}			        
+				        
 
 	@Override
 	public List<ProjectApplication> selectProjectApplication(int offset, int limit) {
@@ -78,9 +53,8 @@ public class PersonDaoImpl implements PersonDao{
 	}
 
 	@Override
-	public int insertVisitor(String personId) {
-		entityManager.persist(new Person(personId));
-		return 1;
+	public int insertVisitor(Person person) {
+		return this.insert(person);
 	}
 
 	@Override
@@ -112,9 +86,9 @@ public class PersonDaoImpl implements PersonDao{
 	}
 
 	@Override
-	public <T extends Person> int saveProfile(T person) {
-		entityManager.merge(person);
-		return 1;
+	public Person savePerson(Person person) {
+		this.update(person);
+		return person;
 	}
 
 	@Override
@@ -122,6 +96,8 @@ public class PersonDaoImpl implements PersonDao{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	
 
 	
 

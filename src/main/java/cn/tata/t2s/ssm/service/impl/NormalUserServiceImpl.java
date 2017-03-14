@@ -36,14 +36,14 @@ public class NormalUserServiceImpl implements NormalUserService {
 	private RedisCache cache;
 
 	@Override
-	public <T extends Person> T getOthersProfile(String personId) {
-		T person = personDao.selectPerson(personId);
+	public Person getPerson(String personId) {
+		Person person = personDao.selectPerson(personId);
 		return person;
 	}
 	
 	@Override
 	public <T extends Person> T getSelfProfile(String personId) {
-		T person = personDao.selectPerson(personId);
+		T person = (T) personDao.selectPerson(personId);
 		return person;
 	}
 
