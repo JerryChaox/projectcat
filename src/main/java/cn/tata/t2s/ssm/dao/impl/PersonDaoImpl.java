@@ -1,17 +1,13 @@
 package cn.tata.t2s.ssm.dao.impl;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.SetAttribute;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Repository;
 
 import cn.tata.t2s.ssm.dao.PersonDao;
@@ -20,15 +16,8 @@ import cn.tata.t2s.ssm.entity.Person_;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
 @Repository
-public class PersonDaoImpl extends BaseDaoImpl implements PersonDao{
-	
-	public void init() {
-		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Person> criteria = builder.createQuery( Person.class );
-		Root<Person> personRoot = criteria.from( Person.class );
-		criteria.where( builder.equal( personRoot.get( Person_.name ), "John Doe" ) );
-	}
-	
+public class PersonDaoImpl extends BaseDaoImpl implements PersonDao {
+
 	@Override
 	public String selectpTypeById(String personId) {
 		return null;
@@ -36,19 +25,27 @@ public class PersonDaoImpl extends BaseDaoImpl implements PersonDao{
 
 	@Override
 	public Person selectPerson(String personId) {
-		Person person =  this.select(Person.class, personId);
-		return person;
+		return this.selectPerson(personId);
 	}
 
 	@Override
-	public Person selectPerson(String personId, Attribute<Person, ?>... attribute) {
-		return this.select(personId, Person.class, attribute);
+	public Person selectPerson(String personId, SetAttribute<Person, ?>... setAttributes) {
+		// init
+		Pair<CriteriaQuery<Person>, Root<Person>> queryRootPair = this.getQueryRootPair(Person.class, Person.class);
+		CriteriaQuery<Person> query = queryRootPair.getLeft();
+		Root<Person> personRoot = queryRootPair.getRight();
+		
+		//configure root
+		for(SetAttribute<Person, ?> setAttribute: setAttributes)
+			personRoot.join(setAttribute);
+		// criteria building
+		query.where(builder.equal(personRoot.get(Person_.personId), personId));
+		return entityManager.createQuery(query).getSingleResult();
 	}
-				        
 
 	@Override
 	public List<ProjectApplication> selectProjectApplication(int offset, int limit) {
-		
+
 		return null;
 	}
 
@@ -62,7 +59,7 @@ public class PersonDaoImpl extends BaseDaoImpl implements PersonDao{
 		Person person = entityManager.find(Person.class, personId);
 		Person following = entityManager.find(Person.class, followedId);
 		person.getFollowList().add(following);
-		//entityManager.merge(person);
+		// entityManager.merge(person);
 		return 1;
 	}
 
@@ -96,9 +93,5 @@ public class PersonDaoImpl extends BaseDaoImpl implements PersonDao{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	
-
-	
 
 }

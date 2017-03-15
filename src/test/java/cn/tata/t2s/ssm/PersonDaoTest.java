@@ -38,12 +38,12 @@ public class PersonDaoTest {
 	@Test
 	public void selectProfileById() {
 		Person person = personDao.selectPerson("1");
-		System.out.println(person.getNickName());
+		System.out.println(person.getFollowList().size());
 	}
 	
 	@Test
 	public void selectPerson() {
-		Person person = personDao.select("1", Person.class, Person_.projectList);
+		Person person = personDao.select("1", Person.class, Person_.followList, Person_.projectList);
 		System.out.println(person.getFollowList().size());
 	}
 	
@@ -60,7 +60,7 @@ public class PersonDaoTest {
 	@Test
 	public void insertVistor() {
 		System.out.println("--------------------");
-		int result = personDao.insertVisitor("20170312");
+		int result = personDao.insertVisitor(new Person("20170315"));
 		System.out.println(result);
 		System.out.println("--------------------");
 	}

@@ -3,6 +3,7 @@ package cn.tata.t2s.ssm.dao;
 import java.util.List;
 
 import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.SetAttribute;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -42,7 +43,7 @@ public interface PersonDao extends BaseDao{
 	 * @param attribute
 	 * @return
 	 */
-	public Person selectPerson(String personId,Attribute<Person, ?>... attribute);
+	public Person selectPerson(String personId, SetAttribute<Person, ?>... setAttributes);
 	
 	/**
 	 * 
