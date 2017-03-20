@@ -2,10 +2,16 @@ package cn.tata.t2s.ssm.dao;
 
 import java.util.List;
 
+import javax.persistence.Tuple;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.SetAttribute;
+import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 public interface BaseDao {
@@ -16,8 +22,8 @@ public interface BaseDao {
 	<T> T select(Class<T> entityClass, Object primaryKey);
 	
 	<T> T select(Object primaryKey, Class<T> rootType, Attribute<T, ?>... attribute);
-
-	<T> Pair<CriteriaQuery<T>, List<Root<?>>> getQueryRootPair(Class<T> resultClass, Class<?>... entityClasses);
-
-	<T,X> Pair<CriteriaQuery<T>, Root<X>> getQueryRootPair(Class<T> resultClass, Class<X> entityClass);
+	
+	<X,Y> List<Tuple> select(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
+	
+	<T, X, Y> List<T> select(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, T> setAttribute, Predicate... customPredicate);
 }

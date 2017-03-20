@@ -1,22 +1,25 @@
 package cn.tata.t2s.ssm.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Tuple;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.metamodel.Attribute;
+import javax.persistence.criteria.Selection;
 import javax.persistence.metamodel.SetAttribute;
+import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Repository;
 
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.entity.Person;
-import cn.tata.t2s.ssm.entity.Person_;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
 @Repository
-public class PersonDaoImpl extends BaseDaoImpl implements PersonDao {
+public class PersonDaoImpl extends SuperDaoImpl implements PersonDao {
 
 	@Override
 	public String selectpTypeById(String personId) {
@@ -29,18 +32,41 @@ public class PersonDaoImpl extends BaseDaoImpl implements PersonDao {
 	}
 
 	@Override
-	public Person selectPerson(String personId, SetAttribute<Person, ?>... setAttributes) {
+	public <X,Y> List<Tuple> selectPerson(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes) {
+		Class<X> entityClass = setAttributes[0].getDeclaringType().getJavaType();
+		
 		// init
-		Pair<CriteriaQuery<Person>, Root<Person>> queryRootPair = this.getQueryRootPair(Person.class, Person.class);
-		CriteriaQuery<Person> query = queryRootPair.getLeft();
-		Root<Person> personRoot = queryRootPair.getRight();
+ 		CriteriaQuery<Tuple> query = builder.createTupleQuery();
+		Root<X> root = query.from(entityClass);
+		root.alias(entityClass.getSimpleName());
+		
+		//Predicate
+		Predicate predicate = builder.equal(root.get(idPair.getLeft()), idPair.getRight());
 		
 		//configure root
-		for(SetAttribute<Person, ?> setAttribute: setAttributes)
-			personRoot.join(setAttribute);
+		int i = 1;
+		List<Selection<?>> selectionList = new ArrayList<Selection<?>>();
+		for(SetAttribute<X, ?> setAttribute: setAttributes) {
+			//for count
+			CriteriaQuery<?> tempQuery = builder.createQuery(setAttribute.getBindableJavaType());
+			Root<X> tempRoot = query.from(entityClass);
+			tempRoot.alias(entityClass.getSimpleName() + i);
+			tempRoot.join(setAttribute);
+			tempQuery.where(builder.equal(tempRoot.get(idPair.getLeft()), idPair.getRight()));
+			System.out.println("count: " + this.count(builder, tempQuery, tempRoot));
+			
+			//for result
+			selectionList.add(root.get(setAttribute));
+			root.join(setAttribute);
+			
+			//alias
+			i++;
+		}
+		
+		query.multiselect(selectionList);
 		// criteria building
-		query.where(builder.equal(personRoot.get(Person_.personId), personId));
-		return entityManager.createQuery(query).getSingleResult();
+		query.where(predicate);
+		return entityManager.createQuery(query).getResultList();
 	}
 
 	@Override

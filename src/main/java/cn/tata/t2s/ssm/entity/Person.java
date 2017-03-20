@@ -43,13 +43,13 @@ public class Person {
 	protected Set<Project> projectList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Enroll> enrollList;
+	protected Set<Enroll> enrollList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Topic> topicList;
+	protected Set<Topic> topicList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Reply> replyList;
+	protected Set<Reply> replyList;
 	
 	@OneToMany(targetEntity=Project.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected List<Star<Project>> projectStarList;
@@ -206,27 +206,27 @@ public class Person {
 		this.projectList = projectList;
 	}
 
-	public List<Enroll> getEnrollList() {
+	public Set<Enroll> getEnrollList() {
 		return enrollList;
 	}
 
-	public void setEnrollList(List<Enroll> enrollList) {
+	public void setEnrollList(Set<Enroll> enrollList) {
 		this.enrollList = enrollList;
 	}
 
-	public List<Topic> getTopicList() {
+	public Set<Topic> getTopicList() {
 		return topicList;
 	}
 
-	public void setTopicList(List<Topic> topicList) {
+	public void setTopicList(Set<Topic> topicList) {
 		this.topicList = topicList;
 	}
 
-	public List<Reply> getReplyList() {
+	public Set<Reply> getReplyList() {
 		return replyList;
 	}
 
-	public void setReplyList(List<Reply> replyList) {
+	public void setReplyList(Set<Reply> replyList) {
 		this.replyList = replyList;
 	}
 

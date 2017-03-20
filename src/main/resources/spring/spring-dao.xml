@@ -86,5 +86,6 @@
     
     <bean id="criteriaBuilder" class="org.hibernate.query.criteria.internal.CriteriaBuilderImpl">
 	       <constructor-arg value="#{ entityManagerFactory.getNativeEntityManagerFactory() }"/>
+<!-- 		<constructor-arg ref="#{ entityManagerFactory.unwrap( T(org.hibernate.Session).class ) }"/> -->
 	</bean>
 </beans>

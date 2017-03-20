@@ -1,11 +1,14 @@
 package cn.tata.t2s.ssm;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Tuple;
+import javax.persistence.metamodel.SingularAttribute;
 
-import org.hibernate.Session;
-import org.junit.After;
-import org.junit.Before;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.Person_;
+import cn.tata.t2s.ssm.util.CriteriaQueryUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
@@ -43,13 +47,16 @@ public class PersonDaoTest {
 	
 	@Test
 	public void selectPerson() {
-		Person person = personDao.select("1", Person.class, Person_.followList, Person_.projectList);
-		System.out.println(person.getFollowList().size());
+		List<Person> personList = personDao.select(
+				CriteriaQueryUtil.getIdCriteriaPair(Person_.personId, "1"), 
+				Person_.followList);
+		
+		System.out.println(personList.size());
 	}
 	
 	@Test
 	public void insertFollow() {
-		personDao.insertFollow("1", "20170312");
+		personDao.insertFollow("1", "2");
 	}
 	
 	@Test
@@ -60,7 +67,7 @@ public class PersonDaoTest {
 	@Test
 	public void insertVistor() {
 		System.out.println("--------------------");
-		int result = personDao.insertVisitor(new Person("20170315"));
+		int result = personDao.insertVisitor(new Person("20170316"));
 		System.out.println(result);
 		System.out.println("--------------------");
 	}

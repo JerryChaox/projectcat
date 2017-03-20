@@ -2,9 +2,11 @@ package cn.tata.t2s.ssm.dao;
 
 import java.util.List;
 
-import javax.persistence.metamodel.Attribute;
+import javax.persistence.Tuple;
 import javax.persistence.metamodel.SetAttribute;
+import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.ibatis.annotations.Param;
 
 import cn.tata.t2s.ssm.entity.Person;
@@ -38,12 +40,13 @@ public interface PersonDao extends BaseDao{
 	
 	/**
 	 * use entityGraph that is statisfied with any fetch strategy
-	 * @param <T>
 	 * @param personId
-	 * @param attribute
+	 * @param resultClass
+	 * @param entityClasses
+	 * @param setAttributes
 	 * @return
 	 */
-	public Person selectPerson(String personId, SetAttribute<Person, ?>... setAttributes);
+	public <X,Y> List<Tuple> selectPerson(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
 	
 	/**
 	 * 

@@ -25,7 +25,7 @@ public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long projectId;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Person person;
 	private String projectName;
 	private String projectAbstract;
