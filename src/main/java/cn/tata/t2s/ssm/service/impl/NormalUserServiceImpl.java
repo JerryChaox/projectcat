@@ -13,7 +13,6 @@ import cn.tata.t2s.ssm.dao.ReplyDao;
 import cn.tata.t2s.ssm.dao.StarDao;
 import cn.tata.t2s.ssm.dao.TopicDao;
 import cn.tata.t2s.ssm.entity.Person;
-import cn.tata.t2s.ssm.entity.Project;
 import cn.tata.t2s.ssm.entity.Reply;
 import cn.tata.t2s.ssm.entity.Star;
 import cn.tata.t2s.ssm.entity.Topic;
@@ -49,8 +48,11 @@ public class NormalUserServiceImpl implements NormalUserService {
 
 	@Override
 	public List<Topic> getSelfTopicList(String personId, int offset, int limit) {
-		String cacheKey = RedisCache.CAHCENAME + "|getSelfTopicList|" + personId + "|" + offset + "|" + limit;
+		String cacheKey = RedisCache.CAHCENAME + 
+				"|" + Thread.currentThread().getStackTrace()[1].getMethodName() + "|" 
+				+ personId + "|" + offset + "|" + limit;
 		List<Topic> resultCache = cache.getListCache(cacheKey, Topic.class);
+		
 		if (resultCache != null) {
 			LOG.info("get cache with key:" + cacheKey);
 			return resultCache;

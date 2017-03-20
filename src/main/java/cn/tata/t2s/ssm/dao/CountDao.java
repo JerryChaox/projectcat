@@ -6,5 +6,5 @@ import javax.persistence.criteria.Root;
 
 public interface CountDao {
 
-	<T,X> long count(final CriteriaBuilder cb, final CriteriaQuery<X> selectQuery, Root<T> root);
+	<T,X> long count(final CriteriaBuilder cb, final CriteriaQuery<T> selectQuery, Root<X> root);
 }

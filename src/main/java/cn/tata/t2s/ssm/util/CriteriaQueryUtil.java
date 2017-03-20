@@ -66,8 +66,6 @@ public class CriteriaQueryUtil {
 	    countQuery.select(builder.count(countRoot));
 	    countQuery.where(query.getRestriction());
 
-	    
-
 	    return countQuery.distinct(query.isDistinct());
 	}
 

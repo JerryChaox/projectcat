@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.tata.t2s.ssm.dao.BaseDao;
 import cn.tata.t2s.ssm.dao.CountDao;
 import cn.tata.t2s.ssm.util.CriteriaQueryUtil;
+import cn.tata.t2s.ssm.util.PagedResult;
 
 public class SuperDaoImpl implements BaseDao, CountDao{
 	@PersistenceContext
@@ -102,11 +103,10 @@ public class SuperDaoImpl implements BaseDao, CountDao{
 	}
 	
 	@Override
-	public <T, X, Y> List<T> select(Pair<SingularAttribute<X, Y>, Y> idPair, SetAttribute<X, T> setAttribute, Predicate... customPredicate) {
+	public <T, X, Y> PagedResult<T> select(PagedResult<T> pagedResult, Pair<SingularAttribute<X, Y>, Y> idPair, SetAttribute<X, T> setAttribute, Predicate... customPredicate) {
+		// init
 		Class<X> entityClass = setAttribute.getDeclaringType().getJavaType();
 		Class<T> resultClass = setAttribute.getElementType().getJavaType();
-		
-		// init
  		CriteriaQuery<T> query = builder.createQuery(resultClass);
 		Root<X> root = query.from(entityClass);
 		root.alias(entityClass.getSimpleName());
@@ -115,16 +115,26 @@ public class SuperDaoImpl implements BaseDao, CountDao{
 		Predicate predicate = builder.equal(root.get(idPair.getLeft()), idPair.getRight());
 		customPredicate = ArrayUtils.add(customPredicate, predicate);
 		
-		//set Root
+		//set Root and query
 		root.get(setAttribute);
 		root.join(setAttribute);
 		query.where(customPredicate);
-		return entityManager.createQuery(query).getResultList();
+		
+		//count and paging result
+		pagedResult.setTotalRecords(count(builder, query, root));
+		pagedResult.setTotalPages(pagedResult.getTotalRecords(), pagedResult.getPageSize());
+		List<T> data = entityManager.createQuery(query)
+				.setFirstResult(pagedResult.getStartPosition())
+				.setMaxResults(pagedResult.getPageSize())
+				.getResultList();
+		pagedResult.setData(data);
+		
+		return pagedResult;
 	}
 
 	@Override
-	public <T,X> long count(final CriteriaBuilder builder, final CriteriaQuery<X> selectQuery,
-	        Root<T> root) {
+	public <T,X> long count(final CriteriaBuilder builder, final CriteriaQuery<T> selectQuery,
+	        Root<X> root) {
 	    CriteriaQuery<Long> countQuery = CriteriaQueryUtil.createCountQuery(builder, selectQuery, root);
 	    return this.entityManager.createQuery(countQuery).getSingleResult();
 	}
