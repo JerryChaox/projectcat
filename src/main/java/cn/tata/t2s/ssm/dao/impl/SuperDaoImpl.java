@@ -21,12 +21,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cn.tata.t2s.ssm.dao.BaseDao;
-import cn.tata.t2s.ssm.dao.CountDao;
+import cn.tata.t2s.ssm.dao.SuperDao;
 import cn.tata.t2s.ssm.util.CriteriaQueryUtil;
 import cn.tata.t2s.ssm.util.PagedResult;
 
-public class SuperDaoImpl implements BaseDao, CountDao{
+public class SuperDaoImpl implements SuperDao{
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
