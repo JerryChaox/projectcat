@@ -7,9 +7,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.stereotype.Component;
 
-@Component
 public abstract class CriteriaParamManager {
 	
 	public <X, Y> Pair<SingularAttribute<X, Y>, Y> getIdPair(SingularAttribute<X, Y> idAttribute, Y id) {

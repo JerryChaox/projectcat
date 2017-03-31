@@ -42,4 +42,8 @@
 	<!-- method injection -->
 	<bean id="pagedResult" class="cn.tata.t2s.ssm.service.util.PagedResult" scope="prototype"/>
 	<bean id="listParameter" class="cn.tata.t2s.ssm.service.util.ListParameter" scope="prototype"/>
+	<bean id="criteriaParamManager" class="cn.tata.t2s.ssm.service.util.CriteriaParamManager">
+		<lookup-method name="createPagedResult" bean="pagedResult"/>
+		<lookup-method name="createListParameter" bean="listParameter"/>	
+	</bean>
 </beans>
