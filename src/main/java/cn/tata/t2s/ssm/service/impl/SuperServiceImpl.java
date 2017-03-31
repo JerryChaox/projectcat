@@ -10,13 +10,17 @@ import org.springframework.stereotype.Service;
 import cn.tata.t2s.ssm.cache.RedisCache;
 import cn.tata.t2s.ssm.dao.SuperDao;
 import cn.tata.t2s.ssm.service.BaseService;
-import cn.tata.t2s.ssm.service.ListParameter;
-import cn.tata.t2s.ssm.util.PagedResult;
+import cn.tata.t2s.ssm.service.util.CriteriaParamManager;
+import cn.tata.t2s.ssm.service.util.ListParameter;
+import cn.tata.t2s.ssm.service.util.PagedResult;
 
 @Service
-public class SuperServiceImpl implements BaseService{
+public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 	
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	protected CriteriaParamManager cpm;
 	
 	@Autowired
 	private RedisCache cache;
@@ -25,21 +29,21 @@ public class SuperServiceImpl implements BaseService{
 	private SuperDao superDao;
 	
 	@Override
-	public <T> T get(Class<T> entityClass, Object primaryKey) {
+	public X get(Class<X> entityClass, Object primaryKey) {
 		//init
 		String cacheKey = RedisCache.CAHCENAME 
 				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName()
 				+ "|" + primaryKey;
 		
 		//cache
-		T entityCache = cache.getCache(cacheKey, entityClass);
+		X entityCache = cache.getCache(cacheKey, entityClass);
 		if(entityCache != null) {
 			LOG.info("get cache with key:" + cacheKey);
 			return entityCache;
 		
 		//null cache
 		} else {
-			T entity = superDao.select(entityClass, primaryKey);
+			X entity = superDao.select(entityClass, primaryKey);
 			cache.putCache(cacheKey, entity);
 			LOG.info("put cache with key:" + cacheKey);
 			return entity;
@@ -47,32 +51,33 @@ public class SuperServiceImpl implements BaseService{
 	}
 
 	@Override
-	public <T, X, Y> PagedResult<T> list(ListParameter<T, X, Y> listParameterObject) {
+	public <T> PagedResult<T> list(ListParameter<T, X, Y> listParameter) {
 		//init
-		Class<T> resultClass = listParameterObject.getSetAttribute()
+		Class<T> resultClass = listParameter.getSetAttribute()
 				.getElementType().getJavaType();
 		String cacheKey = RedisCache.CAHCENAME 
 				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName() 
-				+ "|" + listParameterObject.getIdPair().getLeft() 
-				+ "|" + listParameterObject.getPagedResult().getStartPosition() 
-				+ "|" + listParameterObject.getPagedResult().getPageSize();
+				+ "|" + listParameter.getIdPair().getLeft().getDeclaringType().getJavaType().getSimpleName()
+				+ ": " + listParameter.getIdPair().getRight()
+				+ "|" + listParameter.getPagedResult().getStartPosition() 
+				+ "|" + listParameter.getPagedResult().getPageSize();
 		
 		//cache
 		List<T> listCache = cache.getListCache(cacheKey, resultClass);
 		if (listCache != null) {
-			listParameterObject.getPagedResult().setData(listCache);
+			listParameter.getPagedResult().setData(listCache);
 			LOG.info("get listCache with key:" + cacheKey);
-			return listParameterObject.getPagedResult();
+			return listParameter.getPagedResult();
 			
 		//null cache 
 		} else {
-			superDao.select(listParameterObject.getPagedResult()
-					, listParameterObject.getIdPair()
-					, listParameterObject.getSetAttribute()
-					, listParameterObject.getCustomPredicate());
-			cache.putCache(cacheKey, listParameterObject.getPagedResult().getData());
+			superDao.select(listParameter.getPagedResult()
+					, listParameter.getIdPair()
+					, listParameter.getSetAttribute()
+					, listParameter.getCustomPredicate());
+			cache.putCache(cacheKey, listParameter.getPagedResult().getData());
 			LOG.info("put listCache with key:" + cacheKey);
-			return listParameterObject.getPagedResult();
+			return listParameter.getPagedResult();
 		}
 	}
 

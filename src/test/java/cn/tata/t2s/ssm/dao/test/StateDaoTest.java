@@ -1,4 +1,4 @@
-package cn.tata.t2s.ssm;
+package cn.tata.t2s.ssm.dao.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -2,6 +2,8 @@ package cn.tata.t2s.ssm.service.impl;
 
 import java.util.List;
 
+import javax.persistence.criteria.Predicate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +15,18 @@ import cn.tata.t2s.ssm.dao.ReplyDao;
 import cn.tata.t2s.ssm.dao.StarDao;
 import cn.tata.t2s.ssm.dao.TopicDao;
 import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.Person_;
 import cn.tata.t2s.ssm.entity.Reply;
 import cn.tata.t2s.ssm.entity.Star;
 import cn.tata.t2s.ssm.entity.Topic;
 import cn.tata.t2s.ssm.enums.ResultEnum;
 import cn.tata.t2s.ssm.exception.BizException;
 import cn.tata.t2s.ssm.service.NormalUserService;
+import cn.tata.t2s.ssm.service.util.ListParameter;
+import cn.tata.t2s.ssm.service.util.PagedResult;
 
 @Service
-public class NormalUserServiceImpl implements NormalUserService {
+public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> implements NormalUserService {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private PersonDao personDao;
@@ -36,59 +41,46 @@ public class NormalUserServiceImpl implements NormalUserService {
 
 	@Override
 	public Person getPerson(String personId) {
-		Person person = personDao.selectPerson(personId);
-		return person;
+		return get(Person.class, personId);
 	}
 	
+//	@Override
+//	public <T extends Person> T getSelfProfile(String personId) {
+//		T person = (T) personDao.selectPerson(personId);
+//		return person;
+//	}
+
 	@Override
-	public <T extends Person> T getSelfProfile(String personId) {
-		T person = (T) personDao.selectPerson(personId);
-		return person;
+	public PagedResult<Topic> getSelfTopicList(String personId, int pageSize, int pageNumber) {
+		ListParameter<Topic, Person, String> listParameter = 
+				cpm.getListParameter(cpm.getPagedResult(pageSize, pageNumber)
+				,cpm.getIdPair(Person_.personId, personId), 
+				Person_.topicList);
+		return this.list(listParameter);
 	}
 
 	@Override
-	public List<Topic> getSelfTopicList(String personId, int offset, int limit) {
-		String cacheKey = RedisCache.CAHCENAME + 
-				"|" + Thread.currentThread().getStackTrace()[1].getMethodName() + "|" 
-				+ personId + "|" + offset + "|" + limit;
-		List<Topic> resultCache = cache.getListCache(cacheKey, Topic.class);
-		
-		if (resultCache != null) {
-			LOG.info("get cache with key:" + cacheKey);
-			return resultCache;
-		} else {
-			resultCache = topicDao.selectTopicByPersonId(personId, offset, limit);
-			cache.putCache(cacheKey, resultCache);
-			LOG.info("put cache with key:" + cacheKey);
-			return resultCache;
-		}
+	public PagedResult<Reply> getSelfReplyList(String personId, int pageSize, int pageNumber) {
+		ListParameter<Reply, Person, String> listParameter = 
+				cpm.getListParameter(cpm.getPagedResult(pageSize, pageNumber)
+				,cpm.getIdPair(Person_.personId, personId), 
+				Person_.replyList);
+		return this.list(listParameter);
 	}
 
 	@Override
-	public List<Reply> getSelfReplyList(String personId, int offset, int limit) {
-		String cacheKey = RedisCache.CAHCENAME + "|getSelfReplyList|" + offset + "|" + limit;
-		List<Reply> resultCache = cache.getListCache(cacheKey, Reply.class);
-		if (resultCache != null) {
-			LOG.info("get cache with key:" + cacheKey);
-			return resultCache;
-		} else {
-			resultCache = replyDao.selectReplyByPersonId(personId, offset, limit);
-			cache.putCache(cacheKey, resultCache);
-			LOG.info("put cache with key:" + cacheKey);
-			return resultCache;
-		}
-	}
-
-	@Override
-	public List<Star<Topic>> getTopicStarList(String personId, int offset, int limit) {
-		List<Star<Topic>> starTopicList = starDao.selectTopicStar(personId, offset,limit);
+	public List<Star<Topic>> getTopicStarList(String personId, int pageSize, int pageNumber) {
+		List<Star<Topic>> starTopicList = starDao.selectTopicStar(personId, pageSize, pageNumber);
 		return starTopicList;
 	}
 
 	@Override
-	public List<Person> getFollowingList(String personId, int offset, int limit) {
-		return null;
-//		return personDao.selectFollowing(personId, offset, limit);
+	public PagedResult<Person> getFollowingList(String personId, int pageSize, int pageNumber) {
+		ListParameter<Person, Person, String> listParameter = 
+				cpm.getListParameter(cpm.getPagedResult(pageSize, pageNumber)
+				,cpm.getIdPair(Person_.personId, personId), 
+				Person_.followList);
+		return this.list(listParameter);
 	}
 
 	@Override

@@ -42,8 +42,8 @@ public class NormalUserController extends BaseController{
 	
 	@GetMapping(value = "/profile", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public <T extends Person> T getSelfProfile(@RequestParam("personId") String personId) {
-		T person = normalUserService.getSelfProfile(personId);
+	public Person getSelfProfile(@RequestParam("personId") String personId) {
+		Person person = normalUserService.getPerson(personId);
 		LOG.info("invoke----------/getSelfProfile " + "by " + personId);
 		return person;
 	}

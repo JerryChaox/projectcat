@@ -8,7 +8,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Fetch;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -17,11 +19,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.util.Assert;
 
 public class CriteriaQueryUtil {
-
-	public static <T, X> ImmutablePair<SingularAttribute<T, X>, X> getIdCriteriaPair(SingularAttribute<T, X> idAttribute, X id) {
-		
-		return new ImmutablePair<SingularAttribute<T, X>, X>(idAttribute, id);
-	}
 	
 	public static <T> Pair<CriteriaQuery<T>, List<Root<?>>> getQueryRootPair(final CriteriaBuilder builder, Class<T> resultClass, Class<?>... entityClasses) {
 		CriteriaQuery<T> query = builder.createQuery(resultClass);

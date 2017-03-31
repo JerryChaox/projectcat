@@ -1,9 +1,11 @@
-package cn.tata.t2s.ssm.util;
+package cn.tata.t2s.ssm.service.util;
 
 import java.util.List;
 
 import org.junit.Assert;
+import org.springframework.stereotype.Component;
 
+@Component("pagedResult")
 public class PagedResult<T> {
 	private final static int DEFAULT_PAGE_SIZE = 10;
 	
@@ -12,6 +14,8 @@ public class PagedResult<T> {
 	private long totalRecords;
 	private int pageSize;
 	private int pageNumber;
+	
+	public PagedResult() {}
 	
 	public PagedResult(int pageSize, int pageNumber) {
 		if(pageSize == 0) 
@@ -77,5 +81,13 @@ public class PagedResult<T> {
 	public void setPageNumber(int pageNumber) {
 		this.pageNumber = pageNumber;
 	}
+
+	@Override
+	public String toString() {
+		return "PagedResult [data=" + data + ", totalPages=" + totalPages + ", totalRecords=" + totalRecords
+				+ ", pageSize=" + pageSize + ", pageNumber=" + pageNumber + "]";
+	}
+	
+	
 
 }

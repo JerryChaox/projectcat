@@ -36,4 +36,10 @@
     
  	
 	<tx:annotation-driven transaction-manager="txManager"/>
+	
+	
+	
+	<!-- method injection -->
+	<bean id="pagedResult" class="cn.tata.t2s.ssm.service.util.PagedResult" scope="prototype"/>
+	<bean id="listParameter" class="cn.tata.t2s.ssm.service.util.ListParameter" scope="prototype"/>
 </beans>

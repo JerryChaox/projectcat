@@ -10,7 +10,7 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import cn.tata.t2s.ssm.util.PagedResult;
+import cn.tata.t2s.ssm.service.util.PagedResult;
 
 public interface BaseDao {
 	<T> int insert(T entity);

@@ -109,7 +109,8 @@ public class ProtoStuffSerializerUtil {
 		try {
 			result = ProtostuffIOUtil.parseListFrom(new ByteArrayInputStream(paramArrayOfByte), schema);
 		} catch (IOException e) {
-			throw new RuntimeException("反序列化对象列表发生异常!", e);
+			e.printStackTrace();
+			throw new RuntimeException("反序列化对象列表发生异常: " + e.getMessage(), e);
 		}
 		return result;
 	}

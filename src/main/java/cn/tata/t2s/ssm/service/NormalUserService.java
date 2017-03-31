@@ -6,19 +6,33 @@ import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.Reply;
 import cn.tata.t2s.ssm.entity.Star;
 import cn.tata.t2s.ssm.entity.Topic;
+import cn.tata.t2s.ssm.service.util.PagedResult;
 
 public interface NormalUserService {
-
+	
+	/**
+	 * get a user
+	 * @param personId
+	 * @return
+	 */
 	public Person getPerson(String personId);
 	
+	/**
+	 * 绑定了身份的用户
+	 * replaced by getPerson
+	 * @param personId
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
+//	public <T extends Person> T getSelfProfile(String personId);
+
+	
 	// 绑定了身份的用户
-	public <T extends Person> T getSelfProfile(String personId);
+	public PagedResult<Topic> getSelfTopicList(String personId, int pageSize, int pageNumber);
 
 	// 绑定了身份的用户
-	public List<Topic> getSelfTopicList(String personId, int offset, int limit);
-
-	// 绑定了身份的用户
-	public List<Reply> getSelfReplyList(String personId, int offset, int limit);
+	public PagedResult<Reply> getSelfReplyList(String personId, int pageSize, int pageNumber);
 
 	// 绑定了身份的用户
 	public void createTopic(Topic topic);
@@ -43,13 +57,13 @@ public interface NormalUserService {
 	
 	public void star(String personId, int objectId, String starClass);
 	
-	public List<Star<Topic>> getTopicStarList(String personId, int offset, int limit);
+	public List<Star<Topic>> getTopicStarList(String personId, int pageSize, int pageNumber);
 
 	public void unStar(long starId, String personId, String starClass);
 	
 	public void follow(String followedId, String personId);
 	
-	public List<Person> getFollowingList(String personId, int offset, int limit);
+	public PagedResult<Person> getFollowingList(String personId, int pageSize, int pageNumber);
 
 	public void unfollow(String followedId, String personId);
 }

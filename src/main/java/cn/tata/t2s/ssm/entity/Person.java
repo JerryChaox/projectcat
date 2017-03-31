@@ -51,11 +51,11 @@ public class Person {
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected Set<Reply> replyList;
 	
-	@OneToMany(targetEntity=Project.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Star<Project>> projectStarList;
-	
-	@OneToMany(targetEntity=Topic.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected List<Star<Topic>> topicStarList;
+//	@OneToMany(targetEntity=Project.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//	protected List<Star<Project>> projectStarList;
+//	
+//	@OneToMany(targetEntity=Topic.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//	protected List<Star<Topic>> topicStarList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected Set<Person> followList;
@@ -230,21 +230,21 @@ public class Person {
 		this.replyList = replyList;
 	}
 
-	public List<Star<Project>> getProjectStarList() {
-		return projectStarList;
-	}
-
-	public void setProjectStarList(List<Star<Project>> projectStarList) {
-		this.projectStarList = projectStarList;
-	}
-
-	public List<Star<Topic>> getTopicStarList() {
-		return topicStarList;
-	}
-
-	public void setTopicStarList(List<Star<Topic>> topicStarList) {
-		this.topicStarList = topicStarList;
-	}
+//	public List<Star<Project>> getProjectStarList() {
+//		return projectStarList;
+//	}
+//
+//	public void setProjectStarList(List<Star<Project>> projectStarList) {
+//		this.projectStarList = projectStarList;
+//	}
+//
+//	public List<Star<Topic>> getTopicStarList() {
+//		return topicStarList;
+//	}
+//
+//	public void setTopicStarList(List<Star<Topic>> topicStarList) {
+//		this.topicStarList = topicStarList;
+//	}
 
 	public Set<Person> getFollowList() {
 		return followList;
@@ -281,7 +281,6 @@ public class Person {
 				+ ", \n\tdefaultResume=" + defaultResume + ", \n\tgrade=" + grade + ", \n\tprofession=" + profession
 				+ ", \n\tpType=" + pType + ", \n\tmajor=" + major + ", \n\tprojectList=" + projectList
 				+ ", \n\tenrollList=" + enrollList + ", \n\ttopicList=" + topicList + ", \n\treplyList=" + replyList
-				+ ", \n\tprojectStarList=" + projectStarList + ", \n\ttopicStarList=" + topicStarList
 				+ ", \n\tfollowList=" + followList + ", \n\tonDelete=" + onDelete + ", \n\tcreateTime=" + createTime
 				+ ", \n\tupdateTime=" + updateTime + "\n]";
 	}

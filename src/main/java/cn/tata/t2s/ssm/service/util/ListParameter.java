@@ -1,18 +1,20 @@
-package cn.tata.t2s.ssm.service;
+package cn.tata.t2s.ssm.service.util;
 
+import javax.inject.Scope;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.Pair;
-
-import cn.tata.t2s.ssm.util.PagedResult;
+import org.springframework.context.annotation.Bean;
 
 public class ListParameter<T, X, Y> {
 	private PagedResult<T> pagedResult;
 	private Pair<SingularAttribute<X, Y>, Y> idPair;
 	private SetAttribute<X, T> setAttribute;
 	private Predicate[] customPredicate;
+	
+	public ListParameter() {}
 
 	public ListParameter(PagedResult<T> pagedResult
 			, Pair<SingularAttribute<X, Y>, Y> idPair
@@ -39,4 +41,22 @@ public class ListParameter<T, X, Y> {
 	public Predicate[] getCustomPredicate() {
 		return customPredicate;
 	}
+
+	public void setPagedResult(PagedResult<T> pagedResult) {
+		this.pagedResult = pagedResult;
+	}
+
+	public void setIdPair(Pair<SingularAttribute<X, Y>, Y> idPair) {
+		this.idPair = idPair;
+	}
+
+	public void setSetAttribute(SetAttribute<X, T> setAttribute) {
+		this.setAttribute = setAttribute;
+	}
+
+	public void setCustomPredicate(Predicate[] customPredicate) {
+		this.customPredicate = customPredicate;
+	}
+	
+	
 }

@@ -1,10 +1,11 @@
-package cn.tata.t2s.ssm;
+package cn.tata.t2s.ssm.dao.test;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.tata.t2s.ssm.dao.PersonDao;
 import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.Person_;
+import cn.tata.t2s.ssm.service.util.PagedResult;
 import cn.tata.t2s.ssm.util.CriteriaQueryUtil;
-import cn.tata.t2s.ssm.util.PagedResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
@@ -46,7 +47,7 @@ public class PersonDaoTest {
 	public void selectPerson() {
 		PagedResult<Person> personPagedList = personDao.select(
 				new PagedResult<Person>(3, 1),
-				CriteriaQueryUtil.getIdCriteriaPair(Person_.personId, "1"), 
+				ImmutablePair.of(Person_.personId, "1"), 
 				Person_.followList);
 		
 		System.out.println(personPagedList.getData().size());
