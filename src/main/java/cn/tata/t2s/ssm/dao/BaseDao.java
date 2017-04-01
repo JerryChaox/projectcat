@@ -17,6 +17,8 @@ public interface BaseDao {
 	
 	<T> T update(T entity);
 	
+	<T> int delete(T entity);
+	
 	<T> T select(Class<T> entityClass, Object primaryKey);
 	
 	<T> T select(Object primaryKey, Class<T> rootType, Attribute<T, ?>... attribute);

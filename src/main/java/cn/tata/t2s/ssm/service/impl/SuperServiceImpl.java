@@ -1,5 +1,6 @@
 package cn.tata.t2s.ssm.service.impl;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import cn.tata.t2s.ssm.service.util.CriteriaParamManager;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-@Service
+@Service("superService")
 public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 	
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -29,8 +30,29 @@ public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 	private SuperDao superDao;
 	
 	@Override
-	public X get(Class<X> entityClass, Object primaryKey) {
+	public <T> int save(T entity) {
+		superDao.insert(entity);
+		return 1;
+	}
+	
+	@Override
+	public <T> int remove(T entity) {
+		superDao.delete(entity);
+		return 1;
+	}
+	
+	@Override
+	public <T> T refresh(T entity) {
+		return superDao.update(entity);
+	}
+	
+	@Override
+	public X get(Object primaryKey) {
 		//init
+		@SuppressWarnings("unchecked")
+		Class<X> entityClass = (Class<X>) 
+				((ParameterizedType)getClass().getGenericSuperclass())
+				.getActualTypeArguments()[0];
 		String cacheKey = RedisCache.CAHCENAME 
 				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName()
 				+ "|" + primaryKey;
@@ -75,7 +97,7 @@ public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 					, listParameter.getIdPair()
 					, listParameter.getSetAttribute()
 					, listParameter.getCustomPredicate());
-			cache.putCache(cacheKey, listParameter.getPagedResult().getData());
+			cache.putListCache(cacheKey, listParameter.getPagedResult().getData());
 			LOG.info("put listCache with key:" + cacheKey);
 			return listParameter.getPagedResult();
 		}

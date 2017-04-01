@@ -44,6 +44,12 @@ public class SuperDaoImpl implements SuperDao{
 	}
 	
 	@Override
+	public final <T> int delete(T entity) {
+		entityManager.remove(entity);
+		return 1;
+	}
+	
+	@Override
 	public final <T> T select(Class<T> entityClass, Object primaryKey) {
 		return entityManager.find(entityClass, primaryKey);
 	}

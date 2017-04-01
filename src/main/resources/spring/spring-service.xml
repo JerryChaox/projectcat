@@ -15,7 +15,9 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!--扫描service包(包含子包)下所有使用注解的类型-->
-    <context:component-scan base-package="cn.tata.t2s.ssm.service"/>
+    <context:component-scan base-package="cn.tata.t2s.ssm.service, cn.tata.t2s.ssm.aop"/>
+	<!-- 启动对@AspectJ注解的支持 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
 
 	<tx:advice id="txAdvice" transaction-manager="txManager">
         <!-- the transactional semantics... -->

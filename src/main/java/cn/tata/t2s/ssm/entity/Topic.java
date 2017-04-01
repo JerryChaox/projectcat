@@ -1,6 +1,6 @@
 package cn.tata.t2s.ssm.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -41,10 +41,10 @@ public class Topic {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
-	private Date createTime;
+	private LocalDateTime createTime;
 	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
 	@JsonSerialize(using = CustomDateSerializer.class)
-	private Date updateTime;
+	private LocalDateTime updateTime;
 	private boolean onDelete;
 	
 	public Topic() {}
@@ -150,19 +150,19 @@ public class Topic {
 		this.topicStateList = topicStateList;
 	}
 
-	public Date getCreateTime() {
+	public LocalDateTime getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(LocalDateTime createTime) {
 		this.createTime = createTime;
 	}
 
-	public Date getUpdateTime() {
+	public LocalDateTime getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdateTime(LocalDateTime updateTime) {
 		this.updateTime = updateTime;
 	}
 

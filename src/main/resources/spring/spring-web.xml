@@ -12,11 +12,6 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
-	<!-- 激活组件扫描功能,扫描aop的相关组件组件 -->
-	<context:component-scan base-package="cn.tata.t2s.ssm.aop" />
-	<!-- 启动对@AspectJ注解的支持 -->
-	<aop:aspectj-autoproxy proxy-target-class="true" />
-
 	<!--简化配置: 1、自动注册DefaultAnnotationHandlerMapping,AnnotationMethodHandlerAdapter 
 		2、提供一系列:数据绑定,数字和日期的format,@NumberFormat,@DataTimeFormat,xml,json默认读写支持 -->
 	<mvc:annotation-driven />

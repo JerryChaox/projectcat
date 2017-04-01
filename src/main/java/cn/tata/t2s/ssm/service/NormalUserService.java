@@ -35,10 +35,10 @@ public interface NormalUserService {
 	public PagedResult<Reply> getSelfReplyList(String personId, int pageSize, int pageNumber);
 
 	// 绑定了身份的用户
-	public void createTopic(Topic topic);
+	public void saveTopic(Topic topic, long id);
 
 	// 绑定了身份的用户
-	public void saveTopic(Topic topic);
+	public void refreshTopic(Topic topic);
 
 	// 管理员
 	// public void saveTopicState(int projectId, String state_name);
@@ -47,10 +47,10 @@ public interface NormalUserService {
 	public void dropTopic(int topicId, String personId);
 
 	// 绑定了身份的用户
-	public void createReply(Reply reply);
+	public void saveReply(Reply reply);
 
 	// 绑定了身份的用户
-	public void saveReply(Reply reply);
+	public void refreshReply(Reply reply);
 	
 	// 绑定了身份的用户
 	public void dropReply(long replyId, String personId);

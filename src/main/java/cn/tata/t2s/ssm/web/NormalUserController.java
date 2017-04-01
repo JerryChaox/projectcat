@@ -110,7 +110,7 @@ public class NormalUserController extends BaseController{
 			System.out.println(topic);
 		}
 		
-		normalUserService.createTopic(topic);
+		normalUserService.saveTopic(topic);
 		
 		LOG.info("invoke----------/createTopic " + "by " + personId);
 		ModelAndView mv = new ModelAndView("create_success");
@@ -125,7 +125,7 @@ public class NormalUserController extends BaseController{
 		
 		reply.setPerson(new Person(personId));
 		
-		normalUserService.createReply(reply);
+		normalUserService.saveReply(reply);
 		LOG.info("invoke----------/createReply" + "by" + personId);
 		ModelAndView mv = new ModelAndView("create_success");
 		mv.addObject("create_type_name", "reply");
@@ -156,9 +156,9 @@ public class NormalUserController extends BaseController{
 	}
 
 	@PostMapping(value = "/topic", params = "submitFlag=update", consumes = "application/json;charset=UTF-8")
-	public ModelAndView saveTopic(@RequestBody Topic topic, BindingResult result,
+	public ModelAndView refreshTopic(@RequestBody Topic topic, BindingResult result,
 			@RequestParam("personId") String personId) {
-		normalUserService.saveTopic(topic);
+		normalUserService.refreshTopic(topic);
 		LOG.info("invoke----------/updateTopic" + "by" + personId);
 		ModelAndView mv = new ModelAndView("update_success");
 		mv.addObject("update_type_name", "topic");
@@ -167,9 +167,9 @@ public class NormalUserController extends BaseController{
 	}
 
 	@PostMapping(value = "/reply", params = "submitFlag=update", consumes = "application/json;charset=UTF-8")
-	public ModelAndView saveReply(@RequestBody Reply reply, BindingResult result,
+	public ModelAndView refreshReply(@RequestBody Reply reply, BindingResult result,
 			@RequestParam("personId") String personId) {
-		normalUserService.saveReply(reply);
+		normalUserService.refreshReply(reply);
 		LOG.info("invoke----------/updateReply" + "by" + personId);
 		ModelAndView mv = new ModelAndView("update_success");
 		mv.addObject("update_type_name", "reply");

@@ -25,7 +25,7 @@ import cn.tata.t2s.ssm.service.NormalUserService;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-@Service
+@Service("normalUserService")
 public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> implements NormalUserService {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -41,7 +41,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 
 	@Override
 	public Person getPerson(String personId) {
-		return get(Person.class, personId);
+		return get(personId);
 	}
 	
 //	@Override
@@ -84,23 +84,24 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void createTopic(Topic topic) {
-		String personId = topic.getPerson().getPersonId();
-		int result = topicDao.insertTopic(topic);
-		if (result <= 0) {
-			// 创建帖子失败
-			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-		} else {
-			cache.deleteCacheWithPattern("getTopicList*");
-			cache.deleteCacheWithPattern("getSelfTopicList*" + personId + "*");
-			LOG.info("delete cache with key: getTopicList*");
-			LOG.info("delete cache with key: getSelfTopicList*" + personId + "*");
-			return;
-		}
+	public void saveTopic(Topic topic, long id) {
+		this.save(topic);
+//		String personId = topic.getPerson().getPersonId();
+//		int result = topicDao.insertTopic(topic);
+//		if (result <= 0) {
+//			// 创建帖子失败
+//			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
+//		} else {
+//			cache.deleteCacheWithPattern("getTopicList*");
+//			cache.deleteCacheWithPattern("getSelfTopicList*" + personId + "*");
+//			LOG.info("delete cache with key: getTopicList*");
+//			LOG.info("delete cache with key: getSelfTopicList*" + personId + "*");
+//			return;
+//		}
 	}
 
 	@Override
-	public void createReply(Reply reply) {
+	public void saveReply(Reply reply) {
 		String personId = reply.getPerson().getPersonId();
 		int result = replyDao.insertReply(reply);
 		if (result <= 0) {
@@ -135,7 +136,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void saveTopic(Topic topic) {
+	public void refreshTopic(Topic topic) {
 		int result = topicDao.updateToicById(topic);
 		String personId = topic.getPerson().getPersonId();
 		if (result <= 0) {
@@ -151,7 +152,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void saveReply(Reply reply) {
+	public void refreshReply(Reply reply) {
 		String personId = reply.getPerson().getPersonId();
 		int result = replyDao.updateReplyById(reply);
 		if (result <= 0) {
