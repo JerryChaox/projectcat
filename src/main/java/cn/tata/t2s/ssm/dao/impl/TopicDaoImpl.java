@@ -10,10 +10,10 @@ import cn.tata.t2s.ssm.entity.Topic;
 
 @Repository
 @Transactional
-public class TopicDaoImpl extends SuperDaoImpl implements TopicDao {
+public class TopicDaoImpl extends SuperDaoImpl<Topic, Long> implements TopicDao {
 
 	@Override
-	public Topic selectTopicById(int topicId) {
+	public Topic selectTopicById(long topicId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -62,25 +62,25 @@ public class TopicDaoImpl extends SuperDaoImpl implements TopicDao {
 	}
 
 	@Override
-	public int deleteTopicStateById(int topicId) {
+	public int deleteTopicStateById(long topicId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int deleteTopicById(int topicId) {
+	public int deleteTopicById(long topicId) {
+		this.delete(topicId);
+		return 0;
+	}
+
+	@Override
+	public int updateTopicStateById(long topicId, int topicStateTypeId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updateTopicStateById(int topicId, int topicStateTypeId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int setOnDelete(int topicId) {
+	public int setOnDelete(long topicId) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

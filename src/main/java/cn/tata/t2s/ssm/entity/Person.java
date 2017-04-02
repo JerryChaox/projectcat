@@ -18,7 +18,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
 @Entity
-public class Person {
+public class Person extends Base{
 	@Id
 	protected String personId;
 	protected String name;
@@ -59,16 +59,6 @@ public class Person {
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	protected Set<Person> followList;
-	
-	protected boolean onDelete = false;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-	@JsonSerialize(using = CustomDateSerializer.class)
-	protected Date createTime;
-
-	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-	@JsonSerialize(using = CustomDateSerializer.class)
-	protected Date updateTime;
 
 	public Person() {
 
@@ -190,13 +180,6 @@ public class Person {
 		this.major = major;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 
 	public Set<Project> getProjectList() {
 		return projectList;
@@ -252,22 +235,6 @@ public class Person {
 
 	public void setFollowList(Set<Person> followList) {
 		this.followList = followList;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public boolean isOnDelete() {
-		return onDelete;
-	}
-
-	public void setOnDelete(boolean onDelete) {
-		this.onDelete = onDelete;
 	}
 
 	/* (non-Javadoc)

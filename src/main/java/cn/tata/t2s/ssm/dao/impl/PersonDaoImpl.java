@@ -19,7 +19,7 @@ import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
 @Repository
-public class PersonDaoImpl extends SuperDaoImpl implements PersonDao {
+public class PersonDaoImpl extends SuperDaoImpl<Person, String> implements PersonDao {
 
 	@Override
 	public String selectpTypeById(String personId) {
@@ -53,7 +53,7 @@ public class PersonDaoImpl extends SuperDaoImpl implements PersonDao {
 			tempRoot.alias(entityClass.getSimpleName() + i);
 			tempRoot.join(setAttribute);
 			tempQuery.where(builder.equal(tempRoot.get(idPair.getLeft()), idPair.getRight()));
-			System.out.println("count: " + this.count(builder, tempQuery, tempRoot));
+//			System.out.println("count: " + this.count(builder, tempQuery, tempRoot));
 			
 			//for result
 			selectionList.add(root.get(setAttribute));
@@ -96,7 +96,7 @@ public class PersonDaoImpl extends SuperDaoImpl implements PersonDao {
 	}
 
 	@Override
-	public int setFollowOnDelete(String personId, String followedId) {
+	public int deleteFollow(String personId, String followedId) {
 		Person person = entityManager.find(Person.class, personId);
 		person.getFollowList().remove(new Person(followedId));
 		return 1;

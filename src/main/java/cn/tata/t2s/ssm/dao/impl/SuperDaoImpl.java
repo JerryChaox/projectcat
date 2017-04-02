@@ -1,5 +1,6 @@
 package cn.tata.t2s.ssm.dao.impl;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,45 +23,60 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.tata.t2s.ssm.dao.SuperDao;
+import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 import cn.tata.t2s.ssm.util.CriteriaQueryUtil;
 
-public class SuperDaoImpl implements SuperDao{
+public class SuperDaoImpl<X extends Base, Y> implements SuperDao<X, Y>{
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
 	@Autowired
 	protected CriteriaBuilder builder;
 	
+	@SuppressWarnings("unchecked")
+	private Class<X> getEntityClass() {
+		Class<X> entityClass = (Class<X>) 
+				((ParameterizedType)getClass().getGenericSuperclass())
+				.getActualTypeArguments()[0];
+		return entityClass;
+	}
+	
 	@Override
-	public final <T> int insert(T entity) {
+	public final int insert(X entity){
 		entityManager.persist(entity);
 		return 1;
 	}
 	
 	@Override
-	public final <T> T update(T entity) {
+	public final X update (X entity){
 		return entityManager.merge(entity);
 	}
 	
 	@Override
-	public final <T> int delete(T entity) {
-		entityManager.remove(entity);
+	public final int delete(Object primaryKey){
+		Class<X> entityClass = getEntityClass();
+		X entity = entityManager.find(entityClass, primaryKey);
+		entity.setOnDelete(true);
+		entityManager.merge(entity);
 		return 1;
 	}
 	
+	
 	@Override
-	public final <T> T select(Class<T> entityClass, Object primaryKey) {
+	public final X select(Object primaryKey){
+		Class<X> entityClass = getEntityClass();
 		return entityManager.find(entityClass, primaryKey);
 	}
 	
 	@Override
 	@SafeVarargs
-	public final <T> T select(Object primaryKey, Class<T> rootType, Attribute<T, ?>... attribute) {
-		EntityGraph<T> graph = entityManager.createEntityGraph(rootType);
+	public final X select(Object primaryKey, Class<X> rootType
+			, Attribute<X, ?>... attribute){
+		EntityGraph<X> graph = entityManager.createEntityGraph(rootType);
 		graph.addAttributeNodes(attribute);
 
-		T entity = (T) entityManager.find(
+		X entity = entityManager.find(
 				rootType,
 				primaryKey,
 			    Collections.singletonMap("javax.persistence.fetchgraph",graph)
@@ -70,7 +86,8 @@ public class SuperDaoImpl implements SuperDao{
 	}
 	
 	@Override
-	public <X,Y> List<Tuple> select(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes) {
+	public List<Tuple> select(Pair<SingularAttribute<X,Y>, Y> idPair
+			, SetAttribute<X, ?>... setAttributes){
 		Class<X> entityClass = setAttributes[0].getDeclaringType().getJavaType();
 		
 		// init
@@ -91,7 +108,7 @@ public class SuperDaoImpl implements SuperDao{
 			tempRoot.alias(entityClass.getSimpleName() + i);
 			tempRoot.join(setAttribute);
 			tempQuery.where(builder.equal(tempRoot.get(idPair.getLeft()), idPair.getRight()));
-			System.out.println("count: " + this.count(builder, tempQuery, tempRoot));
+//			System.out.println("count: " + this.count(builder, tempQuery, tempRoot));
 			
 			//for result
 			selectionList.add(root.get(setAttribute));
@@ -108,7 +125,10 @@ public class SuperDaoImpl implements SuperDao{
 	}
 	
 	@Override
-	public <T, X, Y> PagedResult<T> select(PagedResult<T> pagedResult, Pair<SingularAttribute<X, Y>, Y> idPair, SetAttribute<X, T> setAttribute, Predicate... customPredicate) {
+	public <T> PagedResult<T> select(PagedResult<T> pagedResult
+			, Pair<SingularAttribute<X, Y>, Y> idPair
+			, SetAttribute<X, T> setAttribute
+			, Predicate... customPredicate){
 		// init
 		Class<X> entityClass = setAttribute.getDeclaringType().getJavaType();
 		Class<T> resultClass = setAttribute.getElementType().getJavaType();
@@ -138,7 +158,8 @@ public class SuperDaoImpl implements SuperDao{
 	}
 
 	@Override
-	public <T,X> long count(final CriteriaBuilder builder, final CriteriaQuery<T> selectQuery,
+	public <T> long count(final CriteriaBuilder builder
+			, final CriteriaQuery<T> selectQuery,
 	        Root<X> root) {
 	    CriteriaQuery<Long> countQuery = CriteriaQueryUtil.createCountQuery(builder, selectQuery, root);
 	    return this.entityManager.createQuery(countQuery).getSingleResult();

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
 @Entity
-public class Reply {
+public class Reply extends Base{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long replyId;
@@ -82,30 +82,6 @@ public class Reply {
 		this.person = person;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public boolean isOnDelete() {
-		return onDelete;
-	}
-
-	public void setOnDelete(boolean onDelete) {
-		this.onDelete = onDelete;
-	}
-	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

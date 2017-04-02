@@ -1,15 +1,16 @@
 package cn.tata.t2s.ssm.service;
 
+import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-public interface BaseService<X, Y> {
+public interface BaseService<X extends Base, Y> {
 
-	public <T> int save(T entity);
+	public int save(X entity);
 	
-	public <T> int remove(T entity);
+	public int remove(X entity);
 	
-	public <T> T refresh(T entity);
+	public X refresh(X entity);
 	
 	X get(Object primaryKey);
 	

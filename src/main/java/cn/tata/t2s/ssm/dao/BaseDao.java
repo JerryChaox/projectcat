@@ -10,20 +10,26 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-public interface BaseDao {
-	<T> int insert(T entity);
+public interface BaseDao<X extends Base, Y> {
+	int insert(X entity);
 	
-	<T> T update(T entity);
+	X update(X entity);
 	
-	<T> int delete(T entity);
+	int delete(Object primaryKey);
 	
-	<T> T select(Class<T> entityClass, Object primaryKey);
+	X select(Object primaryKey);
 	
-	<T> T select(Object primaryKey, Class<T> rootType, Attribute<T, ?>... attribute);
+	X select(Object primaryKey
+			, Class<X> rootXype
+			, Attribute<X, ?>... attribute);
 	
-	<X,Y> List<Tuple> select(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
+	List<Tuple> select(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
 	
-	<T, X, Y> PagedResult<T> select(PagedResult<T> pagedResult, Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, T> setAttribute, Predicate... customPredicate);
+	<T> PagedResult<T> select(PagedResult<T> pagedResult
+			, Pair<SingularAttribute<X,Y>, Y> idPair
+			, SetAttribute<X, T> setAttribute
+			, Predicate... customPredicate);
 }

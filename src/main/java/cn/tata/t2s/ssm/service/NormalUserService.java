@@ -46,7 +46,7 @@ public interface NormalUserService {
 	// 管理员
 	// public void saveTopicState(int projectId, String state_name);
 
-	public void removePersonTopic(int topicId, String personId);
+	public void removePersonTopic(long topicId, String personId);
 
 	public void savePersonReply(Reply reply);
 

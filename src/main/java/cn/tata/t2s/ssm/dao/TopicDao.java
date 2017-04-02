@@ -5,12 +5,12 @@ import org.apache.ibatis.annotations.Param;
 
 import cn.tata.t2s.ssm.entity.Topic;
 
-public interface TopicDao {
+public interface TopicDao extends SuperDao<Topic, Long>{
 	
 	/**
 	 * 
 	 */
-	public Topic selectTopicById(int topicId);
+	public Topic selectTopicById(long topicId);
 	
 	/**
 	 * 查询所有帖子(一个页面)
@@ -77,14 +77,14 @@ public interface TopicDao {
 	 * @param topicId 帖子唯一标识
 	 * @return 执行结果
 	 */
-	public int deleteTopicStateById(int topicId);
+	public int deleteTopicStateById(long topicId);
 	
 	/**
 	 * 物理删除帖子
 	 * @param topicId 帖子唯一标识
 	 * @return 执行结果
 	 */
-	public int deleteTopicById(int topicId);
+	public int deleteTopicById(long topicId);
 	
 	/**
 	 * 修改帖子状态
@@ -92,7 +92,7 @@ public interface TopicDao {
 	 * @param topicStateTypeId 帖子状态id标识
 	 * @return 执行结果
 	 */
-	public int updateTopicStateById(@Param("topicId") int topicId, 
+	public int updateTopicStateById(@Param("topicId") long topicId, 
 			@Param("topicStateTypeId") int topicStateTypeId);
 	
 	/**
@@ -100,5 +100,5 @@ public interface TopicDao {
 	 * @param topicId 帖子唯一标识
 	 * @return 执行结果
 	 */
-	public int setOnDelete(int topicId);
+	public int setOnDelete(long topicId);
 }

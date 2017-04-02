@@ -4,7 +4,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public interface CountDao {
+import cn.tata.t2s.ssm.entity.Base;
 
-	<T,X> long count(final CriteriaBuilder cb, final CriteriaQuery<T> selectQuery, Root<X> root);
+public interface CountDao<X extends Base> {
+
+	<T> long count(final CriteriaBuilder cb
+			, final CriteriaQuery<T> selectQuery
+			, Root<X> root);
 }

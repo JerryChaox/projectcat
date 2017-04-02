@@ -83,12 +83,12 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 
 	@Override
 	public void savePersonTopic(Topic topic) {
-		this.save(topic);
+		topicDao.insert(topic);
 	}
 
 	@Override
 	public void savePersonReply(Reply reply) {
-		this.save(reply);
+		replyDao.insert(reply);
 	}
 
 	@Override
@@ -112,49 +112,49 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 
 	@Override
 	public Topic refreshPersonTopic(Topic topic) {
-		Topic result = this.refresh(topic);
+		Topic result = topicDao.update(topic);
 		return result;
 	}
 
 	@Override
 	public Reply refreshPersonReply(Reply reply) {
-		Reply result = this.refresh(reply);
+		Reply result = replyDao.update(reply);
 		return result;
 	}
 
 	//-------------------------REMOVE TO BE MODIFIED----------------------------
 	@Override
-	public void removePersonTopic(int topicId, String personId) {
-		int first_result = topicDao.setOnDelete(topicId);
-		if (first_result <= 0) {
-			// 删除帖子失败
-			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-		} else {
-			int second_result = topicDao.deleteTopicById(topicId);
-			if (second_result <= 0) {
-				// 删除帖子失败
-				throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-			}
-			cache.deleteCacheWithPattern("getTopicList*");
-			cache.deleteCacheWithPattern("getSelfTopicList*" + personId + "*");
-			LOG.info("delete cache with key: getTopicList*");
-			LOG.info("delete cache with key: getSelfTopicList*" + personId + "*");
-			return;
-		}
+	public void removePersonTopic(long topicId, String personId) {
+		int first_result = topicDao.delete(topicId);
+//		if (first_result <= 0) {
+//			// 删除帖子失败
+//			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
+//		} else {
+//			int second_result = topicDao.deleteTopicById(topicId);
+//			if (second_result <= 0) {
+//				// 删除帖子失败
+//				throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
+//			}
+//			cache.deleteCacheWithPattern("getTopicList*");
+//			cache.deleteCacheWithPattern("getSelfTopicList*" + personId + "*");
+//			LOG.info("delete cache with key: getTopicList*");
+//			LOG.info("delete cache with key: getSelfTopicList*" + personId + "*");
+//			return;
+//		}
 	}
 
 	@Override
 	public void removePersonReply(long replyId, String personId) {
-		int result = replyDao.setOnDelete(replyId);
-		if (result <= 0) {
-			// 删除帖子失败
-			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-		}
-		cache.deleteCacheWithPattern("getReplyList*");
-		cache.deleteCacheWithPattern("getSelfReplyList*" + personId + "*");
-		LOG.info("delete cache with key: getReplyList*");
-		LOG.info("delete cache with key: getSelfReplyList*" + personId + "*");
-		return;
+		int result = replyDao.delete(replyId);
+//		if (result <= 0) {
+//			// 删除帖子失败
+//			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
+//		}
+//		cache.deleteCacheWithPattern("getReplyList*");
+//		cache.deleteCacheWithPattern("getSelfReplyList*" + personId + "*");
+//		LOG.info("delete cache with key: getReplyList*");
+//		LOG.info("delete cache with key: getSelfReplyList*" + personId + "*");
+//		return;
 	}
 
 	@Override
@@ -169,13 +169,16 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 
 	@Override
 	public void removePesonFollow(String followedId, String personId) {
-		int result = personDao.setFollowOnDelete(personId, followedId);
-		if (result <= 0) {
-			// follow失败
-			throw new BizException(ResultEnum.DB_SET_ON_DELETE_ERROR.getMsg());
-		}
+		Person person = get(personId);
+		person.getFollowList().remove(get(followedId));
+//		if (result <= 0) {
+//			// follow失败
+//			throw new BizException(ResultEnum.DB_SET_ON_DELETE_ERROR.getMsg());
+//		}
 		return;
 	}
+
+	
 
 
 

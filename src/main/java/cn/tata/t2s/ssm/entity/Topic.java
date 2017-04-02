@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
 @Entity
-public class Topic {
+public class Topic extends Base{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long topicId;
@@ -38,14 +38,6 @@ public class Topic {
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<State> topicStateList;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-	@JsonSerialize(using = CustomDateSerializer.class)
-	private LocalDateTime createTime;
-	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-	@JsonSerialize(using = CustomDateSerializer.class)
-	private LocalDateTime updateTime;
-	private boolean onDelete;
 	
 	public Topic() {}
 	
@@ -148,30 +140,6 @@ public class Topic {
 
 	public void setTopicStateList(List<State> topicStateList) {
 		this.topicStateList = topicStateList;
-	}
-
-	public LocalDateTime getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(LocalDateTime createTime) {
-		this.createTime = createTime;
-	}
-
-	public LocalDateTime getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(LocalDateTime updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public boolean isOnDelete() {
-		return onDelete;
-	}
-
-	public void setOnDelete(boolean onDelete) {
-		this.onDelete = onDelete;
 	}
 
 	@Override

@@ -1,8 +1,5 @@
 package cn.tata.t2s.ssm.service.impl;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +7,14 @@ import org.springframework.stereotype.Service;
 
 import cn.tata.t2s.ssm.cache.RedisCache;
 import cn.tata.t2s.ssm.dao.SuperDao;
+import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.BaseService;
 import cn.tata.t2s.ssm.service.util.CriteriaParamManager;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
 @Service("superService")
-public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
+public class SuperServiceImpl<X extends Base, Y> implements BaseService<X, Y>{
 	
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
@@ -27,33 +25,27 @@ public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 	private RedisCache cache;
 	
 	@Autowired
-	private SuperDao superDao;
+	private SuperDao<X, Y>  superDao;
 	
 	@Override
-	public <T> int save(T entity) {
-		superDao.insert(entity);
-		return 1;
+	public int save(X entity) {
+		return superDao.insert(entity);
 	}
 	
 	@Override
-	public <T> int remove(T entity) {
-		superDao.delete(entity);
-		return 1;
+	public int remove(X entity) {
+		return superDao.delete(entity);
 	}
 	
 	@Override
-	public <T> T refresh(T entity) {
+	public X refresh(X entity) {
 		return superDao.update(entity);
 	}
 	
 	@Override
 	public X get(Object primaryKey) {
 		//init
-		@SuppressWarnings("unchecked")
-		Class<X> entityClass = (Class<X>) 
-				((ParameterizedType)getClass().getGenericSuperclass())
-				.getActualTypeArguments()[0];
-		X entity = superDao.select(entityClass, primaryKey);
+		X entity = superDao.select(primaryKey);
 		return entity;
 		/**
 		 * disable cache (should be cut by aop)

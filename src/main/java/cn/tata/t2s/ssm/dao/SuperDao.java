@@ -1,5 +1,8 @@
 package cn.tata.t2s.ssm.dao;
+import java.lang.reflect.ParameterizedType;
 
-public interface SuperDao extends BaseDao, CountDao{
+import cn.tata.t2s.ssm.entity.Base;
+
+public interface SuperDao<X extends Base, Y> extends BaseDao<X, Y>, CountDao<X>{
 
 }

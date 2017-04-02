@@ -10,7 +10,7 @@ import cn.tata.t2s.ssm.entity.Reply;
 
 @Repository
 @Transactional
-public class ReplyDaoImpl implements ReplyDao {
+public class ReplyDaoImpl extends SuperDaoImpl<Reply, Long> implements ReplyDao {
 
 	@Override
 	public List<Reply> selectReplyByTopicId(int tocpicId, int offset, int limit) {

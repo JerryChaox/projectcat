@@ -60,7 +60,7 @@ public class PersonDaoTest {
 	
 	@Test
 	public void removeFollow() {
-		personDao.setFollowOnDelete("1", "20170312");
+		personDao.deleteFollow("1", "20170312");
 	}
 	
 	@Test
