@@ -53,54 +53,68 @@ public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 		Class<X> entityClass = (Class<X>) 
 				((ParameterizedType)getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
-		String cacheKey = RedisCache.CAHCENAME 
-				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName()
-				+ "|" + primaryKey;
-		
-		//cache
-		X entityCache = cache.getCache(cacheKey, entityClass);
-		if(entityCache != null) {
-			LOG.info("get cache with key:" + cacheKey);
-			return entityCache;
-		
-		//null cache
-		} else {
-			X entity = superDao.select(entityClass, primaryKey);
-			cache.putCache(cacheKey, entity);
-			LOG.info("put cache with key:" + cacheKey);
-			return entity;
-		}
+		X entity = superDao.select(entityClass, primaryKey);
+		return entity;
+		/**
+		 * disable cache (should be cut by aop)
+		 */
+//		String cacheKey = RedisCache.CAHCENAME 
+//				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName()
+//				+ "|" + primaryKey;
+//		
+//		//cache
+//		X entityCache = cache.getCache(cacheKey, entityClass);
+//		if(entityCache != null) {
+//			LOG.info("get cache with key:" + cacheKey);
+//			return entityCache;
+//		
+//		//null cache
+//		} else {
+//			X entity = superDao.select(entityClass, primaryKey);
+//			cache.putCache(cacheKey, entity);
+//			LOG.info("put cache with key:" + cacheKey);
+//			return entity;
+//		}
 	}
 
 	@Override
 	public <T> PagedResult<T> list(ListParameter<T, X, Y> listParameter) {
-		//init
-		Class<T> resultClass = listParameter.getSetAttribute()
-				.getElementType().getJavaType();
-		String cacheKey = RedisCache.CAHCENAME 
-				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName() 
-				+ "|" + listParameter.getIdPair().getLeft().getDeclaringType().getJavaType().getSimpleName()
-				+ ": " + listParameter.getIdPair().getRight()
-				+ "|" + listParameter.getPagedResult().getStartPosition() 
-				+ "|" + listParameter.getPagedResult().getPageSize();
+		superDao.select(listParameter.getPagedResult()
+				, listParameter.getIdPair()
+				, listParameter.getSetAttribute()
+				, listParameter.getCustomPredicate());
+		return listParameter.getPagedResult();
 		
-		//cache
-		List<T> listCache = cache.getListCache(cacheKey, resultClass);
-		if (listCache != null) {
-			listParameter.getPagedResult().setData(listCache);
-			LOG.info("get listCache with key:" + cacheKey);
-			return listParameter.getPagedResult();
-			
-		//null cache 
-		} else {
-			superDao.select(listParameter.getPagedResult()
-					, listParameter.getIdPair()
-					, listParameter.getSetAttribute()
-					, listParameter.getCustomPredicate());
-			cache.putListCache(cacheKey, listParameter.getPagedResult().getData());
-			LOG.info("put listCache with key:" + cacheKey);
-			return listParameter.getPagedResult();
-		}
+		/**
+		 * disable cache (should be cut by aop)
+		 */
+		//init
+//		Class<T> resultClass = listParameter.getSetAttribute()
+//				.getElementType().getJavaType();
+//		String cacheKey = RedisCache.CAHCENAME 
+//				+ "|" + Thread.currentThread().getStackTrace()[2].getMethodName() 
+//				+ "|" + listParameter.getIdPair().getLeft().getDeclaringType().getJavaType().getSimpleName()
+//				+ ": " + listParameter.getIdPair().getRight()
+//				+ "|" + listParameter.getPagedResult().getStartPosition() 
+//				+ "|" + listParameter.getPagedResult().getPageSize();
+//		
+//		//cache
+//		List<T> listCache = cache.getListCache(cacheKey, resultClass);
+//		if (listCache != null) {
+//			listParameter.getPagedResult().setData(listCache);
+//			LOG.info("get listCache with key:" + cacheKey);
+//			return listParameter.getPagedResult();
+//			
+//		//null cache 
+//		} else {
+//			superDao.select(listParameter.getPagedResult()
+//					, listParameter.getIdPair()
+//					, listParameter.getSetAttribute()
+//					, listParameter.getCustomPredicate());
+//			cache.putListCache(cacheKey, listParameter.getPagedResult().getData());
+//			LOG.info("put listCache with key:" + cacheKey);
+//			return listParameter.getPagedResult();
+//		}
 	}
 
 }

@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 
 import cn.tata.t2s.ssm.cache.RedisCache;
 
+/**
+ * 
+ * @author tata
+ * manage the cache through aop
+ */
 @Component
 @Aspect
 public class CacheManager {
@@ -16,9 +21,18 @@ public class CacheManager {
 	@Autowired
 	RedisCache cache;
 	
+	/**
+	 * 
+	 * cover all the service
+	 */
 	@Pointcut("execution(* cn.tata.t2s.ssm.service..*.*(..))")
 	public void servicePoint() {}
 	
+	/**
+	 * delete cache when save || remove || refresh
+	 * @param entity 
+	 * @param primaryKey
+	 */
 	@Pointcut("servicePoint() "
 			+ "&& ("
 			+ "execution(* save*(..)) "

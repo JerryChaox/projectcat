@@ -2,7 +2,6 @@ package cn.tata.t2s.ssm.service.test;
 
 import java.time.LocalDateTime;
 
-import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,6 @@ public class NormalUserServiceTest {
 
 	@Test
 	public void getFollowList() {
-		System.out.println(normalUserService.getFollowingList("1", 2, 1));
+		System.out.println(normalUserService.getPersonFollowingList("1", 2, 1));
 	}
 }

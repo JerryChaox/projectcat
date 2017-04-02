@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
-public interface PersonDao extends BaseDao{
+public interface PersonDao{
 
 	/**
 	 * 通过id查询所属类别(用户,老师用户,学生用户)

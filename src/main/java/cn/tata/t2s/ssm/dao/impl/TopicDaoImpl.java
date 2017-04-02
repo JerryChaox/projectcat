@@ -10,7 +10,7 @@ import cn.tata.t2s.ssm.entity.Topic;
 
 @Repository
 @Transactional
-public class TopicDaoImpl implements TopicDao {
+public class TopicDaoImpl extends SuperDaoImpl implements TopicDao {
 
 	@Override
 	public Topic selectTopicById(int topicId) {

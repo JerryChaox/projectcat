@@ -2,8 +2,6 @@ package cn.tata.t2s.ssm.service.impl;
 
 import java.util.List;
 
-import javax.persistence.criteria.Predicate;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 //	}
 
 	@Override
-	public PagedResult<Topic> getSelfTopicList(String personId, int pageSize, int pageNumber) {
+	public PagedResult<Topic> getPersonTopicList(String personId, int pageSize, int pageNumber) {
 		ListParameter<Topic, Person, String> listParameter = 
 				cpm.getListParameter(cpm.getPagedResult(pageSize, pageNumber)
 				,cpm.getIdPair(Person_.personId, personId), 
@@ -60,7 +58,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public PagedResult<Reply> getSelfReplyList(String personId, int pageSize, int pageNumber) {
+	public PagedResult<Reply> getPersonReplyList(String personId, int pageSize, int pageNumber) {
 		ListParameter<Reply, Person, String> listParameter = 
 				cpm.getListParameter(cpm.getPagedResult(pageSize, pageNumber)
 				,cpm.getIdPair(Person_.personId, personId), 
@@ -69,13 +67,13 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public List<Star<Topic>> getTopicStarList(String personId, int pageSize, int pageNumber) {
+	public List<Star<Topic>> getPersonTopicStarList(String personId, int pageSize, int pageNumber) {
 		List<Star<Topic>> starTopicList = starDao.selectTopicStar(personId, pageSize, pageNumber);
 		return starTopicList;
 	}
 
 	@Override
-	public PagedResult<Person> getFollowingList(String personId, int pageSize, int pageNumber) {
+	public PagedResult<Person> getPersonFollowingList(String personId, int pageSize, int pageNumber) {
 		ListParameter<Person, Person, String> listParameter = 
 				cpm.getListParameter(cpm.getPagedResult(pageSize, pageNumber)
 				,cpm.getIdPair(Person_.personId, personId), 
@@ -84,40 +82,17 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void saveTopic(Topic topic, long id) {
+	public void savePersonTopic(Topic topic) {
 		this.save(topic);
-//		String personId = topic.getPerson().getPersonId();
-//		int result = topicDao.insertTopic(topic);
-//		if (result <= 0) {
-//			// 创建帖子失败
-//			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-//		} else {
-//			cache.deleteCacheWithPattern("getTopicList*");
-//			cache.deleteCacheWithPattern("getSelfTopicList*" + personId + "*");
-//			LOG.info("delete cache with key: getTopicList*");
-//			LOG.info("delete cache with key: getSelfTopicList*" + personId + "*");
-//			return;
-//		}
 	}
 
 	@Override
-	public void saveReply(Reply reply) {
-		String personId = reply.getPerson().getPersonId();
-		int result = replyDao.insertReply(reply);
-		if (result <= 0) {
-			// 创建回复失败
-			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-		} else {
-			cache.deleteCacheWithPattern("getReplyList*");
-			cache.deleteCacheWithPattern("getSelfReplyList*" + personId + "*");
-			LOG.info("delete cache with key: getReplyList*");
-			LOG.info("delete cache with key: getSelfReplyList*" + personId + "*");
-			return;
-		}
+	public void savePersonReply(Reply reply) {
+		this.save(reply);
 	}
 
 	@Override
-	public void star(String personId, int objectId, String starClass) {
+	public void savePersonStar(String personId, int objectId, String starClass) {
 		int result = starDao.insertStarItem(personId, objectId, starClass);
 		if (result <= 0) {
 			// star failed
@@ -126,7 +101,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void follow(String followedId, String personId) {
+	public void savePersonFollow(String followedId, String personId) {
 		int result = personDao.insertFollow(personId, followedId);
 		if (result <= 0) {
 			// follow失败
@@ -136,39 +111,20 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void refreshTopic(Topic topic) {
-		int result = topicDao.updateToicById(topic);
-		String personId = topic.getPerson().getPersonId();
-		if (result <= 0) {
-			// 更新帖子失败
-			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-		} else {
-			cache.deleteCacheWithPattern("getTopicList*");
-			cache.deleteCacheWithPattern("getSelfTopicList*" + personId + "*");
-			LOG.info("delete cache with key: getTopicList*");
-			LOG.info("delete cache with key: getSelfTopicList*" + personId + "*");
-			return;
-		}
+	public Topic refreshPersonTopic(Topic topic) {
+		Topic result = this.refresh(topic);
+		return result;
 	}
 
 	@Override
-	public void refreshReply(Reply reply) {
-		String personId = reply.getPerson().getPersonId();
-		int result = replyDao.updateReplyById(reply);
-		if (result <= 0) {
-			// 更新回复失败
-			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
-		} else {
-			cache.deleteCacheWithPattern("getReplyList*");
-			cache.deleteCacheWithPattern("getSelfReplyList*" + personId + "*");
-			LOG.info("delete cache with key: getReplyList*");
-			LOG.info("delete cache with key: getSelfReplyList*" + personId + "*");
-			return;
-		}
+	public Reply refreshPersonReply(Reply reply) {
+		Reply result = this.refresh(reply);
+		return result;
 	}
 
+	//-------------------------REMOVE TO BE MODIFIED----------------------------
 	@Override
-	public void dropTopic(int topicId, String personId) {
+	public void removePersonTopic(int topicId, String personId) {
 		int first_result = topicDao.setOnDelete(topicId);
 		if (first_result <= 0) {
 			// 删除帖子失败
@@ -188,7 +144,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void dropReply(long replyId, String personId) {
+	public void removePersonReply(long replyId, String personId) {
 		int result = replyDao.setOnDelete(replyId);
 		if (result <= 0) {
 			// 删除帖子失败
@@ -202,7 +158,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void unStar(long starId, String personId, String starClass) {
+	public void removePersonStar(long starId, String personId, String starClass) {
 		int result = starDao.setOnDelete(starId, starClass);
 		if (result <= 0) {
 			// 删除帖子失败
@@ -212,7 +168,7 @@ public class NormalUserServiceImpl extends SuperServiceImpl<Person, String> impl
 	}
 
 	@Override
-	public void unfollow(String followedId, String personId) {
+	public void removePesonFollow(String followedId, String personId) {
 		int result = personDao.setFollowOnDelete(personId, followedId);
 		if (result <= 0) {
 			// follow失败

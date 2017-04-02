@@ -8,6 +8,11 @@ import cn.tata.t2s.ssm.entity.Star;
 import cn.tata.t2s.ssm.entity.Topic;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
+/**
+ * NORMAL AUTH
+ * @author tata
+ *
+ */
 public interface NormalUserService {
 	
 	/**
@@ -28,42 +33,34 @@ public interface NormalUserService {
 //	public <T extends Person> T getSelfProfile(String personId);
 
 	
-	// 绑定了身份的用户
-	public PagedResult<Topic> getSelfTopicList(String personId, int pageSize, int pageNumber);
+	public PagedResult<Topic> getPersonTopicList(String personId, int pageSize, int pageNumber);
 
-	// 绑定了身份的用户
-	public PagedResult<Reply> getSelfReplyList(String personId, int pageSize, int pageNumber);
+	public PagedResult<Reply> getPersonReplyList(String personId, int pageSize, int pageNumber);
+	
+	public PagedResult<Person> getPersonFollowingList(String personId, int pageSize, int pageNumber);
 
-	// 绑定了身份的用户
-	public void saveTopic(Topic topic, long id);
+	public void savePersonTopic(Topic topic);
 
-	// 绑定了身份的用户
-	public void refreshTopic(Topic topic);
+	public Topic refreshPersonTopic(Topic topic);
 
 	// 管理员
 	// public void saveTopicState(int projectId, String state_name);
 
-	// 绑定了身份的用户
-	public void dropTopic(int topicId, String personId);
+	public void removePersonTopic(int topicId, String personId);
 
-	// 绑定了身份的用户
-	public void saveReply(Reply reply);
+	public void savePersonReply(Reply reply);
 
-	// 绑定了身份的用户
-	public void refreshReply(Reply reply);
+	public Reply refreshPersonReply(Reply reply);
 	
-	// 绑定了身份的用户
-	public void dropReply(long replyId, String personId);
+	public void removePersonReply(long replyId, String personId);
 	
-	public void star(String personId, int objectId, String starClass);
+	public void savePersonStar(String personId, int objectId, String starClass);
 	
-	public List<Star<Topic>> getTopicStarList(String personId, int pageSize, int pageNumber);
+	public List<Star<Topic>> getPersonTopicStarList(String personId, int pageSize, int pageNumber);
 
-	public void unStar(long starId, String personId, String starClass);
+	public void removePersonStar(long starId, String personId, String starClass);
 	
-	public void follow(String followedId, String personId);
+	public void savePersonFollow(String followedId, String personId);
 	
-	public PagedResult<Person> getFollowingList(String personId, int pageSize, int pageNumber);
-
-	public void unfollow(String followedId, String personId);
+	public void removePesonFollow(String followedId, String personId);
 }
