@@ -3,18 +3,15 @@ package cn.tata.t2s.ssm.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import cn.tata.t2s.ssm.cache.RedisCache;
 import cn.tata.t2s.ssm.dao.SuperDao;
-import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.BaseService;
 import cn.tata.t2s.ssm.service.util.CriteriaParamManager;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-@Service("superService")
-public class SuperServiceImpl<X extends Base, Y> implements BaseService<X, Y>{
+public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 	
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
@@ -25,7 +22,7 @@ public class SuperServiceImpl<X extends Base, Y> implements BaseService<X, Y>{
 	private RedisCache cache;
 	
 	@Autowired
-	private SuperDao<X, Y>  superDao;
+	private SuperDao<X, Y> superDao;
 	
 	@Override
 	public int save(X entity) {
@@ -43,7 +40,7 @@ public class SuperServiceImpl<X extends Base, Y> implements BaseService<X, Y>{
 	}
 	
 	@Override
-	public X get(Object primaryKey) {
+	public X get(Y primaryKey) {
 		//init
 		X entity = superDao.select(primaryKey);
 		return entity;

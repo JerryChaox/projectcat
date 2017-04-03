@@ -60,7 +60,7 @@ public class TeacherServiceImpl implements TeacherService {
 		Person person = personDao.selectPerson(personId);
 		
 		if(project.getManagerIntro() == null) {
-			project.setManagerIntro(person.getDefaultResume());
+			project.setManagerIntro(person.getProfile().getDefaultResume());
 		}
 		
 		int first_result = projectDao.insertProjectBasicInfo(project);

@@ -26,20 +26,20 @@ public class ReplyDaoImpl extends SuperDaoImpl<Reply, Long> implements ReplyDao 
 
 	@Override
 	public int insertReply(Reply reply) {
-		// TODO Auto-generated method stub
+		this.insert(reply);
 		return 0;
 	}
 
 	@Override
-	public int updateReplyById(Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Reply updateReply(Reply reply) {
+		return this.update(reply);
 	}
 
 	@Override
-	public int deleteReplyById(long replyId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Reply deleteReply(long replyId) {
+		Reply entity = this.select(replyId);
+		entity.getCommonInfo().setOnDelete(true);
+		return this.update(entity);
 	}
 
 	@Override

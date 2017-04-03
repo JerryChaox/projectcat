@@ -7,8 +7,8 @@ import cn.tata.t2s.ssm.entity.Project;
 public interface AnonymousUserService {
 	
 	// 全部
-	public void registerOpenId(String personId);
+	public void savePerson(String personId);
 
 	// 全部
-	public void bindingProfile(Person person);
+	public void refreshPerson(Person person);
 }

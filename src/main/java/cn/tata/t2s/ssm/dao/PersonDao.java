@@ -12,21 +12,21 @@ import org.apache.ibatis.annotations.Param;
 import cn.tata.t2s.ssm.entity.Person;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
 
-public interface PersonDao extends SuperDao<Person, String>{
+public interface PersonDao{
 
+//	/**
+//	 * 通过id查询所属类别(用户,老师用户,学生用户)
+//	 * 
+//	 * @param 用户唯一id
+//	 * @return 类型标识
+//	 */
+//	public String selectpTypeById(String personId);
+//
 	/**
-	 * 通过id查询所属类别(用户,老师用户,学生用户)
+	 * select Person by personId
 	 * 
-	 * @param 用户唯一id
-	 * @return 类型标识
-	 */
-	public String selectpTypeById(String personId);
-
-	/**
-	 * select the personal profile by personId
-	 * 
-	 * @param 用户唯一id
-	 * @return 资料所需字段信息
+	 * @param 用户personIdid
+	 * @return Person entity
 	 */
 	public Person selectPerson(String personId);
 
@@ -46,7 +46,7 @@ public interface PersonDao extends SuperDao<Person, String>{
 	 * @param setAttributes
 	 * @return
 	 */
-	public <X,Y> List<Tuple> selectPerson(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
+//	public <X,Y> List<Tuple> selectPerson(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
 	
 	/**
 	 * 
@@ -61,7 +61,7 @@ public interface PersonDao extends SuperDao<Person, String>{
 	 * @param personId
 	 * @return
 	 */
-	public int insertVisitor(Person person);
+	public int insertPerson(Person person);
 	
 	/**
 	 * 
@@ -69,9 +69,9 @@ public interface PersonDao extends SuperDao<Person, String>{
 	 * @param followedId
 	 * @return
 	 */
-	public int insertFollow(
-			@Param("personId") String personId,
-			@Param("followedId") String followedId);
+//	public int insertFollow(
+//			@Param("personId") String personId,
+//			@Param("followedId") String followedId);
 	
 	/**
 	 * 
@@ -90,9 +90,9 @@ public interface PersonDao extends SuperDao<Person, String>{
 	 * @param followedId
 	 * @return
 	 */
-	public int deleteFollow(
-			@Param("personId") String personId,
-			@Param("followedId") String followedId);
+//	public int deleteFollow(
+//			@Param("personId") String personId,
+//			@Param("followedId") String followedId);
 	
 	/**
 	 * 

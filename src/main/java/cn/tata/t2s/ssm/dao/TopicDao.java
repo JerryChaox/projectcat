@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import cn.tata.t2s.ssm.entity.Topic;
 
-public interface TopicDao extends SuperDao<Topic, Long>{
+public interface TopicDao{
 	
 	/**
 	 * 
@@ -70,7 +70,7 @@ public interface TopicDao extends SuperDao<Topic, Long>{
 	 * @param 存放参数的map结构(必须含有topicId)
 	 * @return 执行结果
 	 */
-	public int updateToicById(Topic topic);
+	public Topic updateTopic(Topic topic);
 	
 	/**
 	 * 物理删除帖子状态
@@ -84,7 +84,7 @@ public interface TopicDao extends SuperDao<Topic, Long>{
 	 * @param topicId 帖子唯一标识
 	 * @return 执行结果
 	 */
-	public int deleteTopicById(long topicId);
+	public Topic deleteTopic(long topicId);
 	
 	/**
 	 * 修改帖子状态

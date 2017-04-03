@@ -45,8 +45,7 @@ public class TopicDaoImpl extends SuperDaoImpl<Topic, Long> implements TopicDao 
 
 	@Override
 	public int insertTopic(Topic topic) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.insert(topic);
 	}
 
 	@Override
@@ -56,9 +55,8 @@ public class TopicDaoImpl extends SuperDaoImpl<Topic, Long> implements TopicDao 
 	}
 
 	@Override
-	public int updateToicById(Topic topic) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Topic updateTopic(Topic topic) {
+		return this.update(topic);
 	}
 
 	@Override
@@ -68,9 +66,10 @@ public class TopicDaoImpl extends SuperDaoImpl<Topic, Long> implements TopicDao 
 	}
 
 	@Override
-	public int deleteTopicById(long topicId) {
-		this.delete(topicId);
-		return 0;
+	public Topic deleteTopic(long topicId) {
+		Topic entity = this.select(topicId);
+		entity.getCommonInfo().setOnDelete(true);
+		return this.update(entity);
 	}
 
 	@Override

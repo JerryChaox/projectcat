@@ -39,13 +39,12 @@ public class CacheManager {
 			+ "|| execution(* remove*(..))"
 			+ "|| execution(* refresh*(..))"
 			+ ")"
-			+ "&& args(entity, primaryKey,..)")
-	public <T, X> void deleteCacheAdvice(T entity, X primaryKey) {}
+			+ "&& args(entity,..)")
+	public <T, X> void deleteCacheAdvice(T entity) {}
 	
-	@AfterReturning(pointcut = "deleteCacheAdvice(entity, primaryKey)"
-			, argNames="entity, primaryKey")
-	public <T, X> void after(JoinPoint point, T entity, X primaryKey) {
-		System.out.println(entity.getClass().getSimpleName() + "_________" + primaryKey);
+	@AfterReturning(pointcut = "deleteCacheAdvice(entity)")
+	public <T, X> void after(JoinPoint point, T entity) {
+		System.out.println(entity.getClass().getSimpleName());
 		String entityClassName = entity.getClass().getSimpleName();
 		cache.deleteCacheWithPattern(entityClassName);
 	}

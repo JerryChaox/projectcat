@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import cn.tata.t2s.ssm.entity.Reply;
 
-public interface ReplyDao extends SuperDao<Reply, Long>{
+public interface ReplyDao{
 	/**
 	 * 根据topic_id查询评论(一页)
 	 * @param topicId 帖子唯一标识
@@ -39,13 +39,13 @@ public interface ReplyDao extends SuperDao<Reply, Long>{
 	 * @param title 标题
 	 * @param replyBody 回复内容
 	 */
-	public int updateReplyById(Reply reply);
+	public Reply updateReply(Reply reply);
 	
 	/**
 	 * 逻辑删除回复
 	 * @param replyId 回复id唯一标识
 	 */
-	public int deleteReplyById(long replyId);
+	public Reply deleteReply(long replyId);
 	
 	/**
 	 * 业务删除回复

@@ -141,7 +141,7 @@ public class AnonymousUserController extends BaseController{
 			@RequestBody Person person, 
 			@PathVariable("personId") String personId) {
 		person.setPersonId(personId);
-		anonymousUserService.bindingProfile(person);
+		anonymousUserService.refreshPerson(person);
 		LOG.info("invoke----------/updateProfile" + 
     			"by " + personId);
 		//ModelAndView mv = new ModelAndView("update_success");

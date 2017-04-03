@@ -10,19 +10,18 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-public interface BaseDao<X extends Base, Y> {
+public interface BaseDao<X, Y> {
 	int insert(X entity);
 	
 	X update(X entity);
 	
-	int delete(Object primaryKey);
+	int delete(X entity);
 	
-	X select(Object primaryKey);
+	X select(Y primaryKey);
 	
-	X select(Object primaryKey
+	X select(Y primaryKey
 			, Class<X> rootXype
 			, Attribute<X, ?>... attribute);
 	

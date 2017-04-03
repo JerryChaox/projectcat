@@ -1,10 +1,9 @@
 package cn.tata.t2s.ssm.service;
 
-import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
-public interface BaseService<X extends Base, Y> {
+public interface BaseService<X, Y> {
 
 	public int save(X entity);
 	
@@ -12,7 +11,7 @@ public interface BaseService<X extends Base, Y> {
 	
 	public X refresh(X entity);
 	
-	X get(Object primaryKey);
+	X get(Y primaryKey);
 	
 	<T> PagedResult<T> list(ListParameter<T, X, Y> listParameter);
 	

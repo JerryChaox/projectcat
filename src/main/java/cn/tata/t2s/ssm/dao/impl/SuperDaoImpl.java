@@ -23,11 +23,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.tata.t2s.ssm.dao.SuperDao;
-import cn.tata.t2s.ssm.entity.Base;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 import cn.tata.t2s.ssm.util.CriteriaQueryUtil;
 
-public class SuperDaoImpl<X extends Base, Y> implements SuperDao<X, Y>{
+public class SuperDaoImpl<X, Y> implements SuperDao<X, Y>{
 	@PersistenceContext
 	protected EntityManager entityManager;
 	
@@ -54,24 +53,21 @@ public class SuperDaoImpl<X extends Base, Y> implements SuperDao<X, Y>{
 	}
 	
 	@Override
-	public final int delete(Object primaryKey){
-		Class<X> entityClass = getEntityClass();
-		X entity = entityManager.find(entityClass, primaryKey);
-		entity.setOnDelete(true);
-		entityManager.merge(entity);
+	public final int delete(X entity){
+		entityManager.remove(entity);
 		return 1;
 	}
 	
 	
 	@Override
-	public final X select(Object primaryKey){
+	public final X select(Y primaryKey){
 		Class<X> entityClass = getEntityClass();
 		return entityManager.find(entityClass, primaryKey);
 	}
 	
 	@Override
 	@SafeVarargs
-	public final X select(Object primaryKey, Class<X> rootType
+	public final X select(Y primaryKey, Class<X> rootType
 			, Attribute<X, ?>... attribute){
 		EntityGraph<X> graph = entityManager.createEntityGraph(rootType);
 		graph.addAttributeNodes(attribute);

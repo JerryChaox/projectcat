@@ -3,6 +3,7 @@ package cn.tata.t2s.ssm.service;
 import java.util.List;
 
 import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.Profile;
 import cn.tata.t2s.ssm.entity.Reply;
 import cn.tata.t2s.ssm.entity.Star;
 import cn.tata.t2s.ssm.entity.Topic;
@@ -15,12 +16,14 @@ import cn.tata.t2s.ssm.service.util.PagedResult;
  */
 public interface NormalUserService {
 	
+	public Person getPerson(String personId);
+	
 	/**
-	 * get a user
+	 * get a user profile
 	 * @param personId
 	 * @return
 	 */
-	public Person getPerson(String personId);
+	public Profile getProfile(String personId);
 	
 	/**
 	 * 绑定了身份的用户

@@ -25,18 +25,17 @@ public class NormalUserServiceTest {
 	NormalUserService normalUserService;
 	
 	@Test
-	public void saveTopic() {
+	public void savePersonTopic() {
 		Topic topic = new Topic();
-		topic.setOnDelete(false);
 		topic.setPerson(normalUserService.getPerson("1"));
-		topic.setCreateTime(LocalDateTime.now());
-		topic.setUpdateTime(topic.getCreateTime());
-		normalUserService.saveTopic(topic, topic.getTopicId());
+		normalUserService.savePersonTopic(topic);
+//		Person person = normalUserService.getPerson("1");
+//		System.out.println(person.getTopicList().size());
 	}
 	
 	@Test
 	public void getPerson() {
-		System.out.println(normalUserService.getPerson("1").getName());
+		System.out.println(normalUserService.getProfile("1").getName());
 	}
 
 	@Test

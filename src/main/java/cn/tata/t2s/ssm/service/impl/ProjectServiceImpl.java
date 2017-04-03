@@ -30,7 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
 		
 		//insert the managerIntro if it is null
 		if(project.getManagerIntro() == null) {
-			project.setManagerIntro(project.getPerson().getSelfIntroduction());
+			project.setManagerIntro(project.getPerson().getProfile().getSelfIntroduction());
 		}
 		
 		
@@ -62,6 +62,6 @@ public class ProjectServiceImpl implements ProjectService {
 			String fluzzyName, int offset,
 			int limit) {
 		Person person = personDao.selectPerson(personId);
-		return projectDao.dynamicSelectProject(person.getSchool(), person.getAcademy(), fluzzyName, offset, limit);
+		return projectDao.dynamicSelectProject(person.getProfile().getSchool(), person.getProfile().getAcademy(), fluzzyName, offset, limit);
 	}
 }

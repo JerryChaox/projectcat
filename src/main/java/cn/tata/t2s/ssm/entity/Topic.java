@@ -1,9 +1,9 @@
 package cn.tata.t2s.ssm.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,13 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
 @Entity
-public class Topic extends Base{
+public class Topic{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long topicId;
@@ -29,6 +25,9 @@ public class Topic extends Base{
 	private long replyCount;
 	private long likeCount;
 	private String replyBy;
+	
+	@Embedded
+	private CommonInfo commonInfo;
 	
 	@ManyToOne
 	private Person person;
@@ -124,6 +123,15 @@ public class Topic extends Base{
 	public void setReplyBy(String replyBy) {
 		this.replyBy = replyBy;
 	}
+	
+
+	public CommonInfo getCommonInfo() {
+		return commonInfo;
+	}
+
+	public void setCommonInfo(CommonInfo commonInfo) {
+		this.commonInfo = commonInfo;
+	}
 
 	public List<Reply> getReplyList() {
 		return replyList;
@@ -144,10 +152,10 @@ public class Topic extends Base{
 
 	@Override
 	public String toString() {
-		return String.format(
-				"Topic  [\n\ttopicId=%s;\n\tclassName=%s;\n\ttitle=%s;\n\tbody=%s;\n\tperson=%s;\n\thits=%s;\n\treplyCount=%s;\n\tlikeCount=%s;\n\treplyBy=%s;\n\treplyList=%s;\n\ttopicStateList=%s;\n\tcreateTime=%s;\n\tupdateTime=%s;\n\tonDelete=%s\n]",
-				topicId, className, title, body, person, hits, replyCount, likeCount, replyBy, replyList, topicStateList,
-				createTime, updateTime, onDelete);
+		return "Topic [topicId=" + topicId + ", className=" + className + ", title=" + title + ", body=" + body
+				+ ", hits=" + hits + ", replyCount=" + replyCount + ", likeCount=" + likeCount + ", replyBy=" + replyBy
+				+ ", commonInfo=" + commonInfo + ", person=" + person + ", replyList=" + replyList + ", topicStateList="
+				+ topicStateList + "]";
 	}
 
 	/* (non-Javadoc)

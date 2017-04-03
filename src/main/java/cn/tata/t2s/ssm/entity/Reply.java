@@ -1,20 +1,14 @@
 package cn.tata.t2s.ssm.entity;
 
-import java.util.Date;
-
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import cn.tata.t2s.ssm.util.CustomDateSerializer;
-
 @Entity
-public class Reply extends Base{
+public class Reply{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long replyId;
@@ -23,16 +17,12 @@ public class Reply extends Base{
 	private String title;
 	private String replyBody;
 	private long likeCount;
+	
+	@Embedded
+	private CommonInfo commonInfo;
+	
 	@ManyToOne
 	private Person person;
-	
-	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-	@JsonSerialize(using = CustomDateSerializer.class)
-	private Date createTime;
-	@JsonFormat(pattern = "yyyy-MM-dd-HH-mm")
-	@JsonSerialize(using = CustomDateSerializer.class)
-	private Date updateTime;
-	private boolean onDelete;
 	
 	public long getReplyId() {
 		return replyId;
@@ -74,6 +64,14 @@ public class Reply extends Base{
 		this.likeCount = likeCount;
 	}
 
+	public CommonInfo getCommonInfo() {
+		return commonInfo;
+	}
+
+	public void setCommonInfo(CommonInfo commonInfo) {
+		this.commonInfo = commonInfo;
+	}
+
 	public Person getPerson() {
 		return person;
 	}
@@ -82,14 +80,10 @@ public class Reply extends Base{
 		this.person = person;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "Reply [replyId=" + replyId + ", topic=" + topic + ", title=" + title + ", replyBody=" + replyBody
-				+ ", likeCount=" + likeCount + ", person=" + person + ", createTime=" + createTime + ", updateTime="
-				+ updateTime + ", onDelete=" + onDelete + "]";
+				+ ", likeCount=" + likeCount + ", commonInfo=" + commonInfo + ", person=" + person + "]";
 	}
 	
 	@Override

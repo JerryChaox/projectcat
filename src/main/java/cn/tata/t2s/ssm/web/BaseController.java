@@ -76,7 +76,7 @@ public class BaseController {
 		if (wat != null) {
 			String personId = wat.getOpenid();
 			if (personId != null) {
-				anonymousUserService.registerOpenId(personId);
+				anonymousUserService.savePerson(personId);
 				LOG.info("invoke----------/getOrRegisterOpenId" + "by " + personId);
 				
 				ModelAndView mv = new ModelAndView("index");

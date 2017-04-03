@@ -21,13 +21,12 @@ public class AnonymousUserServiceImpl implements AnonymousUserService{
 	private PersonDao personDao;
 	
 	@Override
-	public void registerOpenId(String personId) {
-		personDao.insertVisitor(new Person(personId));
-		
+	public void savePerson(String personId) {
+		personDao.insertPerson(new Person(personId));
 	}
 
 	@Override
-	public  void bindingProfile(Person person) {
+	public  void refreshPerson(Person person) {
 		String personId = person.getPersonId();
 		Person result = personDao.savePerson(person);
 		

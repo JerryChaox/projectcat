@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.Profile;
 import cn.tata.t2s.ssm.entity.Reply;
 import cn.tata.t2s.ssm.entity.Star;
 import cn.tata.t2s.ssm.entity.Topic;
@@ -32,20 +33,20 @@ public class NormalUserController extends BaseController{
 	
 	@GetMapping(value = "/othersProfile", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Person getOtherProfile(
+	public Profile getOtherProfile(
 			@RequestParam("othersId") String othersId,
 			@RequestParam("personId") String personId) {
-		Person person = normalUserService.getPerson(othersId);
+		Profile profile = normalUserService.getProfile(othersId);
 		LOG.info("invoke----------/getOtherProfile id= " + othersId + " by " + personId);
-		return person;
+		return profile;
 	}
 	
 	@GetMapping(value = "/profile", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Person getSelfProfile(@RequestParam("personId") String personId) {
-		Person person = normalUserService.getPerson(personId);
+	public Profile getSelfProfile(@RequestParam("personId") String personId) {
+		Profile profile = normalUserService.getProfile(personId);
 		LOG.info("invoke----------/getSelfProfile " + "by " + personId);
-		return person;
+		return profile;
 	}
 
 	@GetMapping(value = "/topic", params = "submitFlag=query", produces = "application/json;charset=UTF-8")

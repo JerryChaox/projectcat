@@ -66,7 +66,7 @@ public class PersonDaoTest {
 	@Test
 	public void insertVistor() {
 		System.out.println("--------------------");
-		int result = personDao.insertVisitor(new Person("20170316"));
+		int result = personDao.insertPerson(new Person("20170316"));
 		System.out.println(result);
 		System.out.println("--------------------");
 	}

@@ -1,69 +1,48 @@
 package cn.tata.t2s.ssm.entity;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import cn.tata.t2s.ssm.util.CustomDateSerializer;
 
 @Entity
-public class Person extends Base{
+public class Person{
 	@Id
-	protected String personId;
-	protected String name;
-	protected String nickName;
-	protected String phoneNumber;
-	protected String mail;
-	protected String school;
-	protected String academy;
-	protected String headUrl;
-	protected String selfIntroduction;
-	protected String defaultResume;
-	protected String grade;
-	protected String profession;
+	private String personId;
 	
-	protected String pType = this.getClass().getSimpleName();
-	@ElementCollection(fetch = FetchType.LAZY, 
-			targetClass = String.class) 
-	@CollectionTable 
-	protected List<String> major;
-
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected Set<Project> projectList;
+	@Embedded
+	private Profile profile;
+	
+	@Embedded
+	private CommonInfo commonInfo;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected Set<Enroll> enrollList;
+	private Set<Project> projectSet;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected Set<Topic> topicList;
+	private Set<Enroll> enrollSet;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected Set<Reply> replyList;
+	private Set<Topic> topicSet;
+	
+	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private Set<Reply> replySet;
 	
 //	@OneToMany(targetEntity=Project.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//	protected List<Star<Project>> projectStarList;
+//	private List<Star<Project>> projectStarList;
 //	
 //	@OneToMany(targetEntity=Topic.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//	protected List<Star<Topic>> topicStarList;
+//	private List<Star<Topic>> topicStarList;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	protected Set<Person> followList;
+	private Set<Person> followSet;
 
-	public Person() {
-
-	}
-
+	public Person() {}
+	
 	public Person(String personId) {
 		this.personId = personId;
 	}
@@ -76,180 +55,67 @@ public class Person extends Base{
 		this.personId = personId;
 	}
 
-	public String getName() {
-		return name;
+	public Profile getProfile() {
+		return profile;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 
-	public String getNickName() {
-		return nickName;
+	public CommonInfo getCommonInfo() {
+		return commonInfo;
 	}
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setCommonInfo(CommonInfo commonInfo) {
+		this.commonInfo = commonInfo;
+	}
+	
+	public Set<Project> getProjectSet() {
+		return projectSet;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public void setProjectSet(Set<Project> projectSet) {
+		this.projectSet = projectSet;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public Set<Enroll> getEnrollSet() {
+		return enrollSet;
 	}
 
-	public String getMail() {
-		return mail;
+	public void setEnrollSet(Set<Enroll> enrollSet) {
+		this.enrollSet = enrollSet;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public Set<Topic> getTopicSet() {
+		return topicSet;
 	}
 
-	public String getSchool() {
-		return school;
+	public void setTopicSet(Set<Topic> topicSet) {
+		this.topicSet = topicSet;
 	}
 
-	public void setSchool(String school) {
-		this.school = school;
+	public Set<Reply> getReplySet() {
+		return replySet;
 	}
 
-	public String getAcademy() {
-		return academy;
+	public void setReplySet(Set<Reply> replySet) {
+		this.replySet = replySet;
 	}
 
-	public void setAcademy(String academy) {
-		this.academy = academy;
+	public Set<Person> getFollowSet() {
+		return followSet;
 	}
 
-	public String getHeadUrl() {
-		return headUrl;
+	public void setFollowSet(Set<Person> followSet) {
+		this.followSet = followSet;
 	}
 
-	public void setHeadUrl(String headUrl) {
-		this.headUrl = headUrl;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
-
-	public String getProfession() {
-		return profession;
-	}
-
-	public void setProfession(String profession) {
-		this.profession = profession;
-	}
-
-	public String getSelfIntroduction() {
-		return selfIntroduction;
-	}
-
-	public void setSelfIntroduction(String selfIntroduction) {
-		this.selfIntroduction = selfIntroduction;
-	}
-
-	public String getDefaultResume() {
-		return defaultResume;
-	}
-
-	public void setDefaultResume(String defaultResume) {
-		this.defaultResume = defaultResume;
-	}
-
-	public String getpType() {
-		return pType;
-	}
-
-	public void setpType(String pType) {
-		this.pType = pType;
-	}
-
-	public List<String> getMajor() {
-		return major;
-	}
-
-	public void setMajor(List<String> major) {
-		this.major = major;
-	}
-
-
-	public Set<Project> getProjectList() {
-		return projectList;
-	}
-
-	public void setProjectList(Set<Project> projectList) {
-		this.projectList = projectList;
-	}
-
-	public Set<Enroll> getEnrollList() {
-		return enrollList;
-	}
-
-	public void setEnrollList(Set<Enroll> enrollList) {
-		this.enrollList = enrollList;
-	}
-
-	public Set<Topic> getTopicList() {
-		return topicList;
-	}
-
-	public void setTopicList(Set<Topic> topicList) {
-		this.topicList = topicList;
-	}
-
-	public Set<Reply> getReplyList() {
-		return replyList;
-	}
-
-	public void setReplyList(Set<Reply> replyList) {
-		this.replyList = replyList;
-	}
-
-//	public List<Star<Project>> getProjectStarList() {
-//		return projectStarList;
-//	}
-//
-//	public void setProjectStarList(List<Star<Project>> projectStarList) {
-//		this.projectStarList = projectStarList;
-//	}
-//
-//	public List<Star<Topic>> getTopicStarList() {
-//		return topicStarList;
-//	}
-//
-//	public void setTopicStarList(List<Star<Topic>> topicStarList) {
-//		this.topicStarList = topicStarList;
-//	}
-
-	public Set<Person> getFollowList() {
-		return followList;
-	}
-
-	public void setFollowList(Set<Person> followList) {
-		this.followList = followList;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "Person [\n\tpersonId=" + personId + ", \n\tname=" + name + ", \n\tnickName=" + nickName
-				+ ", \n\tphoneNumber=" + phoneNumber + ", \n\tmail=" + mail + ", \n\tschool=" + school
-				+ ", \n\tacademy=" + academy + ", \n\theadUrl=" + headUrl + ", \n\tselfIntroduction=" + selfIntroduction
-				+ ", \n\tdefaultResume=" + defaultResume + ", \n\tgrade=" + grade + ", \n\tprofession=" + profession
-				+ ", \n\tpType=" + pType + ", \n\tmajor=" + major + ", \n\tprojectList=" + projectList
-				+ ", \n\tenrollList=" + enrollList + ", \n\ttopicList=" + topicList + ", \n\treplyList=" + replyList
-				+ ", \n\tfollowList=" + followList + ", \n\tonDelete=" + onDelete + ", \n\tcreateTime=" + createTime
-				+ ", \n\tupdateTime=" + updateTime + "\n]";
+		return "Person [profile=" + profile + ", commonInfo=" + commonInfo + ", projectList=" + projectSet
+				+ ", enrollList=" + enrollSet + ", topicList=" + topicSet + ", replyList=" + replySet
+				+ ", followList=" + followSet + "]";
 	}
 
 	@Override
