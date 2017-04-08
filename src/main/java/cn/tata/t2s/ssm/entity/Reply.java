@@ -21,7 +21,7 @@ public class Reply{
 	@Embedded
 	private CommonInfo commonInfo;
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	private Person person;
 	
 	public long getReplyId() {

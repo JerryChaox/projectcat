@@ -23,6 +23,11 @@ public class ReplyDaoImpl extends SuperDaoImpl<Reply, Long> implements ReplyDao 
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Reply selectReply(long replyId) {
+		return select(replyId);
+	}
 
 	@Override
 	public int insertReply(Reply reply) {
@@ -32,14 +37,13 @@ public class ReplyDaoImpl extends SuperDaoImpl<Reply, Long> implements ReplyDao 
 
 	@Override
 	public Reply updateReply(Reply reply) {
-		return this.update(reply);
+		return update(reply);
 	}
 
 	@Override
-	public Reply deleteReply(long replyId) {
+	public int deleteReply(long replyId) {
 		Reply entity = this.select(replyId);
-		entity.getCommonInfo().setOnDelete(true);
-		return this.update(entity);
+		return delete(entity);
 	}
 
 	@Override

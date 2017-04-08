@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.PersonPair;
 import cn.tata.t2s.ssm.entity.Profile;
 import cn.tata.t2s.ssm.entity.Reply;
 import cn.tata.t2s.ssm.entity.Star;
@@ -91,12 +93,24 @@ public class NormalUserController extends BaseController{
 		return topicStarList;
 	}
 	
-	@GetMapping(value = "/follow", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
+	@GetMapping(value = "/{followOrFan}", params = "submitFlag=query", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PagedResult<Person> getSelfFollowingList(@RequestParam("personId") String personId, @RequestParam("offset") int offset,
-			@RequestParam("limit") int limit) {
-		PagedResult<Person> PagedFollowing = normalUserService.getPersonFollowingList(personId, offset, limit);
-		LOG.info("invoke----------/getSelfFollowingList" + "by" + personId);
+	public PagedResult<PersonPair> getSelfPairList(
+			@RequestParam("personId") String personId
+			, @PathVariable("followOrFan") String followOrFan
+			, @RequestParam("offset") int offset
+			, @RequestParam("limit") int limit) {
+		followOrFan = followOrFan
+				.equals(PersonPair.FOLLOW.toLowerCase()) 
+				? PersonPair.FOLLOW : followOrFan;
+		
+		followOrFan = followOrFan
+				.equals(PersonPair.FAN.toLowerCase()) 
+				? PersonPair.FAN : followOrFan;
+		
+		PagedResult<PersonPair> PagedFollowing 
+		= normalUserService.getPersonPairList(followOrFan, personId, offset, limit);
+		LOG.info("invoke----------/getSelfPairList" + "by" + personId);
 		return PagedFollowing;
 	}
 
@@ -113,7 +127,7 @@ public class NormalUserController extends BaseController{
 		
 		normalUserService.savePersonTopic(topic);
 		
-		LOG.info("invoke----------/createTopic " + "by " + personId);
+		LOG.info("invoke----------/saveSelfTopic " + "by " + personId);
 		ModelAndView mv = new ModelAndView("create_success");
 		mv.addObject("create_type_name", "topic");
 		return mv;
@@ -127,7 +141,7 @@ public class NormalUserController extends BaseController{
 		reply.setPerson(new Person(personId));
 		
 		normalUserService.savePersonReply(reply);
-		LOG.info("invoke----------/saveReply" + "by" + personId);
+		LOG.info("invoke----------/saveSelfReply" + "by" + personId);
 		ModelAndView mv = new ModelAndView("create_success");
 		mv.addObject("create_type_name", "reply");
 		return mv;
@@ -146,10 +160,10 @@ public class NormalUserController extends BaseController{
 	}
 	
 	@PostMapping(value="/follow", params = "submitFlag=create")
-	public ModelAndView saveSelfFollow(
+	public ModelAndView saveSelfPair(
 			@RequestParam("personId") String personId, 
 			@RequestParam("followedId") String followedId) {
-		normalUserService.savePersonFollow(followedId, personId);
+		normalUserService.savePersonPair(followedId, personId);
 		LOG.info("invoke----------/saveFollow" + "by" + personId);
 		ModelAndView mv = new ModelAndView("create_success");
 		mv.addObject("create_type_name", "follow");
@@ -209,8 +223,8 @@ public class NormalUserController extends BaseController{
 	}
 	
 	@PostMapping(value="/follow", params = "submitFlag=delete")
-	public ModelAndView removeSelfFollow(@RequestParam("followedId") String followedId, @RequestParam("personId") String personId) {
-		normalUserService.removePesonFollow(followedId, personId);
+	public ModelAndView removeSelfPair(@RequestParam("followedId") String followedId, @RequestParam("personId") String personId) {
+		normalUserService.removePersonPair(followedId, personId);
 		LOG.info("invoke----------/unfollow" + "by" + personId);
 		ModelAndView mv = new ModelAndView("delete_success");
 		mv.addObject("delete_type_name", "follow");

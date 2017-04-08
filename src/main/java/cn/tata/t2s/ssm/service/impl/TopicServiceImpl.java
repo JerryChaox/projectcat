@@ -40,8 +40,8 @@ public class TopicServiceImpl implements TopicService{
 	}
 
 	@Override
-	public Topic getTopicByTopicId(int topicId) {
-		return topicDao.selectTopicById(topicId);
+	public Topic getTopic(int topicId) {
+		return topicDao.selectTopic(topicId);
 	}
 
 	@Override

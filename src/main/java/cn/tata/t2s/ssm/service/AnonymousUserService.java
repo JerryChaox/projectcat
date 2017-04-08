@@ -10,5 +10,5 @@ public interface AnonymousUserService {
 	public void savePerson(String personId);
 
 	// 全部
-	public void refreshPerson(Person person);
+	public Person refreshPersonProfile(Person person);
 }

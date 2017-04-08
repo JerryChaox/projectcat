@@ -10,7 +10,7 @@ public interface TopicDao{
 	/**
 	 * 
 	 */
-	public Topic selectTopicById(long topicId);
+	public Topic selectTopic(long topicId);
 	
 	/**
 	 * 查询所有帖子(一个页面)

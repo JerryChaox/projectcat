@@ -2,7 +2,6 @@ package cn.tata.t2s.ssm.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,16 +19,16 @@ public class Person{
 	@Embedded
 	private CommonInfo commonInfo;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany//(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<Project> projectSet;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany//(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private Set<Enroll> enrollSet;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy="person")
 	private Set<Topic> topicSet;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy="person")
 	private Set<Reply> replySet;
 	
 //	@OneToMany(targetEntity=Project.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -38,8 +37,11 @@ public class Person{
 //	@OneToMany(targetEntity=Topic.class, cascade = CascadeType.REMOVE, orphanRemoval = true)
 //	private List<Star<Topic>> topicStarList;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	private Set<Person> followSet;
+	@OneToMany(mappedBy="compositePerson.fromPerson")
+	private Set<PersonPair> personPairSet;
+	
+//	@OneToMany(mappedBy="compositePerson.fromPerson")
+//	private Set<Fan> fanSet;
 
 	public Person() {}
 	
@@ -103,19 +105,27 @@ public class Person{
 		this.replySet = replySet;
 	}
 
-	public Set<Person> getFollowSet() {
-		return followSet;
+	/**
+	 * @return the personPairSet
+	 */
+	public Set<PersonPair> getPersonPairSet() {
+		return personPairSet;
 	}
 
-	public void setFollowSet(Set<Person> followSet) {
-		this.followSet = followSet;
+	/**
+	 * @param personPairSet the personPairSet to set
+	 */
+	public void setPersonPairSet(Set<PersonPair> personPairSet) {
+		this.personPairSet = personPairSet;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return "Person [profile=" + profile + ", commonInfo=" + commonInfo + ", projectList=" + projectSet
-				+ ", enrollList=" + enrollSet + ", topicList=" + topicSet + ", replyList=" + replySet
-				+ ", followList=" + followSet + "]";
+		return "Person [\n\tpersonId=" + personId + ", \n\tprofile=" + profile + ", \n\tcommonInfo=" + commonInfo
+				+ "\n]";
 	}
 
 	@Override

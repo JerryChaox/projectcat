@@ -13,9 +13,8 @@ import cn.tata.t2s.ssm.entity.Topic;
 public class TopicDaoImpl extends SuperDaoImpl<Topic, Long> implements TopicDao {
 
 	@Override
-	public Topic selectTopicById(long topicId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Topic selectTopic(long topicId) {
+		return select(topicId);
 	}
 
 	@Override

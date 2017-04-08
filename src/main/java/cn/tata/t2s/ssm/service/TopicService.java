@@ -8,7 +8,7 @@ import cn.tata.t2s.ssm.entity.Topic;
 public interface TopicService {
 	
 	
-	public Topic getTopicByTopicId(int topicId);
+	public Topic getTopic(int topicId);
 	
 	public List<Topic> getAllTopicList(String className, int offset, int limit);
 	

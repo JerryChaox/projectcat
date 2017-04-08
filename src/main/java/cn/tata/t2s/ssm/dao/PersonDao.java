@@ -2,15 +2,17 @@ package cn.tata.t2s.ssm.dao;
 
 import java.util.List;
 
-import javax.persistence.Tuple;
-import javax.persistence.metamodel.SetAttribute;
-import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.ibatis.annotations.Param;
 
 import cn.tata.t2s.ssm.entity.Person;
+import cn.tata.t2s.ssm.entity.PersonPair;
 import cn.tata.t2s.ssm.entity.ProjectApplication;
+import cn.tata.t2s.ssm.service.util.ListParameter;
+import cn.tata.t2s.ssm.service.util.PagedResult;
 
 public interface PersonDao{
 
@@ -47,6 +49,10 @@ public interface PersonDao{
 	 * @return
 	 */
 //	public <X,Y> List<Tuple> selectPerson(Pair<SingularAttribute<X,Y>, Y> idPair, SetAttribute<X, ?>... setAttributes);
+	
+	public PagedResult<PersonPair> selectPersonPersonPair(
+			String followOrFan
+			, ListParameter<PersonPair, Person, String> listParameter);
 	
 	/**
 	 * 
@@ -105,10 +111,14 @@ public interface PersonDao{
 	 * 绑定和更新个人资料
 	 * 
 	 */
-	public Person savePerson(Person person);
+	public Person updatePerson(Person person);
 	
 	/**
 	 * 业务删除person
 	 */
 	public int setOnDelete(String personId);
+	
+	public Predicate getPersonFollowPredicate(
+			String followOrFan, 
+			SetJoin<Person, PersonPair> setJoin);
 }

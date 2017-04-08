@@ -27,6 +27,15 @@ public class CommonInfo {
 	@Generated(GenerationTime.ALWAYS)
 	private LocalDateTime updateTime;
 	
+	public CommonInfo() {
+		
+	}
+	
+	public CommonInfo(Boolean onDelete, LocalDateTime createTime, LocalDateTime updateTime) {
+		this.onDelete = onDelete;
+		this.createTime = createTime;
+		this.updateTime = updateTime;
+	}
 	
 	public boolean isOnDelete() {
 		return onDelete;
@@ -53,5 +62,53 @@ public class CommonInfo {
 	@Override
 	public String toString() {
 		return "CommonInfo [onDelete=" + onDelete + ", createTime=" + createTime + ", updateTime=" + updateTime + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((createTime == null) ? 0 : createTime.hashCode());
+		result = prime * result + (onDelete ? 1231 : 1237);
+		result = prime * result + ((updateTime == null) ? 0 : updateTime.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof CommonInfo)) {
+			return false;
+		}
+		CommonInfo other = (CommonInfo) obj;
+		if (createTime == null) {
+			if (other.createTime != null) {
+				return false;
+			}
+		} else if (!createTime.equals(other.createTime)) {
+			return false;
+		}
+		if (onDelete != other.onDelete) {
+			return false;
+		}
+		if (updateTime == null) {
+			if (other.updateTime != null) {
+				return false;
+			}
+		} else if (!updateTime.equals(other.updateTime)) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.tata.t2s.ssm.cache.RedisCache;
 import cn.tata.t2s.ssm.dao.SuperDao;
 import cn.tata.t2s.ssm.service.BaseService;
-import cn.tata.t2s.ssm.service.util.CriteriaParamManager;
+import cn.tata.t2s.ssm.service.util.CriteriaQueryManager;
 import cn.tata.t2s.ssm.service.util.ListParameter;
 import cn.tata.t2s.ssm.service.util.PagedResult;
 
@@ -16,13 +16,13 @@ public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	protected CriteriaParamManager cpm;
+	protected CriteriaQueryManager cqm;
 	
 	@Autowired
 	private RedisCache cache;
 	
 	@Autowired
-	private SuperDao<X, Y> superDao;
+	protected SuperDao<X, Y> superDao;
 	
 	@Override
 	public int save(X entity) {
@@ -68,10 +68,10 @@ public class SuperServiceImpl<X, Y> implements BaseService<X, Y>{
 
 	@Override
 	public <T> PagedResult<T> list(ListParameter<T, X, Y> listParameter) {
-		superDao.select(listParameter.getPagedResult()
-				, listParameter.getIdPair()
-				, listParameter.getSetAttribute()
-				, listParameter.getCustomPredicate());
+//		superDao.select(listParameter.getPagedResult()
+//				, listParameter.getIdPair()
+//				, listParameter.getSetAttribute()
+//				, listParameter.getCustomPredicate());
 		return listParameter.getPagedResult();
 		
 		/**

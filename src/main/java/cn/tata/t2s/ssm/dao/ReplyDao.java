@@ -26,6 +26,10 @@ public interface ReplyDao{
 	 */
 	public List<Reply> selectReplyByPersonId(@Param("personId") String personId, 
 			@Param("offset") int offset, @Param("limit") int limit);
+	
+	
+	Reply selectReply(long replyId);
+	
 	/**
 	 * 回复帖子
 	 * @param 存放参数的map结构
@@ -45,11 +49,12 @@ public interface ReplyDao{
 	 * 逻辑删除回复
 	 * @param replyId 回复id唯一标识
 	 */
-	public Reply deleteReply(long replyId);
+	public int deleteReply(long replyId);
 	
 	/**
 	 * 业务删除回复
 	 * @param replyId 回复id唯一标识
 	 */
 	public int setOnDelete(long replyId);
+	
 }

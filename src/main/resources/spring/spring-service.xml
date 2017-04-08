@@ -44,8 +44,10 @@
 	<!-- method injection -->
 	<bean id="pagedResult" class="cn.tata.t2s.ssm.service.util.PagedResult" scope="prototype"/>
 	<bean id="listParameter" class="cn.tata.t2s.ssm.service.util.ListParameter" scope="prototype"/>
-	<bean id="criteriaParamManager" class="cn.tata.t2s.ssm.service.util.CriteriaParamManager">
+	<bean id="criteriaQueryHelper" class="cn.tata.t2s.ssm.service.util.CriteriaQueryHelper" scope="prototype"/>
+	<bean id="criteriaQueryManager" class="cn.tata.t2s.ssm.service.util.CriteriaQueryManager">
 		<lookup-method name="createPagedResult" bean="pagedResult"/>
-		<lookup-method name="createListParameter" bean="listParameter"/>	
+		<lookup-method name="createListParameter" bean="listParameter"/>
+		<lookup-method name="createCriteriaQueryHelper" bean="criteriaQueryHelper"/>
 	</bean>
 </beans>

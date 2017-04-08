@@ -26,18 +26,20 @@ public class AnonymousUserServiceImpl implements AnonymousUserService{
 	}
 
 	@Override
-	public  void refreshPerson(Person person) {
+	public Person refreshPersonProfile(Person person) {
 		String personId = person.getPersonId();
-		Person result = personDao.savePerson(person);
+		Person managedPerson = personDao.selectPerson(person.getPersonId());
+		managedPerson.setProfile(person.getProfile());
+		Person resultPerson = personDao.updatePerson(managedPerson);
 		
-		if(result == null) {
+		if(resultPerson == null) {
 			//update fails
 			throw new BizException(ResultEnum.DB_UPDATE_RESULT_ERROR.getMsg());
 		}
 		
 		cache.deleteCacheWithPattern("getSelfProfile*" + personId + "*");
 		LOG.info("delete cache with key: getSelfProfile*" + personId + "*");
-		return;
+		return resultPerson;
 	}
 
 }

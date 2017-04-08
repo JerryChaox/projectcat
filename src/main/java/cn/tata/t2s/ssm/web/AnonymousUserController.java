@@ -61,7 +61,7 @@ public class AnonymousUserController extends BaseController{
 			@PathVariable("personId") String personId, 
 			@RequestParam("topicId") int topicId) {
 		
-		Topic topic = topicService.getTopicByTopicId(topicId);
+		Topic topic = topicService.getTopic(topicId);
 		
 		LOG.info("invoke----------/getTopicByTopicId" + "by " + personId);
 		
@@ -141,7 +141,7 @@ public class AnonymousUserController extends BaseController{
 			@RequestBody Person person, 
 			@PathVariable("personId") String personId) {
 		person.setPersonId(personId);
-		anonymousUserService.refreshPerson(person);
+		anonymousUserService.refreshPersonProfile(person);
 		LOG.info("invoke----------/updateProfile" + 
     			"by " + personId);
 		//ModelAndView mv = new ModelAndView("update_success");

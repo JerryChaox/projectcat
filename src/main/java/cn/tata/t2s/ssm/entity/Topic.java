@@ -29,13 +29,13 @@ public class Topic{
 	@Embedded
 	private CommonInfo commonInfo;
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	private Person person;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany//(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<Reply> replyList;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany//(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	private List<State> topicStateList;
 	
 	public Topic() {}

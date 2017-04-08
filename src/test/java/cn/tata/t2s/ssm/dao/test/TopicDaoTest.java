@@ -40,7 +40,7 @@ public class TopicDaoTest {
 	
 	@Test
 	public void selectTopicById() {
-		System.out.println(topicDao.selectTopicById(1));
+		System.out.println(topicDao.selectTopic(1));
 	}
 
 	@Test
